@@ -8,3 +8,26 @@
   font-weight: 100;
   font-style: normal;
 }
+
+.inter-font-semibold {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* importing the Montserrat Font here */
+.montserrat-font {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* importing the Nothing You Could Do Font here */
+.nothing-you-could-do-font {
+  font-family: "Nothing You Could Do", cursive;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
