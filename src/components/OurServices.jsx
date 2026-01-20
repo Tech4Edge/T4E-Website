@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import cardHoverImg from "../assets/cardHoverImg.png";
+import servicesTopLeft from "../assets/servicesTopLeft.png";
+import arrow from "../assets/topRightTitledArrow.svg";
 
 const OurServices = () => {
   const services = [
@@ -143,12 +145,16 @@ const OurServices = () => {
     setHoveredCard(index);
     if (iconRefs.current[index]) {
       gsap.to(iconRefs.current[index], {
-        color: "#1E90FF",
+        color: "var(--color-primary)",
         duration: 0.3,
+      });
+      gsap.to(iconRefs.current[index], {
+        rotate: 180,
+        duration: 0.5,
       });
     }
 
-    if(imgRefs.current[index]) {
+    if (imgRefs.current[index]) {
       gsap.to(imgRefs.current[index], {
         width: "125px",
         duration: 0.5,
@@ -160,12 +166,16 @@ const OurServices = () => {
     setHoveredCard(null);
     if (iconRefs.current[index]) {
       gsap.to(iconRefs.current[index], {
-        color: "#ffffff",
+        color: "var(--color-white)",
         duration: 0.3,
+      });
+      gsap.to(iconRefs.current[index], {
+        rotate: 0,
+        duration: 0.5,
       });
     }
 
-    if(imgRefs.current[index]) {
+    if (imgRefs.current[index]) {
       gsap.to(imgRefs.current[index], {
         width: "0px",
         duration: 0.5,
@@ -174,7 +184,12 @@ const OurServices = () => {
   };
 
   return (
-    <section className="min-h-screen w-full bg-[#0b0a33] py-24 px-4">
+    <section className="min-h-screen w-full bg-[var(--color-dark-bg)] py-24 px-4 relative">
+      <img
+        src={servicesTopLeft}
+        alt="Decorative Top Left"
+        className="absolute -top-6 left-20"
+      />
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -197,7 +212,7 @@ const OurServices = () => {
                 key={service.id}
                 onMouseEnter={() => handleCardHover(index)}
                 onMouseLeave={() => handleCardLeave(index)}
-                className={`border border-[#454545] p-6 transition-all duration-300 relative ${
+                className={`border border-[var(--color-border)] p-6 transition-all duration-300 relative ${
                   isHovered ? "border-white bg-white" : "bg-transparent"
                 }`}
               >
@@ -261,6 +276,18 @@ const OurServices = () => {
               </div>
             );
           })}
+        </div>
+
+        {/* More Solutions Button */}
+        <div className="flex justify-center mt-16">
+          <button className="cabin-400 text-sm flex items-center gap-4 border bg-white hover:text-[var(--color-primary)] text-black font-medium px-6 py-2.5 transition-all duration-300 group">
+            More Solutions
+            <img
+              src={arrow}
+              className="h-4 w-4 text-black group-hover:translate-x-1 transition-transform duration-300 brightness-0 "
+              alt="Arrow"
+            />
+          </button>
         </div>
       </div>
     </section>

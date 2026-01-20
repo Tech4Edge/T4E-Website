@@ -2,6 +2,21 @@
 
 /* importing the Cabin font from Google Fonts */
 
+/* Color Variables - Single Source of Truth */
+:root {
+  --color-primary: #1E90FF;
+  --color-primary-dark: #1570d1;
+  --color-dark: #0F172B;
+  --color-dark-bg: #0b0a33;
+  --color-border: #454545;
+  --color-white: #ffffff;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-600: #4b5563;
+  --color-gray-900: #111827;
+}
+
 .cabin-100 {
   font-family: "Cabin", sans-serif;
   font-optical-sizing: auto;
