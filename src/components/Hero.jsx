@@ -1,49 +1,113 @@
-import React from 'react'
-import heroImg from '../assets/heroImg.jpg'
+import React from "react";
+import heroImg from "../assets/heroImg.jpg";
+import shape01 from "../assets/shape01.png";
+import shape02 from "../assets/shape02.png";
 
 const Hero = () => {
   return (
-    <div className="relative h-screen w-full overflow-hidden">
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroImg})` }}
-      >
-        {/* Dark Overlay for better text visibility */}
-        <div className="absolute inset-0 bg-black/75"></div>
-      </div>
+    <section className="relative w-full min-h-screen bg-white overflow-hidden py-15 px-6">
+      {/* Decorative Shapes */}
+      <img src={shape01} alt="" className="w-45 absolute bottom-30 left-[40%]" />
+      <img src={shape02} alt="" className="w-65 absolute bottom-18 right-0" />
 
-      {/* Content */}
-      <div className="relative z-10 flex h-full items-center justify-center px-4">
-        <div className="text-center max-w-7xl mx-auto">
-          {/* Main Heading */}
-          <h1 className="flex gap-4 text-white mb-6" style={{ textShadow: '2px 4px 8px rgba(0, 0, 0, 0.8)' }}>
-            <span className="montserrat-font text-4xl md:text-5xl lg:text-6xl font-black block whitespace-break-spaces w-fit">
-              Engineering the
-            </span>
-            <span className="nothing-you-could-do-font text-4xl md:text-5xl lg:text-6xl block mt-2">
-              Edge of Innovation.
-            </span>
-          </h1>
+      <div className="w-full flex justify-end">
+        <div className="w-[85%] h-full flex px-2">
+          {/* Left Content */}
+          <div className="relative z-10 justify-self-center space-y-4 w-[38%]">
+            {/* Badge */}
+            <div className="inline-block relative border border-gray-200 rounded-full px-2 py-1">
+              <span className="cabin-400 text-[#0F172B] px-4 py-2 text-sm font-medium z-2 relative">
+                Meet Tech4Edges
+              </span>
+              <div className="w-10 h-[120%] -mt-1 bg-white absolute top-0 right-0 z-1"></div>
+            </div>
 
-          {/* Subtitle */}
-          <p className="inter-font-semibold text-white text-lg md:text-xl lg:text-2xl mb-10 max-w-3xl mx-auto leading-relaxed font-light" style={{ textShadow: '2px 3px 6px rgba(0, 0, 0, 0.8)' }}>
-            From intuitive UI/UX to scalable SaaS solutions, we build the tech that drives your business forward.
-          </p>
+            {/* Main Heading */}
+            <h1 className="cabin-400 text-3xl md:text-4xl lg:text-[60px] font-black text-[#0F172B] leading-tight">
+              IT solutions
+              <br />
+              for a <span className="text-[#1E90FF]">growing</span>
+              <br />
+              businesses
+            </h1>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="montserrat-font bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 text-lg shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.8)] transform hover:scale-105" style={{ textShadow: '1px 2px 4px rgba(0, 0, 0, 0.6)' }}>
-              Start Your Project
-            </button>
-            <button className="montserrat-font border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 text-lg shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.8)] transform hover:scale-105 bg-white/10 backdrop-blur-sm" style={{ textShadow: '1px 2px 4px rgba(0, 0, 0, 0.6)' }}>
-              Explore Services
-            </button>
+            {/* Subtitle */}
+            <p className="inter-font text-black text-md md:text-lg leading-relaxed max-w-xl">
+              Empowering enterprises with innovative technology to stay ahead in
+              the digital age
+            </p>
+
+            {/* CTA Button */}
+            <div className="pt-4">
+              <button className="cabin-400 bg-[#1E90FF] hover:bg-[#1570d1] text-white font-semibold px-3 py-2 transition-all duration-300 flex items-center gap-5 group shadow-lg hover:shadow-xl">
+                View Solutions
+                <svg
+                  className="w-5 h-5 group-hover:translate-y-1 transition-transform duration-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Right Image */}
+          <div className="relative w-full h-full">
+            {/* Left Image */}
+            <div className="absolute top-15 left-45 h-122 w-88 hero-clip-path">
+              <img
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=500&fit=crop"
+                alt="Team collaboration"
+                className="w-full h-full object-cover shadow-xl "
+              />
+            </div>
+
+            {/* Right Image */}
+            <div className="absolute -top-10 -right-3 h-115 w-90 hero-clip-path">
+              <img
+                src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=500&fit=crop"
+                alt="Business meeting"
+                className="w-full h-full object-cover shadow-xl"
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  )
-}
 
-export default Hero
+      {/* <div className="w-full  px-5"> */}
+      {/* <div className="flex justify-center gap-12 w-[80%] mx-auto items-center"> */}
+
+      {/* Right Images */}
+      {/* <div className="relative border h-full"> */}
+      {/* Top Left Image */}
+      {/* <div className="absolute -top-30 -right-10 h-110 w-73 transform skew-x-2 self-end overflow-hidden shadow-xl">
+              <img
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=500&fit=crop"
+                alt="Team collaboration"
+                className="w-full h-full object-cover fixed"
+              />
+            </div> */}
+
+      {/* Top Right Image */}
+      {/* <div className="absolute -bottom-50 left-10 h-110 w-73 transform skew-x-2 self-start overflow-hidden shadow-xl">
+              <img
+                src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=500&fit=crop"
+                alt="Business meeting"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </div> */}
+    </section>
+  );
+};
+
+export default Hero;
