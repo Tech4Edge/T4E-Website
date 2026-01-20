@@ -1,5 +1,3 @@
-import React from "react";
-import heroImg from "../assets/heroImg.jpg";
 import shape01 from "../assets/shape01.png";
 import shape02 from "../assets/shape02.png";
 
