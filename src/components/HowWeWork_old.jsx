@@ -1,6 +1,7 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import shape01 from "../assets/shape01.png";
 
 const HowWeWork = () => {
@@ -103,17 +104,96 @@ const HowWeWork = () => {
     },
   ];
 
-  gsap.registerPlugin(useGSAP);
+  gsap.registerPlugin(useGSAP, ScrollTrigger);
   const cardRefs = useRef([]);
+  const iconRefs = useRef([]);
+  const numberRefs = useRef([]);
+  const sectionRef = useRef(null);
   const [hoveredStep, setHoveredStep] = useState(null);
+
+  // Entrance animations on scroll
+  useGSAP(() => {
+    // Animate cards on scroll
+    cardRefs.current.forEach((card, index) => {
+      if (card) {
+        gsap.fromTo(
+          card,
+          {
+            opacity: 0,
+            y: 60,
+            scale: 0.95,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.8,
+            delay: index * 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+    });
+
+    // Continuous floating animation for icons
+    iconRefs.current.forEach((icon, index) => {
+      if (icon) {
+        gsap.to(icon, {
+          y: -8,
+          duration: 2 + index * 0.3,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+        });
+      }
+    });
+
+    // Number badge pulse animation
+    numberRefs.current.forEach((badge, index) => {
+      if (badge) {
+        gsap.to(badge, {
+          scale: 1.05,
+          duration: 1.5 + index * 0.2,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+        });
+      }
+    });
+  }, []);
 
   const handleStepHover = (index) => {
     setHoveredStep(index);
     if (cardRefs.current[index]) {
       gsap.to(cardRefs.current[index], {
-        y: -10,
-        duration: 0.3,
+        y: -15,
+        scale: 1.02,
+        duration: 0.4,
         ease: "power2.out",
+      });
+    }
+
+    // Rotate icon on hover
+    if (iconRefs.current[index]) {
+      gsap.to(iconRefs.current[index], {
+        rotation: 360,
+        duration: 0.6,
+        ease: "back.out(1.7)",
+      });
+    }
+
+    // Number badge scale
+    if (numberRefs.current[index]) {
+      gsap.to(numberRefs.current[index], {
+        scale: 1.2,
+        rotation: 5,
+        duration: 0.3,
+        ease: "back.out(2)",
       });
     }
   };
@@ -123,6 +203,26 @@ const HowWeWork = () => {
     if (cardRefs.current[index]) {
       gsap.to(cardRefs.current[index], {
         y: 0,
+        scale: 1,
+        duration: 0.4,
+        ease: "power2.out",
+      });
+    }
+
+    // Reset icon rotation
+    if (iconRefs.current[index]) {
+      gsap.to(iconRefs.current[index], {
+        rotation: 0,
+        duration: 0.4,
+        ease: "power2.out",
+      });
+    }
+
+    // Reset number badge
+    if (numberRefs.current[index]) {
+      gsap.to(numberRefs.current[index], {
+        scale: 1,
+        rotation: 0,
         duration: 0.3,
         ease: "power2.out",
       });
@@ -138,16 +238,10 @@ const HowWeWork = () => {
         className="absolute top-0 left-0 w-32 h-32 transform rotate-180"
       />
 
-      {/* decorative Bottom Right Image */}
-      <img
-        src={shape01}
-        alt="Decorative Shape"
-        className="absolute bottom-0 right-0 w-32 h-32"
-      />
-
       {/* Background Decorative Elements */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-(--color-primary) opacity-5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-(--color-primary) opacity-5 rounded-full blur-3xl"></div>
+      <div className="absolute top-20 left-10 w-72 h-72 bg-[var(--color-primary)] opacity-10 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-[var(--color-primary)] opacity-10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-blue-100 to-purple-100 opacity-20 rounded-full blur-3xl"></div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
@@ -195,15 +289,6 @@ const HowWeWork = () => {
                 >
                   <div className="absolute top-0 right-0 w-full h-1 bg-gradient-to-l from-[var(--color-primary)] to-transparent"></div>
                   <div className="absolute top-0 right-0 w-1 h-full bg-gradient-to-b from-[var(--color-primary)] to-transparent"></div>
-                </div>
-
-                <div
-                  className={`absolute bottom-0 left-0 w-20 h-20 transition-all duration-300 ${
-                    isHovered ? "opacity-100" : "opacity-0"
-                  }`}
-                >
-                  <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--color-primary)] to-transparent"></div>
-                  <div className="absolute bottom-0 left-0 w-1 h-full bg-gradient-to-t from-[var(--color-primary)] to-transparent"></div>
                 </div>
 
                 {/* Icon */}
