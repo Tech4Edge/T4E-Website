@@ -17,7 +17,7 @@ const WhyChooseUs = () => {
       id: 1,
       icon: (
         <svg
-          className="w-10 h-10"
+          className="w-8 h-8"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -39,7 +39,7 @@ const WhyChooseUs = () => {
       id: 2,
       icon: (
         <svg
-          className="w-10 h-10"
+          className="w-8 h-8"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -61,7 +61,7 @@ const WhyChooseUs = () => {
       id: 3,
       icon: (
         <svg
-          className="w-10 h-10"
+          className="w-8 h-8"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -83,7 +83,7 @@ const WhyChooseUs = () => {
       id: 4,
       icon: (
         <svg
-          className="w-10 h-10"
+          className="w-8 h-8"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -148,7 +148,7 @@ const WhyChooseUs = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full bg-[var(--color-dark)] py-24 px-4"
+      className="relative w-full bg-(--color-dark) py-24 px-4"
     >
       <img
         src={servicesTopLeft}
@@ -157,12 +157,11 @@ const WhyChooseUs = () => {
       />
 
       {/* decorative Top Left Image */}
-            <img
-              src={shape01}
-              alt="Decorative Shape"
-              className="absolute top-0 right-0 w-32 h-32 transform rotate-270"
-            />
-      
+      <img
+        src={shape01}
+        alt="Decorative Shape"
+        className="absolute top-0 right-0 w-32 h-32 transform rotate-270"
+      />
 
       {/* Animated Background Grid */}
       <div className="absolute inset-0 opacity-5">
@@ -176,53 +175,53 @@ const WhyChooseUs = () => {
       </div>
 
       {/* Decorative Circles */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-[var(--color-primary)] rounded-full opacity-5 blur-3xl"></div>
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-[var(--color-primary)] rounded-full opacity-5 blur-3xl"></div>
+      <div className="absolute top-20 left-10 w-72 h-72 bg-(--color-primary) rounded-full opacity-5 blur-3xl"></div>
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-(--color-primary) rounded-full opacity-5 blur-3xl"></div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-5xl mx-auto relative z-10">
         {/* Section Header */}
         <div className="text-center mb-20">
           <div className="inline-block mb-4">
-            <span className="cabin-400 text-[var(--color-primary)] text-sm tracking-[0.3em] uppercase font-semibold">
+            <span className="cabin-400 text-(--color-primary) text-xs tracking-[0.3em] uppercase font-semibold">
               Excellence
             </span>
           </div>
-          <h2 className="cabin-400 text-4xl md:text-6xl font-black text-[var(--color-white)] mb-6">
+          <h2 className="cabin-400 text-3xl md:text-5xl font-black text-white mb-6">
             Why Choose{" "}
-            <span className="text-[var(--color-primary)]">Tech4Edges</span>?
+            <span className="text-(--color-primary)">Tech4Edges</span>?
           </h2>
-          <p className="cabin-400 text-[var(--color-gray-400)] text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+          <p className="cabin-400 text-gray-400 text-sm md:text-md max-w-2xl mx-auto leading-relaxed">
             We combine technical excellence with business acumen to deliver
             solutions that drive real results
           </p>
         </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-5xl mx-auto">
           {features.map((feature, index) => (
             <div
               key={feature.id}
               ref={(el) => (cardsRef.current[index] = el)}
-              className="group relative bg-[var(--color-dark-bg)] border-2 border-[var(--color-border)] rounded-2xl p-8 overflow-hidden hover:border-[var(--color-primary)] transition-all duration-500"
+              className="group relative bg-(--color-dark-bg) border-2 border-(--color-border) rounded-2xl px-6 py-4 overflow-hidden hover:border-(--color-primary) transition-all duration-500"
             >
               {/* Hover Background Effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-primary)] to-transparent opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-linear-to-br from-(--color-primary) to-transparent opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
 
               {/* Number Badge */}
-              <div className="absolute top-6 right-6 text-[var(--color-primary)] opacity-20 text-6xl font-black cabin-400">
+              <div className="absolute top-6 right-6 text-(--color-primary) opacity-20 text-4xl font-black cabin-400">
                 {feature.number}
               </div>
 
               {/* Geometric Corner Accent */}
-              <div className="absolute top-0 left-0 w-20 h-20 border-t-4 border-l-4 border-[var(--color-primary)] rounded-tl-2xl opacity-30"></div>
-              <div className="absolute bottom-0 right-0 w-20 h-20 border-b-4 border-r-4 border-[var(--color-primary)] rounded-br-2xl opacity-30"></div>
+              <div className="absolute top-0 left-0 w-20 h-20 border-t-4 border-l-4 border-(--color-primary) rounded-tl-2xl opacity-30"></div>
+              <div className="absolute bottom-0 right-0 w-20 h-20 border-b-4 border-r-4 border-(--color-primary) rounded-br-2xl opacity-30"></div>
 
               <div className="relative z-10">
                 {/* Icon Container */}
                 <div className="mb-6 inline-block">
                   <div
                     ref={(el) => (iconsRef.current[index] = el)}
-                    className="w-20 h-20 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dark)] rounded-2xl flex items-center justify-center text-[var(--color-white)] shadow-lg shadow-[var(--color-primary)]/20 group-hover:shadow-[var(--color-primary)]/40 transition-all duration-500 group-hover:scale-110"
+                    className="w-15 h-15 bg-linear-to-br from-(--color-primary) to-(--color-primary-dark) rounded-2xl flex items-center justify-center text-white shadow-lg shadow-(--color-primary)/20 group-hover:shadow-(--color-primary)/40 transition-all duration-500 group-hover:scale-110"
                     // style={{ transformStyle: "preserve-3d" }}
                   >
                     {feature.icon}
@@ -230,17 +229,17 @@ const WhyChooseUs = () => {
                 </div>
 
                 {/* Title */}
-                <h3 className="cabin-400 text-2xl font-bold text-[var(--color-white)] mb-4 group-hover:text-[var(--color-primary)] transition-colors duration-300">
+                <h3 className="cabin-400 text-xl font-bold text-white mb-4 group-hover:text-(--color-primary) transition-colors duration-300">
                   {feature.title}
                 </h3>
 
                 {/* Description */}
-                <p className="cabin-400 text-[var(--color-gray-400)] leading-relaxed">
+                <p className="cabin-400 text-gray-400 text-sm leading-relaxed">
                   {feature.description}
                 </p>
 
                 {/* Bottom Line Indicator */}
-                <div className="mt-6 h-1 w-0 bg-[var(--color-primary)] group-hover:w-full transition-all duration-500"></div>
+                <div className="mt-4 h-1 w-0 bg-(--color-primary) group-hover:w-full transition-all duration-500"></div>
               </div>
             </div>
           ))}
