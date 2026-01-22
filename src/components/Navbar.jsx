@@ -30,8 +30,8 @@ const Navbar = () => {
 
   return (
     <nav className="w-full bg-white sticky top-0 z-50 text-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-        <div className="flex justify-around items-center py-3 sm:py-4">
+      <div className="md:max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="flex px-5 md:px-0 justify-between md:justify-around items-center py-3 sm:py-4">
           {/* Logo */}
           <div className="shrink-0 z-50">
             <img src={logo} alt="Tech4Edges Logo" className="h-8 sm:h-10" />
