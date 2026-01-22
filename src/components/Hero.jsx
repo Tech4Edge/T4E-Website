@@ -65,9 +65,9 @@ const Hero = () => {
           </div>
 
           {/* Images Container */}
-          <div className="relative w-full h-[380px] sm:h-[500px] md:h-[550px] lg:h-full mt-4 lg:mt-0">
+          <div className="relative w-full h-95 sm:h-125 md:h-137.5 lg:h-full mt-4 lg:mt-0">
             {/* Left Image - Hidden only on small mobile */}
-            <div className="hidden sm:block absolute top-10 left-8 sm:top-12 sm:left-12 md:top-45 md:left-10 lg:top-35 lg:left-45 h-[400px] w-[240px] sm:h-[350px] sm:w-[270px] md:h-[320px] md:w-[290px] lg:h-102 lg:w-72 hero-clip-path">
+            <div className="hidden sm:block absolute top-10 left-8 sm:top-12 sm:left-12 md:top-45 md:left-10 lg:top-35 lg:left-45 h-100 w-60 sm:h-87.5 sm:w-67.5 md:h-80 md:w-72.5 lg:h-102 lg:w-72 hero-clip-path">
               <img
                 src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=500&fit=crop"
                 alt="Team collaboration"
@@ -76,7 +76,7 @@ const Hero = () => {
             </div>
 
             {/* Right Image - Visible on all screens */}
-            <div className="absolute top-0 right-4 sm:top-0 sm:right-8 md:top-0 md:right-0 lg:-top-10 lg:-right-3 h-[380px] w-[260px] sm:h-[380px] sm:w-[300px] md:h-[400px] md:w-[340px] lg:h-102 lg:w-88 hero-clip-path">
+            <div className="absolute top-0 right-4 sm:top-0 sm:right-8 md:top-0 md:right-0 lg:-top-10 lg:-right-3 h-95 w-65 sm:h-95 sm:w-75 md:h-100 md:w-85 lg:h-102 lg:w-88 hero-clip-path">
               <img
                 src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=500&fit=crop"
                 alt="Business meeting"
