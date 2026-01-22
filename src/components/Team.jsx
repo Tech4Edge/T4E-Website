@@ -80,21 +80,21 @@ const Team = () => {
   ];
 
   return (
-    <section className="w-full bg-[var(--color-gray-100)] py-20 px-4">
+    <section className="w-full bg-gray-100 py-20 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="cabin-400 text-4xl md:text-5xl font-black text-[var(--color-dark)] mb-4">
+          <h2 className="cabin-400 text-3xl md:text-4xl font-black text-(--color-dark) mb-4">
             Meet the People Behind Tech4Edges
           </h2>
-          <p className="cabin-400 text-[var(--color-gray-600)] text-lg md:text-xl max-w-4xl mx-auto">
+          <p className="cabin-400 text-gray-600 text-sm md:text-md max-w-3xl mx-auto">
             A team of strategists, designers, and engineers building impactful
             digital solutions.
           </p>
         </div>
 
         {/* Team Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto gap-6">
           {teamMembers.map((member) => (
             <div
               key={member.id}
@@ -119,9 +119,9 @@ const Team = () => {
                   onMouseLeave={() => setHoveredSocial(null)}
                 >
                   {/* Main Share Button */}
-                  <button className="w-10 h-10 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110">
+                  <button className="w-8 h-8 bg-(--color-primary) hover:bg-(--color-primary-dark) text-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110">
                     <svg
-                      className="w-5 h-5"
+                      className="w-4 h-4"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -148,11 +148,11 @@ const Team = () => {
                       href={member.social.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 bg-[#0077B5] hover:bg-[#005885] text-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
+                      className="w-8 h-8 bg-[#0077B5] hover:bg-[#005885] text-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
                       style={{ transitionDelay: "0ms" }}
                     >
                       <svg
-                        className="w-5 h-5"
+                        className="w-4 h-4"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                       >
@@ -165,11 +165,11 @@ const Team = () => {
                       href={member.social.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 bg-[#333333] hover:bg-[#1a1a1a] text-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
+                      className="w-8 h-8 bg-[#333333] hover:bg-[#1a1a1a] text-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
                       style={{ transitionDelay: "50ms" }}
                     >
                       <svg
-                        className="w-5 h-5"
+                        className="w-4 h-4"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                       >
@@ -182,11 +182,11 @@ const Team = () => {
                       href={member.social.instagram}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 bg-gradient-to-br from-[#833AB4] via-[#E1306C] to-[#FD1D1D] hover:opacity-80 text-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
+                      className="w-8 h-8 bg-linear-to-br from-[#833AB4] via-[#E1306C] to-[#FD1D1D] hover:opacity-80 text-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
                       style={{ transitionDelay: "100ms" }}
                     >
                       <svg
-                        className="w-5 h-5"
+                        className="w-4 h-4"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                       >
@@ -198,7 +198,7 @@ const Team = () => {
               </div>
 
               {/* Member Image */}
-              <div className="w-full h-80 overflow-hidden">
+              <div className="w-full h-70 overflow-hidden">
                 <img
                   src={member.image}
                   alt={member.name}
@@ -208,10 +208,10 @@ const Team = () => {
 
               {/* Member Info */}
               <div className="p-6 text-center bg-white">
-                <h3 className="cabin-400 text-2xl font-bold text-[var(--color-dark)] mb-2">
+                <h3 className="cabin-400 text-xl font-bold text-(--color-dark) mb-2">
                   {member.name}
                 </h3>
-                <p className="cabin-400 text-[var(--color-gray-600)] text-base">
+                <p className="cabin-400 text-gray-600 text-[13px]">
                   {member.position}
                 </p>
               </div>
