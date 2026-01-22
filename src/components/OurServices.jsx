@@ -184,19 +184,19 @@ const OurServices = () => {
   };
 
   return (
-    <section className="min-h-screen w-full bg-[var(--color-dark-bg)] py-24 px-4 relative">
+    <section className="min-h-screen w-full bg-(--color-dark-bg) py-24 px-4 relative">
       <img
         src={servicesTopLeft}
         alt="Decorative Top Left"
         className="absolute -top-6 left-20"
       />
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="cabin-400 text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="cabin-400 text-3xl md:text-4xl font-bold text-white mb-6">
             Innovative solutions from experts!
           </h2>
-          <p className="cabin-400 text-gray-300 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
+          <p className="cabin-400 text-gray-300 text-sm md:text-md max-w-2xl mx-auto leading-relaxed">
             Offers a unified platform that fosters innovation while providing
             end-to-end data management. See how we help your team solve today's
             biggest challenges.
@@ -212,7 +212,7 @@ const OurServices = () => {
                 key={service.id}
                 onMouseEnter={() => handleCardHover(index)}
                 onMouseLeave={() => handleCardLeave(index)}
-                className={`border border-[var(--color-border)] p-6 transition-all duration-300 relative ${
+                className={`border border-(--color-border) p-6 transition-all duration-300 relative ${
                   isHovered ? "border-white bg-white" : "bg-transparent"
                 }`}
               >
@@ -235,7 +235,7 @@ const OurServices = () => {
 
                 {/* Title */}
                 <h3
-                  className={`cabin-400 text-xl font-bold mb-4 transition-colors duration-300 ${
+                  className={`cabin-400 text-lg font-bold mb-4 transition-colors duration-300 ${
                     isHovered ? "text-gray-900" : "text-white"
                   }`}
                 >
@@ -244,7 +244,7 @@ const OurServices = () => {
 
                 {/* Description */}
                 <p
-                  className={`cabin-400 text-sm leading-relaxed mb-6 transition-colors duration-300 ${
+                  className={`cabin-400 text-[13px] leading-relaxed mb-6 transition-colors duration-300 ${
                     isHovered ? "text-gray-600" : "text-gray-400"
                   }`}
                 >
@@ -254,7 +254,7 @@ const OurServices = () => {
                 {/* Service Details Link */}
                 <a
                   href="#"
-                  className={`cabin-400 font-medium inline-flex items-center gap-2 hover:gap-3 transition-all duration-300 group text-sm ${
+                  className={`cabin-400 font-medium inline-flex items-center gap-2 hover:gap-3 transition-all duration-300 group text-xs ${
                     isHovered ? "text-gray-900" : "text-white"
                   }`}
                 >
@@ -280,7 +280,7 @@ const OurServices = () => {
 
         {/* More Solutions Button */}
         <div className="flex justify-center mt-16">
-          <button className="cabin-400 text-sm flex items-center gap-4 border bg-white hover:text-[var(--color-primary)] text-black font-medium px-6 py-2.5 transition-all duration-300 group">
+          <button className="cabin-400 text-xs flex items-center gap-4 border bg-white hover:text-(--color-primary) text-black font-medium px-6 py-2.5 transition-all duration-300 group">
             More Solutions
             <img
               src={arrow}
