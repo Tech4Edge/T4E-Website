@@ -1,4 +1,15 @@
 import React, { useState } from "react";
+import ali from "../assets/team/ali.jpeg";
+import jalal from "../assets/team/jalal.jpeg";
+import faras from "../assets/team/faras.jpeg";
+import komal from "../assets/team/komal.jpeg";
+import masood from "../assets/team/masood.jpeg";
+import shaheer from "../assets/team/shaheer.jpeg";
+import hadi from "../assets/team/hadi.jpeg";
+import asad from "../assets/team/asad.jpeg";
+import sadam from "../assets/team/sadam.jpeg";
+import hassan from "../assets/team/hassan.jpeg";
+
 
 const Team = () => {
   const [hoveredMember, setHoveredMember] = useState(null);
@@ -19,10 +30,11 @@ const Team = () => {
     },
     {
       id: 2,
-      name: "Muhammad Atif",
-      position: "Project Manager",
+      name: "Muhammad Ali",
+      position: "Mern stack developer",
+      classes: " object-top",
       image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
+        ali,
       social: {
         linkedin: "https://linkedin.com",
         github: "https://github.com",
@@ -31,10 +43,10 @@ const Team = () => {
     },
     {
       id: 3,
-      name: "Faras Khursheed",
-      position: "App Developer",
+      name: "Muhammad Jalal",
+      position: "Mern Intern",
       image:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
+        jalal,
       social: {
         linkedin: "https://linkedin.com",
         github: "https://github.com",
@@ -43,10 +55,10 @@ const Team = () => {
     },
     {
       id: 4,
-      name: "Waleed",
-      position: "UI/UX Designer",
+      name: "Faras Khursheed",
+      position: "MOBILE APPLICATION DEVELOPER",
       image:
-        "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop",
+        faras,
       social: {
         linkedin: "https://linkedin.com",
         github: "https://github.com",
@@ -55,10 +67,10 @@ const Team = () => {
     },
     {
       id: 5,
-      name: "Muhammad Ali",
-      position: "Mern Stack Developer",
+      name: "Komal Bibi",
+      position: "React Intern",
       image:
-        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop",
+        komal,
       social: {
         linkedin: "https://linkedin.com",
         github: "https://github.com",
@@ -67,10 +79,70 @@ const Team = () => {
     },
     {
       id: 6,
-      name: "Muhammad Jalal",
-      position: "Mern Stack Developer",
+      name: "Masood Haider",
+      position: "Mern Intern",
       image:
-        "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop",
+        masood,
+      social: {
+        linkedin: "https://linkedin.com",
+        github: "https://github.com",
+        instagram: "https://instagram.com",
+      },
+    },
+    {
+      id: 7,
+      name: "Shaheer Ali",
+      position: "React Intern",
+      image:
+        shaheer,
+      social: {
+        linkedin: "https://linkedin.com",
+        github: "https://github.com",
+        instagram: "https://instagram.com",
+      },
+    },
+    {
+      id: 8,
+      name: "Adbul Hadi Shahid",
+      position: "Mern Intern",
+      image:
+        hadi,
+      social: {
+        linkedin: "https://linkedin.com",
+        github: "https://github.com",
+        instagram: "https://instagram.com",
+      },
+    },
+    {
+      id: 9,
+      name: "Asad Gul",
+      position: "Graphic Designer Intern",
+      image:
+        asad,
+      social: {
+        linkedin: "https://linkedin.com",
+        github: "https://github.com",
+        instagram: "https://instagram.com",
+      },
+    },
+    {
+      id: 10,
+      name: "Sadam Hussain",
+      position: "Project Manager Intern",
+      image:
+        sadam,
+      social: {
+        linkedin: "https://linkedin.com",
+        github: "https://github.com",
+        instagram: "https://instagram.com",
+      },
+    },
+    {
+      id: 11,
+      name: "Hassan Ali",
+      position: "WordPress Intern",
+      image:
+        hassan,
       social: {
         linkedin: "https://linkedin.com",
         github: "https://github.com",
@@ -202,7 +274,7 @@ const Team = () => {
                 <img
                   src={member.image}
                   alt={member.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  className={"w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" + member.classes}
                 />
               </div>
 
