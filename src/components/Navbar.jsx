@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router";
 import arrow from "../assets/topRightTitledArrow.svg";
 import logo from "../assets/logo.svg";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -22,11 +24,20 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { name: "Home", href: "#" },
-    { name: "Services", href: "#" },
-    { name: "About", href: "#" },
-    { name: "Contact", href: "#" },
+    { name: "Home", href: "/" },
+    { name: "Services", href: "/#services" },
+    { name: "About", href: "/#about" },
+    { name: "Contact", href: "/contact" },
   ];
+
+  const isActive = (href) => {
+    if (href === "/") {
+      return location.pathname === "/";
+    }
+    return (
+      location.pathname === href || location.pathname + location.hash === href
+    );
+  };
 
   return (
     <nav className="w-full bg-white sticky top-0 z-50 text-sm">
@@ -43,10 +54,16 @@ const Navbar = () => {
               <li key={index}>
                 <a
                   href={link.href}
-                  className="text-(--color-dark) hover:text-(--color-primary) font-medium transition-colors duration-300 relative group"
+                  className={`transition-colors duration-300 relative group ${
+                    isActive(link.href)
+                      ? "text-(--color-primary) font-semibold"
+                      : "text-(--color-dark) font-medium hover:text-(--color-primary)"
+                  }`}
                 >
                   {link.name}
-                  <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-(--color-primary) transition-all duration-300 group-hover:w-full"></span>
+                  {!isActive(link.href) && (
+                    <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-(--color-primary) transition-all duration-300 group-hover:w-full"></span>
+                  )}
                 </a>
               </li>
             ))}
@@ -115,7 +132,11 @@ const Navbar = () => {
                 <a
                   href={link.href}
                   onClick={toggleMenu}
-                  className={`block py-3 px-4 text-(--color-dark) hover:text-(--color-primary) hover:bg-gray-50 font-medium transition-all duration-300 transform ${
+                  className={`block py-3 px-4 transition-all duration-300 transform border-l-2 ${
+                    isActive(link.href)
+                      ? "text-(--color-primary) bg-gray-50 border-(--color-primary) font-semibold"
+                      : "text-(--color-dark) hover:text-(--color-primary) hover:bg-gray-50 border-transparent font-medium"
+                  } ${
                     isMenuOpen
                       ? "translate-x-0 opacity-100"
                       : "translate-x-8 opacity-0"
