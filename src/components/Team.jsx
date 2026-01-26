@@ -9,6 +9,8 @@ import hadi from "../assets/team/hadi.jpeg";
 import asad from "../assets/team/asad.jpeg";
 import sadam from "../assets/team/sadam.jpeg";
 import hassan from "../assets/team/hassan.jpeg";
+import tatheer from "../assets/team/tatheer.jpeg";
+import shaheen from "../assets/team/shaheen.jpeg";
 
 
 const Team = () => {
@@ -20,8 +22,20 @@ const Team = () => {
       id: 1,
       name: "Syed Tatheer Hussain",
       position: "Chief Executive Officer (CEO)",
-      image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+      classes: " object-[50%_15%]",
+      image: tatheer,
+      social: {
+        linkedin: "https://linkedin.com",
+        github: "https://github.com",
+        instagram: "https://instagram.com",
+      },
+    },
+    {
+      id: 1,
+      name: "Shaheen Shah",
+      position: "Business Advisor",
+      classes: " object-top",
+      image: shaheen,
       social: {
         linkedin: "https://linkedin.com",
         github: "https://github.com",
@@ -32,9 +46,8 @@ const Team = () => {
       id: 2,
       name: "Muhammad Ali",
       position: "Mern stack developer",
-      classes: " object-top",
-      image:
-        ali,
+      classes: " object-[55%_55%] scale-135",
+      image: ali,
       social: {
         linkedin: "https://linkedin.com",
         github: "https://github.com",
@@ -45,32 +58,31 @@ const Team = () => {
       id: 3,
       name: "Muhammad Jalal",
       position: "Mern Intern",
-      image:
-        jalal,
+      classes: " object-top",
+      image: jalal,
       social: {
-        linkedin: "https://linkedin.com",
-        github: "https://github.com",
-        instagram: "https://instagram.com",
+        linkedin: "http://www.linkedin.com/in/mjdevstudio",
+        github: "http://www.github.com/jalal1122",
+        instagram: "https://www.instagram.com/jalalkhan2084?igsh=MmowZ215d3pobGUx",
       },
     },
     {
       id: 4,
       name: "Faras Khursheed",
       position: "MOBILE APPLICATION DEVELOPER",
-      image:
-        faras,
+      classes: " object-top",
+      image: faras,
       social: {
-        linkedin: "https://linkedin.com",
-        github: "https://github.com",
-        instagram: "https://instagram.com",
+        linkedin: "https://www.linkedin.com/in/faras-khursheed-b19b23270/",
+        github: "https://github.com/Faras-khursheed99",
       },
     },
     {
       id: 5,
       name: "Komal Bibi",
       position: "React Intern",
-      image:
-        komal,
+      classes: " object-top",
+      image: komal,
       social: {
         linkedin: "https://linkedin.com",
         github: "https://github.com",
@@ -81,32 +93,33 @@ const Team = () => {
       id: 6,
       name: "Masood Haider",
       position: "Mern Intern",
-      image:
-        masood,
+      classes: " object-top",
+      image: masood,
       social: {
-        linkedin: "https://linkedin.com",
-        github: "https://github.com",
-        instagram: "https://instagram.com",
+        linkedin: "https://www.linkedin.com/in/masood-haider?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+        github: "https://github.com/Masood-Haider",
+        instagram: "https://www.instagram.com/masoodhaiderr?igsh=bjlsMTlnd3h0Z3Bu",
       },
     },
     {
       id: 7,
       name: "Shaheer Ali",
       position: "React Intern",
-      image:
-        shaheer,
+      classes: " object-top",
+      image: shaheer,
       social: {
-        linkedin: "https://linkedin.com",
-        github: "https://github.com",
-        instagram: "https://instagram.com",
+        linkedin: "https://www.linkedin.com/in/shaheerali838",
+        github: "https://github.com/shaheerali838",
+        instagram: "https://www.instagram.com/shaheerali838",
       },
     },
     {
       id: 8,
       name: "Adbul Hadi Shahid",
       position: "Mern Intern",
-      image:
-        hadi,
+      classes: " object-top",
+
+      image: hadi,
       social: {
         linkedin: "https://linkedin.com",
         github: "https://github.com",
@@ -117,8 +130,9 @@ const Team = () => {
       id: 9,
       name: "Asad Gul",
       position: "Graphic Designer Intern",
-      image:
-        asad,
+      classes: " object-top",
+
+      image: asad,
       social: {
         linkedin: "https://linkedin.com",
         github: "https://github.com",
@@ -129,20 +143,22 @@ const Team = () => {
       id: 10,
       name: "Sadam Hussain",
       position: "Project Manager Intern",
-      image:
-        sadam,
+      classes: " object-top",
+
+      image: sadam,
       social: {
-        linkedin: "https://linkedin.com",
-        github: "https://github.com",
-        instagram: "https://instagram.com",
+        linkedin: "https://www.linkedin.com/in/sadamhussain17?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+        github: "https://github.com/Sadamhussain226",
+        instagram: "https://www.instagram.com/sadam_hussain220?igsh=eGI3dTJ6bjF2aTdt&utm_source=qr",
       },
     },
     {
       id: 11,
       name: "Hassan Ali",
       position: "WordPress Intern",
-      image:
-        hassan,
+      classes: " object-top",
+
+      image: hassan,
       social: {
         linkedin: "https://linkedin.com",
         github: "https://github.com",
@@ -274,7 +290,10 @@ const Team = () => {
                 <img
                   src={member.image}
                   alt={member.name}
-                  className={"w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" + member.classes}
+                  className={
+                    "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" +
+                    member.classes
+                  }
                 />
               </div>
 
