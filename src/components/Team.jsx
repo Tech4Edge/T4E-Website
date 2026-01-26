@@ -25,9 +25,9 @@ const Team = () => {
       classes: " object-[50%_15%]",
       image: tatheer,
       social: {
-        linkedin: "https://linkedin.com",
-        github: "https://github.com",
-        instagram: "https://instagram.com",
+        linkedin: "https://www.linkedin.com/in/tatheer-hussain/",
+        github: "https://github.com/00tatheer00",
+        instagram: "https://www.instagram.com/tatheerii?igsh=bjlpYmNweTUzZGpi",
       },
     },
     {
@@ -84,9 +84,8 @@ const Team = () => {
       classes: " object-top",
       image: komal,
       social: {
-        linkedin: "https://linkedin.com",
-        github: "https://github.com",
-        instagram: "https://instagram.com",
+        linkedin: "https://www.linkedin.com/in/komal-bibi",
+        github: "https://github.com/komalbibi",
       },
     },
     {
