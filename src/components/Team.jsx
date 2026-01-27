@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import ali from "../assets/team/ali.jpeg";
-import jalal from "../assets/team/jalal.jpeg";
-import faras from "../assets/team/faras.jpeg";
+import jalal from "../assets/team/jalal.png";
+import faras from "../assets/team/faras.png";
 import komal from "../assets/team/komal.jpeg";
 import masood from "../assets/team/masood.jpeg";
 import shaheer from "../assets/team/shaheer.jpeg";
 import hadi from "../assets/team/hadi.jpeg";
-import asad from "../assets/team/asad.jpeg";
-import sadam from "../assets/team/sadam.jpeg";
-import hassan from "../assets/team/hassan.jpeg";
+import asad from "../assets/team/asad.png";
+import sadam from "../assets/team/sadam.png";
+import hassan from "../assets/team/hassan.png";
 import tatheer from "../assets/team/tatheer.jpeg";
 import shaheen from "../assets/team/shaheen.jpeg";
-
+import haneef from "../assets/team/haneef.jpeg";
+import elhaj from "../assets/team/elhaj.jpeg";
 
 const Team = () => {
   const [hoveredMember, setHoveredMember] = useState(null);
@@ -31,31 +32,41 @@ const Team = () => {
       },
     },
     {
-      id: 1,
+      id: 2,
       name: "Shaheen Shah",
       position: "Business Advisor",
-      classes: " object-top",
+      classes: " object-[25%_0%]",
       image: shaheen,
       social: {
-        linkedin: "https://linkedin.com",
-        github: "https://github.com",
-        instagram: "https://instagram.com",
-      },
-    },
-    {
-      id: 2,
-      name: "Muhammad Ali",
-      position: "Mern stack developer",
-      classes: " object-[55%_55%] scale-135",
-      image: ali,
-      social: {
-        linkedin: "https://linkedin.com",
-        github: "https://github.com",
-        instagram: "https://instagram.com",
+        // linkedin: "https://linkedin.com",
+        // github: "https://github.com",
+        // instagram: "https://instagram.com",
       },
     },
     {
       id: 3,
+      name: "Elhadj Bah",
+      position: "Software Developer (USA)",
+      classes: " object-top scale-110",
+      image: elhaj,
+      social: {
+        linkedin: "https://www.linkedin.com/in/elhadj-bah-b5a91b274/",
+      },
+    },
+    {
+      id: 4,
+      name: "Muhammad Ali",
+      position: "Mern stack developer",
+      classes: " object-[25%_5%] ",
+      image: ali,
+      social: {
+        linkedin: "https://www.linkedin.com/in/muhammadali-dev5?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+        github: "https://github.com/mali14655",
+        instagram: "https://www.instagram.com/ur.ali6?igsh=Yzg3amNidHZqZHZh",
+      },
+    },
+    {
+      id: 5,
       name: "Muhammad Jalal",
       position: "Mern Intern",
       classes: " object-top",
@@ -63,13 +74,14 @@ const Team = () => {
       social: {
         linkedin: "http://www.linkedin.com/in/mjdevstudio",
         github: "http://www.github.com/jalal1122",
-        instagram: "https://www.instagram.com/jalalkhan2084?igsh=MmowZ215d3pobGUx",
+        instagram:
+          "https://www.instagram.com/jalalkhan2084?igsh=MmowZ215d3pobGUx",
       },
     },
     {
-      id: 4,
+      id: 6,
       name: "Faras Khursheed",
-      position: "MOBILE APPLICATION DEVELOPER",
+      position: "Mobile Application Developer Intern",
       classes: " object-top",
       image: faras,
       social: {
@@ -78,7 +90,7 @@ const Team = () => {
       },
     },
     {
-      id: 5,
+      id: 7,
       name: "Komal Bibi",
       position: "React Intern",
       classes: " object-top",
@@ -89,19 +101,21 @@ const Team = () => {
       },
     },
     {
-      id: 6,
+      id: 8,
       name: "Masood Haider",
       position: "Mern Intern",
       classes: " object-top",
       image: masood,
       social: {
-        linkedin: "https://www.linkedin.com/in/masood-haider?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+        linkedin:
+          "https://www.linkedin.com/in/masood-haider?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
         github: "https://github.com/Masood-Haider",
-        instagram: "https://www.instagram.com/masoodhaiderr?igsh=bjlsMTlnd3h0Z3Bu",
+        instagram:
+          "https://www.instagram.com/masoodhaiderr?igsh=bjlsMTlnd3h0Z3Bu",
       },
     },
     {
-      id: 7,
+      id: 9,
       name: "Shaheer Ali",
       position: "React Intern",
       classes: " object-top",
@@ -113,55 +127,67 @@ const Team = () => {
       },
     },
     {
-      id: 8,
+      id: 10,
       name: "Adbul Hadi Shahid",
       position: "Mern Intern",
       classes: " object-top",
 
       image: hadi,
       social: {
-        linkedin: "https://linkedin.com",
-        github: "https://github.com",
-        instagram: "https://instagram.com",
+        linkedin: "http://www.linkedin.com/in/abdul-hadi-shahid",
+        github: "https://github.com/CH-Abdul-Hadi",
+        instagram: "https://www.instagram.com/abdul_hadi_502/",
       },
     },
     {
-      id: 9,
+      id: 11,
       name: "Asad Gul",
       position: "Graphic Designer Intern",
       classes: " object-top",
 
       image: asad,
       social: {
-        linkedin: "https://linkedin.com",
-        github: "https://github.com",
-        instagram: "https://instagram.com",
+        linkedin: "https://www.linkedin.com/in/asadgull708/",
+        github: "https://github.com/asadgull123",
+        instagram: "https://www.instagram.com/aggraphics_1?igsh=bXY5ZTUxbm54OXl2&utm_source=qr",
       },
     },
     {
-      id: 10,
+      id: 12,
       name: "Sadam Hussain",
       position: "Project Manager Intern",
       classes: " object-top",
 
       image: sadam,
       social: {
-        linkedin: "https://www.linkedin.com/in/sadamhussain17?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+        linkedin:
+          "https://www.linkedin.com/in/sadamhussain17?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         github: "https://github.com/Sadamhussain226",
-        instagram: "https://www.instagram.com/sadam_hussain220?igsh=eGI3dTJ6bjF2aTdt&utm_source=qr",
+        instagram:
+          "https://www.instagram.com/sadam_hussain220?igsh=eGI3dTJ6bjF2aTdt&utm_source=qr",
       },
     },
     {
-      id: 11,
+      id: 13,
       name: "Hassan Ali",
       position: "WordPress Intern",
       classes: " object-top",
 
       image: hassan,
       social: {
-        linkedin: "https://linkedin.com",
-        github: "https://github.com",
-        instagram: "https://instagram.com",
+        linkedin: "https://www.linkedin.com/in/hassan-ali-90a8a23a3?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+        github: "https://github.com/hassanali69466-lang",
+        instagram: "https://www.instagram.com/hassanali.87?igsh=dTd2YWllYnljc2kw",
+      },
+    },
+    {
+      id: 14,
+      name: "Muhammad Haneef Iqbal",
+      position: "Lead Generation Specialist",
+      classes: " object-[25%_10%]",
+      image: haneef,
+      social: {
+        linkedin: "https://www.linkedin.com/in/muhammad-haneef-iqbal-smm",
       },
     },
   ];

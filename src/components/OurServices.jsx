@@ -184,7 +184,7 @@ const OurServices = () => {
   };
 
   return (
-    <section className="min-h-screen w-full bg-(--color-dark-bg) py-24 px-4 relative">
+    <section className="our_services min-h-screen w-full bg-(--color-dark-bg) py-24 px-4 relative">
       <img
         src={servicesTopLeft}
         alt="Decorative Top Left"

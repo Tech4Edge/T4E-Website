@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import shape01 from "../assets/shape01.png";
 import shape02 from "../assets/shape02.png";
 
@@ -17,9 +18,9 @@ const Hero = () => {
       />
 
       <div className="w-full flex justify-center md:justify-center lg:justify-end">
-        <div className="w-full md:w-[90%] xl:w-[85%] h-full flex flex-col lg:flex-row px-2 gap-8 lg:gap-0">
+        <div className="w-full md:w-[95%] xl:w-[90%] h-full flex flex-col lg:flex-row px-2 gap-8 lg:gap-0">
           {/* Left Content */}
-          <div className="relative z-10 space-y-4 w-full md:flex md:flex-col md:items-center md:text-center lg:items-start lg:text-left lg:w-[38%] pt-4 md:pt-8 lg:pt-0">
+          <div className="relative z-10 space-y-4 w-full md:flex md:flex-col md:items-center md:text-center lg:items-start lg:text-left lg:w-[45%] pt-4 md:pt-8 lg:pt-0">
             {/* Badge */}
             <div className="inline-block relative border border-gray-200 rounded-full px-2 py-1">
               <span className="cabin-400 text-(--color-dark) px-4 py-2 text-[12px] font-medium z-2 relative">
@@ -29,23 +30,34 @@ const Hero = () => {
             </div>
 
             {/* Main Heading */}
-            <h1 className="cabin-400 text-[28px] sm:text-[35px] md:text-[40px] lg:text-[35px] xl:text-[45px] font-black text-(--color-dark) md:leading-tight text-left">
-              IT solutions
+            <h1 className="cabin-400 text-[28px] sm:text-[35px] md:text-[40px] lg:text-[35px] xl:text-[39px] font-black text-(--color-dark) leading-tight text-left">
+              Transforming Businesses
               <br />
-              for a <span className="text-(--color-primary)">growing</span>
+              with <span className="text-(--color-primary)">Cutting-Edge</span>
               <br />
-              businesses
+              <span className="text-(--color-primary)">IT Solutions</span> for
+              Tomorrow
             </h1>
 
             {/* Subtitle */}
-            <p className="inter-font text-black text-[14px] sm:text-[16px] md:text-[18px] leading-relaxed max-w-xl">
-              Empowering enterprises with innovative technology to stay ahead in
-              the digital age
+            <p className="inter-font text-black text-left text-[14px] sm:text-[16px] md:text-[18px] leading-relaxed max-w-xl">
+              Empowering enterprises with{" "}
+              <span className="text-(--color-primary) font-semibold">
+                innovative solutions
+              </span>{" "}
+              that drive digital transformation and accelerate growth.
             </p>
 
             {/* CTA Button */}
             <div className="pt-4">
-              <button className="cabin-400 text-[12px] bg-(--color-primary) hover:bg-(--color-primary-dark) text-white font-semibold px-3 py-2 transition-all duration-300 flex items-center gap-5 group shadow-lg hover:shadow-xl">
+              <button
+                onClick={() =>
+                  document
+                    .querySelector(".our_services")
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+                className="cabin-400 text-[12px] bg-(--color-primary) hover:bg-(--color-primary-dark) text-white font-semibold px-3 py-2 transition-all duration-300 flex items-center gap-5 group shadow-lg hover:shadow-xl"
+              >
                 View Solutions
                 <svg
                   className="w-5 h-5 group-hover:translate-y-1 transition-transform duration-300"
