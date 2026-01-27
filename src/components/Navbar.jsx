@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import arrow from "../assets/topRightTitledArrow.svg";
-import logo from "../assets/logo.svg";
+import logo from "../assets/t4e_icon.png";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation();
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -25,26 +26,17 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Services", href: "/#services" },
-    { name: "About", href: "/#about" },
+    { name: "Services", href: "/services" },
+    { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
   ];
-
-  const isActive = (href) => {
-    if (href === "/") {
-      return location.pathname === "/";
-    }
-    return (
-      location.pathname === href || location.pathname + location.hash === href
-    );
-  };
 
   return (
     <nav className="w-full bg-white sticky top-0 z-50 text-sm">
       <div className="md:max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
         <div className="flex px-5 md:px-0 justify-between md:justify-around items-center py-3 sm:py-4">
           {/* Logo */}
-          <div className="shrink-0 z-50">
+          <div className="shrink-0 z-50 cursor-pointer" onClick={() => navigate("/")}>
             <img src={logo} alt="Tech4Edges Logo" className="h-8 sm:h-10" />
           </div>
 
@@ -52,33 +44,41 @@ const Navbar = () => {
           <ul className="hidden lg:flex items-center gap-6 xl:gap-8 cabin-400">
             {navLinks.map((link, index) => (
               <li key={index}>
-                <a
-                  href={link.href}
-                  className={`transition-colors duration-300 relative group ${
-                    isActive(link.href)
-                      ? "text-(--color-primary) font-semibold"
-                      : "text-(--color-dark) font-medium hover:text-(--color-primary)"
-                  }`}
+                <NavLink
+                  to={link.href}
+                  className={({ isActive }) =>
+                    `transition-colors duration-300 relative group ${
+                      isActive
+                        ? "text-(--color-primary) font-semibold"
+                        : "text-(--color-dark) font-medium hover:text-(--color-primary)"
+                    }`
+                  }
                 >
-                  {link.name}
-                  {!isActive(link.href) && (
-                    <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-(--color-primary) transition-all duration-300 group-hover:w-full"></span>
+                  {({ isActive }) => (
+                    <>
+                      {link.name}
+                      {!isActive && (
+                        <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-(--color-primary) transition-all duration-300 group-hover:w-full"></span>
+                      )}
+                    </>
                   )}
-                </a>
+                </NavLink>
               </li>
             ))}
           </ul>
 
           {/* Get in touch Button (Desktop) */}
           <div className="hidden lg:block">
-            <button className="cabin-400 text-sm flex items-center gap-4 border border-gray-300 hover:border-(--color-primary) text-(--color-dark) hover:text-(--color-primary) font-medium px-4 py-1.5 transition-all duration-300 group">
-              Get in touch
-              <img
-                src={arrow}
-                className="h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300"
-                alt="Arrow"
-              />
-            </button>
+            
+              {" "}
+              <button onClick={() => navigate("/contact")} className="cabin-400 text-sm flex items-center gap-4 border border-gray-300 hover:border-(--color-primary) text-(--color-dark) hover:text-(--color-primary) font-medium px-4 py-1.5 transition-all duration-300 group">
+                Get in touch
+                <img
+                  src={arrow}
+                  className="h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300"
+                  alt="Arrow"
+                />
+              </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -129,24 +129,26 @@ const Navbar = () => {
           <ul className="flex flex-col gap-2 cabin-400">
             {navLinks.map((link, index) => (
               <li key={index}>
-                <a
-                  href={link.href}
+                <NavLink
+                  to={link.href}
                   onClick={toggleMenu}
-                  className={`block py-3 px-4 transition-all duration-300 transform border-l-2 ${
-                    isActive(link.href)
-                      ? "text-(--color-primary) bg-gray-50 border-(--color-primary) font-semibold"
-                      : "text-(--color-dark) hover:text-(--color-primary) hover:bg-gray-50 border-transparent font-medium"
-                  } ${
-                    isMenuOpen
-                      ? "translate-x-0 opacity-100"
-                      : "translate-x-8 opacity-0"
-                  }`}
+                  className={({ isActive }) =>
+                    `block py-3 px-4 transition-all duration-300 transform border-l-2 ${
+                      isActive
+                        ? "text-(--color-primary) bg-gray-50 border-(--color-primary) font-semibold"
+                        : "text-(--color-dark) hover:text-(--color-primary) hover:bg-gray-50 border-transparent font-medium"
+                    } ${
+                      isMenuOpen
+                        ? "translate-x-0 opacity-100"
+                        : "translate-x-8 opacity-0"
+                    }`
+                  }
                   style={{
                     transitionDelay: isMenuOpen ? `${index * 50}ms` : "0ms",
                   }}
                 >
                   {link.name}
-                </a>
+                </NavLink>
               </li>
             ))}
           </ul>

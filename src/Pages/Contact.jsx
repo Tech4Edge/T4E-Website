@@ -238,10 +238,10 @@ const Contact = () => {
                         Visit us
                       </h4>
                       <p className="text-(--color-gray-600) text-xs cabin-400">
-                        Tech4Edges Office
+                        Office 332, Sami Tower, Ring Road, Peshawar
                       </p>
                       <p className="text-(--color-gray-600) text-xs cabin-400">
-                        Pakistan
+                        Kp, Pakistan
                       </p>
                     </div>
                   </div>
@@ -298,10 +298,10 @@ const Contact = () => {
                         Call us
                       </h4>
                       <a
-                        href="tel:+1234567890"
+                        href="tel:+92327 5792600"
                         className="text-(--color-primary) hover:underline text-xs cabin-400"
                       >
-                        +92 (XXX) XXX-XXXX
+                        +92 3275792600
                       </a>
                     </div>
                   </div>
@@ -331,7 +331,7 @@ const Contact = () => {
                         Monday - Friday
                       </p>
                       <p className="text-(--color-gray-600) text-xs cabin-400">
-                        9:00 AM - 5:00 PM
+                        10:00 AM - 5:00 PM
                       </p>
                     </div>
                   </div>
@@ -407,7 +407,7 @@ const Contact = () => {
                   Opening Hours
                 </p>
                 <p className="text-(--color-gray-600) text-xs cabin-400">
-                  Mon-Fri 9am to 5pm
+                  Mon-Fri 10am to 5pm
                 </p>
               </div>
             </div>
