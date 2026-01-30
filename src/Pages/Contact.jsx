@@ -3,7 +3,9 @@ import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import arrow from "../assets/topRightTitledArrow.svg";
-import heroImg from "../assets/contact_hero.png";
+import heroImg from "../assets/contact_hero.jpg";
+import customer_service_image from "../assets/customer_service_image.jpg";
+import find_us_image from "../assets/find_us.jpg";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -112,9 +114,13 @@ const Contact = () => {
       {/* Hero Section */}
       <section className="relative h-[200px] md:h-[280px] bg-gray-200 flex items-center justify-center overflow-hidden">
         {/* Placeholder for hero image */}
-        <div className="absolute inset-0 ">
-          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
-          <img src={heroImg} alt="Hero" />
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50 z-10"></div>
+          <img 
+            src={heroImg} 
+            alt="Hero" 
+            className="w-full h-full object-cover object-[25%_15%]" 
+          />
         </div>
         <div className="relative z-10 text-center px-4">
           <h1 className="text-3xl md:text-4xl font-bold text-(--color-primary) mb-2 cabin-400">
@@ -380,7 +386,7 @@ const Contact = () => {
                         href="tel:+92327 5792600"
                         className="text-(--color-primary) hover:underline text-xs cabin-400"
                       >
-                        +92 3275792600
+                        +92 327 5792600
                       </a>
                     </div>
                   </div>
@@ -417,13 +423,13 @@ const Contact = () => {
                 </div>
               </div>
 
-              {/* Customer Service Image Placeholder */}
+              {/* Customer Service Image */}
               <div className="hidden lg:block mt-8 rounded-lg overflow-hidden shadow-xl">
-                <div className="bg-gradient-to-br from-(--color-primary)/5 to-purple-500/5 h-48 flex items-center justify-center">
-                  <p className="text-(--color-gray-400) text-sm cabin-400">
-                    Customer Service Image
-                  </p>
-                </div>
+                <img 
+                  src={customer_service_image} 
+                  alt="Customer Service Team" 
+                  className="w-full h-64 object-cover"
+                />
               </div>
             </div>
           </div>
@@ -431,8 +437,18 @@ const Contact = () => {
       </section>
 
       {/* Map Section */}
-      <section className="py-10 md:py-12 px-4 sm:px-6 lg:px-8 bg-(--color-gray-200)">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative py-10 md:py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-0 w-full h-full bg-white opacity-80 z-10"></div>
+          <img 
+            src={find_us_image} 
+            alt="Tech4Edges Office Location" 
+            className="w-full h-full object-cover object-center"
+          />
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-20">
           <div className="text-center mb-8">
             <h2 className="text-2xl md:text-3xl font-bold text-(--color-dark) mb-2 cabin-400">
               Find Us
