@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import emailjs from "@emailjs/browser";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import arrow from "../assets/topRightTitledArrow.svg";
 import heroImg from "../assets/contact_hero.png";
 
@@ -24,12 +25,90 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Handle form submission logic here
+
+    // Create a template params object
+    const templateParams = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      phone: formData.phone,
+      message: formData.message,
+    };
+
+    emailjs
+      .send(
+        import.meta.env.VITE_APP_SERVICE_ID,
+        import.meta.env.VITE_APP_TEMPLATE_ID,
+        templateParams,
+        import.meta.env.VITE_APP_PUBLIC_KEY,
+      )
+      .then(
+        () => {
+          console.log("SUCCESS!");
+          toast.success(
+            "Message sent successfully! We'll get back to you soon.",
+            {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              style: {
+                background: "#ffffff",
+                color: "#0F172B",
+                borderLeft: "4px solid #1E90FF",
+                fontFamily: "'Cabin', sans-serif",
+              },
+            },
+          );
+          // Reset form
+          setFormData({
+            firstName: "",
+            lastName: "",
+            email: "",
+            phone: "",
+            message: "",
+            agreeToPrivacy: false,
+          });
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
+          toast.error("Failed to send message. Please try again.", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            style: {
+              background: "#ffffff",
+              color: "#0F172B",
+              borderLeft: "4px solid #ef4444",
+              fontFamily: "'Cabin', sans-serif",
+            },
+          });
+        },
+      );
   };
 
   return (
     <div className="min-h-screen bg-white">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        toastStyle={{
+          fontFamily: "'Cabin', sans-serif",
+        }}
+      />
       {/* Hero Section */}
       <section className="relative h-[200px] md:h-[280px] bg-gray-200 flex items-center justify-center overflow-hidden">
         {/* Placeholder for hero image */}
