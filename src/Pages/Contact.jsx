@@ -116,10 +116,10 @@ const Contact = () => {
         {/* Placeholder for hero image */}
         <div className="absolute inset-0">
           <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50 z-10"></div>
-          <img 
-            src={heroImg} 
-            alt="Hero" 
-            className="w-full h-full object-cover object-[25%_15%]" 
+          <img
+            src={heroImg}
+            alt="Hero"
+            className="w-full h-full object-cover object-[25%_15%]"
           />
         </div>
         <div className="relative z-10 text-center px-4">
@@ -322,10 +322,10 @@ const Contact = () => {
                       <h4 className="font-semibold text-(--color-dark) mb-0.5 text-sm cabin-400">
                         Visit us
                       </h4>
-                      <p className="text-(--color-gray-600) text-xs cabin-400">
+                      <p className="text-gray-600 text-xs cabin-400">
                         Office 332, Sami Tower, Ring Road, Peshawar
                       </p>
-                      <p className="text-(--color-gray-600) text-xs cabin-400">
+                      <p className="text-gray-600 text-xs cabin-400">
                         Kp, Pakistan
                       </p>
                     </div>
@@ -333,7 +333,7 @@ const Contact = () => {
 
                   {/* Email */}
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-10 h-10 bg-(--color-primary)/10 rounded-full flex items-center justify-center">
+                    <div className="shrink-0 w-10 h-10 bg-(--color-primary)/10 rounded-full flex items-center justify-center">
                       <svg
                         className="w-5 h-5 text-(--color-primary)"
                         fill="none"
@@ -363,7 +363,7 @@ const Contact = () => {
 
                   {/* Phone */}
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-10 h-10 bg-(--color-primary)/10 rounded-full flex items-center justify-center">
+                    <div className="shrink-0 w-10 h-10 bg-(--color-primary)/10 rounded-full flex items-center justify-center">
                       <svg
                         className="w-5 h-5 text-(--color-primary)"
                         fill="none"
@@ -393,7 +393,7 @@ const Contact = () => {
 
                   {/* Opening Hours */}
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-10 h-10 bg-(--color-primary)/10 rounded-full flex items-center justify-center">
+                    <div className="shrink-0 w-10 h-10 bg-(--color-primary)/10 rounded-full flex items-center justify-center">
                       <svg
                         className="w-5 h-5 text-(--color-primary)"
                         fill="none"
@@ -412,10 +412,10 @@ const Contact = () => {
                       <h4 className="font-semibold text-(--color-dark) mb-0.5 text-sm cabin-400">
                         Office Hours
                       </h4>
-                      <p className="text-(--color-gray-600) text-xs cabin-400">
+                      <p className="text-gray-600 text-xs cabin-400">
                         Monday - Friday
                       </p>
-                      <p className="text-(--color-gray-600) text-xs cabin-400">
+                      <p className="text-gray-600 text-xs cabin-400">
                         10:00 AM - 5:00 PM
                       </p>
                     </div>
@@ -425,9 +425,9 @@ const Contact = () => {
 
               {/* Customer Service Image */}
               <div className="hidden lg:block mt-8 rounded-lg overflow-hidden shadow-xl">
-                <img 
-                  src={customer_service_image} 
-                  alt="Customer Service Team" 
+                <img
+                  src={customer_service_image}
+                  alt="Customer Service Team"
                   className="w-full h-64 object-cover"
                 />
               </div>
@@ -441,9 +441,9 @@ const Contact = () => {
         {/* Background Image */}
         <div className="absolute inset-0">
           <div className="absolute top-0 left-0 w-full h-full bg-white opacity-80 z-10"></div>
-          <img 
-            src={find_us_image} 
-            alt="Tech4Edges Office Location" 
+          <img
+            src={find_us_image}
+            alt="Tech4Edges Office Location"
             className="w-full h-full object-cover object-center"
           />
         </div>
@@ -453,7 +453,7 @@ const Contact = () => {
             <h2 className="text-2xl md:text-3xl font-bold text-(--color-dark) mb-2 cabin-400">
               Find Us
             </h2>
-            <p className="text-(--color-gray-600) text-sm md:text-base max-w-2xl mx-auto cabin-400">
+            <p className="text-gray-600 text-sm md:text-base max-w-2xl mx-auto cabin-400">
               Visit our office and let's discuss how we can help transform your
               business
             </p>
@@ -475,7 +475,7 @@ const Contact = () => {
 
           {/* Location Card */}
           <div className="max-w-sm mx-auto">
-            <div className="bg-(--color-white) rounded-lg shadow-lg p-6 text-center">
+            <div className="bg-white rounded-lg shadow-lg p-6 text-center">
               <div className="w-12 h-12 bg-(--color-primary)/10 rounded-full flex items-center justify-center mx-auto mb-3">
                 <svg
                   className="w-6 h-6 text-(--color-primary)"
@@ -494,14 +494,14 @@ const Contact = () => {
               <h3 className="text-lg font-bold text-(--color-dark) mb-1 cabin-400">
                 Tech4Edges Office
               </h3>
-              <p className="text-(--color-gray-600) text-sm mb-3 cabin-400">
+              <p className="text-gray-600 text-sm mb-3 cabin-400">
                 Pakistan
               </p>
-              <div className="border-t border-(--color-gray-200) pt-3">
-                <p className="text-xs font-semibold text-(--color-gray-600) mb-1 cabin-400">
+              <div className="border-t border-gray-200 pt-3">
+                <p className="text-xs font-semibold text-gray-600 mb-1 cabin-400">
                   Opening Hours
                 </p>
-                <p className="text-(--color-gray-600) text-xs cabin-400">
+                <p className="text-gray-600 text-xs cabin-400">
                   Mon-Fri 10am to 5pm
                 </p>
               </div>
