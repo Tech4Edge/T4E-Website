@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import ali from "../assets/team/ali.jpeg";
 import jalal from "../assets/team/jalal.png";
-import faras from "../assets/team/faras.png";
+import faras from "../assets/team/faras.jpeg";
 import komal from "../assets/team/komal.jpeg";
 import masood from "../assets/team/masood.jpeg";
 import shaheer from "../assets/team/shaheer.jpeg";
 import hadi from "../assets/team/hadi.jpeg";
-import asad from "../assets/team/asad.png";
-import sadam from "../assets/team/sadam.jpg";
-import hassan from "../assets/team/hassan.png";
+import asad from "../assets/team/asad.jpeg";
+import sadam from "../assets/team/sadam.jpeg";
 import tatheer from "../assets/team/tatheer.jpeg";
 import shaheen from "../assets/team/shaheen.jpeg";
 import haneef from "../assets/team/haneef.jpeg";
 import elhaj from "../assets/team/elhaj.jpeg";
+import hibba from "../assets/team/hibba.jpeg";
+import malika from "../assets/team/malika.jpeg";
+import marwa from "../assets/team/marwa.jpeg";
 
 const Team = () => {
   const [hoveredMember, setHoveredMember] = useState(null);
@@ -56,8 +58,8 @@ const Team = () => {
     {
       id: 4,
       name: "Muhammad Ali",
-      position: "Mern stack developer",
-      classes: " object-[25%_13%] scale-100",
+      position: "Senior developer",
+      classes: " object-[45%_0%] scale-100",
       image: ali,
       social: {
         linkedin:
@@ -79,7 +81,7 @@ const Team = () => {
     {
       id: 6,
       name: "Muhammad Jalal",
-      position: "Mern Intern",
+      position: "Mern Stack Developer",
       classes: " object-[25%_22%]",
       image: jalal,
       social: {
@@ -91,8 +93,20 @@ const Team = () => {
     },
     {
       id: 7,
+
+      name: "Komal Bibi",
+      position: "Operations Manager",
+      classes: " object-[25%_22%]",
+      image: komal,
+      social: {
+        linkedin: "https://www.linkedin.com/in/komal-bibi",
+        github: "https://github.com/komalbibi",
+      },
+    },
+    {
+      id: 8,
       name: "Faras Khursheed",
-      position: "Mobile Application Developer Intern",
+      position: "Mobile Application Developer",
       classes: " object-[25%_18%]",
       image: faras,
       social: {
@@ -101,9 +115,9 @@ const Team = () => {
       },
     },
     {
-      id: 8,
+      id: 9,
       name: "Sadam Hussain",
-      position: "Project Manager Intern",
+      position: "Team Member",
       classes: " object-[25%_15%]",
 
       image: sadam,
@@ -116,9 +130,9 @@ const Team = () => {
       },
     },
     {
-      id: 9,
+      id: 10,
       name: "Masood Haider",
-      position: "Mern Intern",
+      position: "Team Member",
       classes: " object-[25%_30%]",
       image: masood,
       social: {
@@ -130,9 +144,9 @@ const Team = () => {
       },
     },
     {
-      id: 10,
+      id: 11,
       name: "Shaheer Ali",
-      position: "React Intern",
+      position: "Team Member",
       classes: " object-[25%_30%] scale-120",
       image: shaheer,
       social: {
@@ -142,9 +156,9 @@ const Team = () => {
       },
     },
     {
-      id: 11,
+      id: 12,
       name: "Abdul Hadi Shahid",
-      position: "Mern Intern",
+      position: "Team Member",
       classes: " object-top",
 
       image: hadi,
@@ -155,10 +169,10 @@ const Team = () => {
       },
     },
     {
-      id: 12,
+      id: 13,
       name: "Asad Gul",
-      position: "Graphic Designer Intern",
-      classes: " object-top",
+      position: "Graphic Designer",
+      classes: " object-[25%_6%] ",
 
       image: asad,
       social: {
@@ -170,32 +184,34 @@ const Team = () => {
     },
     {
       id: 13,
+      name: "Marwa Nadeem",
+      position: "Team Member",
+      classes: " object-[0%_0%]",
 
-      name: "Komal Bibi",
-      position: "React Intern",
-      classes: " object-[25%_22%]",
-      image: komal,
+      image: marwa,
       social: {
-        linkedin: "https://www.linkedin.com/in/komal-bibi",
-        github: "https://github.com/komalbibi",
+        linkedin: "https://linkedin.com/in/inmarwa-nadeem-34685a323/",
       },
     },
     {
       id: 14,
-      name: "Hassan Ali",
-      position: "WordPress Intern",
-      classes: " object-[25%_30%]",
-
-      image: hassan,
+      name: "Hibba Emaan",
+      position: "Team Member",
+      classes: " object-top",
+      image: hibba,
       social: {
         linkedin:
-          "https://www.linkedin.com/in/hassan-ali-90a8a23a3?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
-        github: "https://github.com/hassanali69466-lang",
-        instagram:
-          "https://www.instagram.com/hassanali.87?igsh=dTd2YWllYnljc2kw",
+          "https://linkedin.com/in/hibba-eman-290939282/",
       },
     },
-    
+    {
+      id: 15,
+      name: "Malika Noreen",
+      position: "Team Member",
+      classes: " object-top",
+      image: malika,
+      social: {},
+    },
   ];
 
   return (

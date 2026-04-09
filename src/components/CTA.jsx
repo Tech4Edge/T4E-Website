@@ -1,27 +1,32 @@
-import React from 'react'
+import React from "react";
+import { useNavigate } from "react-router";
 
 const CTA = () => {
+  const navigate = useNavigate();
   return (
-    <section className='w-full linear-gradient bg-linear-to-b from-[#155DFC] to-[#1447E6] py-20 px-4'>
-      <div className='max-w-4xl mx-auto text-center'>
+    <section className="w-full linear-gradient bg-linear-to-b from-[#155DFC] to-[#1447E6] py-20 px-4">
+      <div className="max-w-4xl mx-auto text-center">
         {/* Heading */}
-        <h2 className='inter-font-bold text-3xl md:text-4xl font-black text-white mb-6'>
+        <h2 className="inter-font-bold text-3xl md:text-4xl font-black text-white mb-6">
           Ready to Build Something Amazing?
         </h2>
 
         {/* Description */}
-        <p className='inter-font-semibold text-white text-sm md:text-md mb-8 leading-relaxed'>
-          Let's discuss your project and explore how we can help you achieve your digital goals.
+        <p className="inter-font-semibold text-white text-sm md:text-md mb-8 leading-relaxed">
+          Let's discuss your project and explore how we can help you achieve
+          your digital goals.
         </p>
 
         {/* CTA Button */}
-        <button className='montserrat-font bg-white hover:bg-gray-100 text-[#1E90FF] font-bold py-4 px-10 rounded-lg transition-all duration-300 text-md shadow-lg hover:shadow-2xl transform hover:scale-105'>
+        <button
+          onClick={() => {navigate("/contact"); window.scrollTo(0, 0);}}
+          className="montserrat-font bg-white hover:bg-gray-100 text-[#1E90FF] font-bold py-4 px-10 rounded-lg transition-all duration-300 text-md shadow-lg hover:shadow-2xl transform hover:scale-105"
+        >
           Get Started Today
         </button>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default CTA
-
+export default CTA;
