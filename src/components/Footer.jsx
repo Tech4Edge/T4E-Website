@@ -173,7 +173,7 @@ const Footer = () => {
                 </svg>
               </a>
               <a
-                href="https://twitter.com"
+                href="https://x.com/Tech4Edge_"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[#1E293B] hover:bg-(--color-primary) w-10 h-10 rounded-lg flex items-center justify-center transition-colors duration-300"
@@ -188,7 +188,37 @@ const Footer = () => {
                 </svg>
               </a>
               <a
-                href="https://instagram.com"
+                href="https://www.facebook.com/share/1ApjkTDnMd/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#1E293B] hover:bg-(--color-primary) w-10 h-10 rounded-lg flex items-center justify-center transition-colors duration-300"
+                aria-label="Facebook"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M22 12a10 10 0 10-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0022 12z" />
+                </svg>
+              </a>
+              <a
+                href="https://www.youtube.com/@tech4edges"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#1E293B] hover:bg-(--color-primary) w-10 h-10 rounded-lg flex items-center justify-center transition-colors duration-300"
+                aria-label="YouTube"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M23.5 6.2a3.06 3.06 0 00-2.15-2.16C19.48 3.5 12 3.5 12 3.5s-7.48 0-9.35.54A3.06 3.06 0 00.5 6.2 31.6 31.6 0 000 12a31.6 31.6 0 00.5 5.8 3.06 3.06 0 002.15 2.16c1.87.54 9.35.54 9.35.54s7.48 0 9.35-.54a3.06 3.06 0 002.15-2.16A31.6 31.6 0 0024 12a31.6 31.6 0 00-.5-5.8zM9.6 15.4V8.6L15.8 12 9.6 15.4z" />
+                </svg>
+              </a>
+              <a
+                href="https://www.instagram.com/tech4edgesofficial?igsh=YzZoNnVubHkzMnlv"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[#1E293B] hover:bg-(--color-primary) w-10 h-10 rounded-lg flex items-center justify-center transition-colors duration-300"

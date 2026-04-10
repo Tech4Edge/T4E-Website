@@ -190,7 +190,7 @@ const Team = () => {
 
       image: marwa,
       social: {
-        linkedin: "https://linkedin.com/in/inmarwa-nadeem-34685a323/",
+        linkedin: "https://www.linkedin.com/in/marwa-nadeem-34685a323/",
       },
     },
     {
