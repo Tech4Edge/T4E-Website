@@ -3,7 +3,7 @@ import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import arrow from "../assets/topRightTitledArrow.svg";
-import heroImg from "../assets/contact_hero.jpg";
+import heroImg from "../assets/contacthero.jpeg";
 import customer_service_image from "../assets/customer_service_image.jpg";
 import find_us_image from "../assets/find_us.jpg";
 
@@ -115,11 +115,11 @@ const Contact = () => {
       <section className="relative h-[200px] md:h-[280px] bg-gray-200 flex items-center justify-center overflow-hidden">
         {/* Placeholder for hero image */}
         <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50 z-10"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-black  opacity-80 z-10"></div>
           <img
             src={heroImg}
             alt="Hero"
-            className="w-full h-full object-cover object-[25%_15%]"
+            className="w-full object-cover"
           />
         </div>
         <div className="relative z-10 text-center px-4">

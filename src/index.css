@@ -47,3 +47,39 @@
 .hero-clip-path{
   clip-path: polygon(0 2%, 100% 0, 100% 93%, 0 100%);
 }
+
+@keyframes floatY {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes floatDrift {
+  0% {
+    transform: translate3d(0px, 0px, 0px) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(8px, -10px, 0px) rotate(4deg);
+  }
+  100% {
+    transform: translate3d(0px, 0px, 0px) rotate(0deg);
+  }
+}
+
+.float-shape {
+  animation: floatY 5.5s ease-in-out infinite;
+}
+
+.float-shape-slow {
+  animation: floatY 8s ease-in-out infinite;
+}
+
+.float-shape-drift {
+  animation: floatDrift 7.5s ease-in-out infinite;
+}
