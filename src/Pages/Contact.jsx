@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import arrow from "../assets/topRightTitledArrow.svg";
 import heroImg from "../assets/contacthero.jpeg";
 import customer_service_image from "../assets/customer_service_image.jpg";
 import find_us_image from "../assets/find_us.jpg";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +17,7 @@ const Contact = () => {
     message: "",
     agreeToPrivacy: false,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -25,73 +27,65 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Create a template params object
-    const templateParams = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      phone: formData.phone,
-      message: formData.message,
-    };
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(`${API_BASE_URL}/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    emailjs
-      .send(
-        import.meta.env.VITE_APP_SERVICE_ID,
-        import.meta.env.VITE_APP_TEMPLATE_ID,
-        templateParams,
-        import.meta.env.VITE_APP_PUBLIC_KEY,
-      )
-      .then(
-        () => {
-          console.log("SUCCESS!");
-          toast.success(
-            "Message sent successfully! We'll get back to you soon.",
-            {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              style: {
-                background: "#ffffff",
-                color: "#0F172B",
-                borderLeft: "4px solid #1E90FF",
-                fontFamily: "'Cabin', sans-serif",
-              },
-            },
-          );
-          // Reset form
-          setFormData({
-            firstName: "",
-            lastName: "",
-            email: "",
-            phone: "",
-            message: "",
-            agreeToPrivacy: false,
-          });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to send message. Please try again.");
+      }
+
+      toast.success("Message sent successfully! We'll get back to you soon.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        style: {
+          background: "#ffffff",
+          color: "#0F172B",
+          borderLeft: "4px solid #1E90FF",
+          fontFamily: "'Cabin', sans-serif",
         },
-        (error) => {
-          console.log("FAILED...", error.text);
-          toast.error("Failed to send message. Please try again.", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            style: {
-              background: "#ffffff",
-              color: "#0F172B",
-              borderLeft: "4px solid #ef4444",
-              fontFamily: "'Cabin', sans-serif",
-            },
-          });
+      });
+
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        message: "",
+        agreeToPrivacy: false,
+      });
+    } catch (error) {
+      toast.error(error.message || "Failed to send message. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        style: {
+          background: "#ffffff",
+          color: "#0F172B",
+          borderLeft: "4px solid #ef4444",
+          fontFamily: "'Cabin', sans-serif",
         },
-      );
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -276,9 +270,10 @@ const Contact = () => {
                 {/* Submit Button */}
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="w-full sm:w-auto flex items-center justify-center gap-2 bg-(--color-primary) hover:bg-(--color-primary-dark) text-(--color-white) hover:cursor-pointer font-semibold px-6 py-2.5 text-sm transition-all duration-300 shadow-lg hover:shadow-xl group cabin-400"
                 >
-                  Send message
+                  {isSubmitting ? "Sending..." : "Send message"}
                   <img
                     src={arrow}
                     className="h-3.5 w-3.5 brightness-0 invert group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300"
