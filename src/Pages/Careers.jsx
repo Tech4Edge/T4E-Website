@@ -2,46 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
-const SAMPLE_JOBS = [
-  {
-    _id: "sample-frontend-engineer",
-    title: "Frontend Engineer (React)",
-    location: "Peshawar",
-    type: "Full-time",
-    description:
-      "Build modern product interfaces with performance-first implementation and polished user experiences.",
-    postedDate: new Date().toISOString(),
-    formSchema: [
-      { label: "Expected Salary (PKR)", fieldType: "number", required: true },
-      { label: "Portfolio URL", fieldType: "text", required: false },
-      {
-        label: "Notice Period",
-        fieldType: "dropdown",
-        required: true,
-        options: ["Immediate", "15 days", "30 days"],
-      },
-    ],
-  },
-  {
-    _id: "sample-backend-engineer",
-    title: "Backend Engineer (Node.js)",
-    location: "Remote",
-    type: "Full-time",
-    description:
-      "Design scalable APIs, secure business logic, and data models that power reliable product workflows.",
-    postedDate: new Date().toISOString(),
-    formSchema: [
-      { label: "Current CTC", fieldType: "number", required: true },
-      { label: "GitHub Profile", fieldType: "text", required: false },
-      {
-        label: "Preferred Shift",
-        fieldType: "dropdown",
-        required: true,
-        options: ["Day", "Evening", "Flexible"],
-      },
-    ],
-  },
-];
+import DOMPurify from "dompurify";
 
 const formatPostedDate = (rawDate) => {
   const date = new Date(rawDate);
@@ -74,14 +35,15 @@ const Careers = () => {
           throw new Error("Failed to fetch jobs");
         }
         const data = await response.json();
-        const list = Array.isArray(data) && data.length > 0 ? data : SAMPLE_JOBS;
+        const list = Array.isArray(data) ? data : [];
         setJobs(list);
-        setSelectedJobId(list[0]?._id || "");
+        if (list.length > 0) {
+          setSelectedJobId(list[0]._id);
+        }
       } catch {
-        setJobs(SAMPLE_JOBS);
-        setSelectedJobId(SAMPLE_JOBS[0]._id);
+        setJobs([]);
         setStatusType("error");
-        setStatusMessage("Backend unavailable right now. Showing sample jobs.");
+        setStatusMessage("Could not fetch open positions at this time. Please try again later.");
       } finally {
         setIsLoadingJobs(false);
       }
@@ -344,9 +306,10 @@ const Careers = () => {
                         <h3 className="text-xl font-semibold text-(--color-dark) cabin-400">
                           {job.title}
                         </h3>
-                        <p className="mt-2 text-sm text-(--color-gray-600) cabin-400">
-                          {job.description}
-                        </p>
+                        <div 
+                          className="mt-2 text-sm text-(--color-gray-600) cabin-400 prose prose-sm max-w-none"
+                          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(job.description || "") }}
+                        />
                       </div>
                       <button
                         type="button"

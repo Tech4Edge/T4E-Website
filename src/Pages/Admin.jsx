@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
-import ReactQuill from "react-quill-new";
-import "react-quill-new/dist/quill.snow.css";
+import Loader from "../components/Loader";
+import JobBuilder from "../components/admin/JobBuilder";
+import JobsTable from "../components/admin/JobsTable";
+import ApplicationsTable from "../components/admin/ApplicationsTable";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
@@ -12,22 +14,18 @@ const defaultField = {
   optionsText: "",
 };
 
-const quillModules = {
-  toolbar: [
-    [{ header: [1, 2, false] }],
-    ["bold", "italic", "underline"],
-    [{ list: "ordered" }, { list: "bullet" }],
-    ["link"],
-    ["clean"],
-  ],
+const defaultField = {
+  label: "",
+  fieldType: "text",
+  required: false,
+  optionsText: "",
 };
 
 const Admin = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("jobs");
-  const [sessionToken, setSessionToken] = useState(
-    localStorage.getItem("t4e_admin_session") || "",
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true);
   const [loginForm, setLoginForm] = useState({ username: "", password: "" });
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
@@ -53,14 +51,11 @@ const Admin = () => {
   const [applicationSearch, setApplicationSearch] = useState("");
   const [isLoadingApps, setIsLoadingApps] = useState(false);
 
-  const isAuthenticated = Boolean(sessionToken);
-
-  const authHeaders = useMemo(
+  const defaultHeaders = useMemo(
     () => ({
-      Authorization: `Bearer ${sessionToken}`,
       "Content-Type": "application/json",
     }),
-    [sessionToken],
+    [],
   );
 
   const postStatus = (message, type = "success") => {
@@ -68,14 +63,8 @@ const Admin = () => {
     setStatusMessage(message);
   };
 
-  const saveSession = (token) => {
-    setSessionToken(token);
-    localStorage.setItem("t4e_admin_session", token);
-  };
-
   const clearSession = () => {
-    setSessionToken("");
-    localStorage.removeItem("t4e_admin_session");
+    setIsAuthenticated(false);
     setJobs([]);
     setApplications([]);
     setSelectedApplication(null);
@@ -92,8 +81,9 @@ const Admin = () => {
   const fetchWithAdminAuth = async (url, options = {}) => {
     const response = await fetch(url, {
       ...options,
+      credentials: "include",
       headers: {
-        ...authHeaders,
+        ...defaultHeaders,
         ...(options.headers || {}),
       },
     });
@@ -171,16 +161,39 @@ const Admin = () => {
     }
   };
 
+  const checkAuthStatus = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/admin/me`, {
+        credentials: "include",
+      });
+      if (response.ok) {
+        const data = await response.json();
+        if (data.authenticated) {
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+      } else {
+        setIsAuthenticated(false);
+      }
+    } catch {
+      setIsAuthenticated(false);
+    } finally {
+      setIsInitializing(false);
+    }
+  };
+
+  useEffect(() => {
+    checkAuthStatus();
+  }, []);
+
   useEffect(() => {
     if (isAuthenticated) {
       loadJobs();
       loadApplications();
-    } else {
-      clearSession();
-      navigate("/admin");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessionToken]);
+  }, [isAuthenticated]);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -188,6 +201,7 @@ const Admin = () => {
     try {
       const response = await fetch(`${API_BASE_URL}/admin/login`, {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(loginForm),
       });
@@ -195,7 +209,7 @@ const Admin = () => {
       if (!response.ok) {
         throw new Error(data.message || "Invalid credentials");
       }
-      saveSession(data.token);
+      setIsAuthenticated(true);
       setLoginForm({ username: "", password: "" });
       postStatus("Logged in successfully.", "success");
     } catch (error) {
@@ -205,7 +219,15 @@ const Admin = () => {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await fetch(`${API_BASE_URL}/admin/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch (err) {
+      console.error(err);
+    }
     clearSession();
     postStatus("Logged out successfully.", "success");
   };
@@ -380,6 +402,10 @@ const Admin = () => {
     return Object.entries(responses);
   };
 
+  if (isInitializing) {
+    return <Loader />;
+  }
+
   return (
     <main className="min-h-screen bg-white">
       <section className="border-b border-gray-200 bg-(--color-dark)">
@@ -492,362 +518,40 @@ const Admin = () => {
             <div className="p-5">
               {activeTab === "jobs" ? (
                 <div className="space-y-8">
-                  <form className="space-y-5" onSubmit={submitJob}>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs mb-1 text-(--color-gray-600) cabin-400">
-                          Job Title
-                        </label>
-                        <input
-                          required
-                          value={jobForm.title}
-                          onChange={(event) => updateJobForm("title", event.target.value)}
-                          className="w-full border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs mb-1 text-(--color-gray-600) cabin-400">
-                          Location
-                        </label>
-                        <input
-                          value={jobForm.location}
-                          onChange={(event) => updateJobForm("location", event.target.value)}
-                          className="w-full border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs mb-1 text-(--color-gray-600) cabin-400">
-                          Type
-                        </label>
-                        <input
-                          value={jobForm.type}
-                          placeholder="Full-time / Remote / Hybrid"
-                          onChange={(event) => updateJobForm("type", event.target.value)}
-                          className="w-full border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400"
-                        />
-                      </div>
-                      <label className="flex items-center gap-2 text-sm text-(--color-dark) cabin-400 mt-6">
-                        <input
-                          type="checkbox"
-                          checked={jobForm.isActive}
-                          onChange={(event) => updateJobForm("isActive", event.target.checked)}
-                        />
-                        Active Job Posting
-                      </label>
-                    </div>
+                  <JobBuilder
+                    jobForm={jobForm}
+                    updateJobForm={updateJobForm}
+                    dynamicFields={dynamicFields}
+                    updateDynamicField={updateDynamicField}
+                    addField={addField}
+                    removeField={removeField}
+                    resetJobBuilder={resetJobBuilder}
+                    submitJob={submitJob}
+                    isCreatingJob={isCreatingJob}
+                    editingJobId={editingJobId}
+                  />
 
-                    <div>
-                      <label className="block text-xs mb-1 text-(--color-gray-600) cabin-400">
-                        Job Description
-                      </label>
-                      <ReactQuill
-                        theme="snow"
-                        value={jobForm.description}
-                        onChange={(value) => updateJobForm("description", value)}
-                        modules={quillModules}
-                        className="bg-white cabin-400"
-                      />
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-sm font-semibold text-(--color-dark) cabin-400">
-                          Dynamic Form Schema
-                        </h3>
-                        <button
-                          type="button"
-                          onClick={addField}
-                          className="text-(--color-primary) border border-(--color-primary) hover:bg-(--color-primary) hover:text-white px-3 py-1 text-xs transition-colors duration-200 cabin-400"
-                        >
-                          Add Field
-                        </button>
-                      </div>
-
-                      {dynamicFields.map((field, index) => (
-                        <div
-                          key={`${index}-${field.label}`}
-                          className="border border-gray-200 p-4 bg-gray-50"
-                        >
-                          <div className="grid md:grid-cols-12 gap-3">
-                            <div className="md:col-span-4">
-                              <label className="block text-xs mb-1 text-(--color-gray-600) cabin-400">
-                                Label
-                              </label>
-                              <input
-                                value={field.label}
-                                onChange={(event) =>
-                                  updateDynamicField(index, "label", event.target.value)
-                                }
-                                className="w-full border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400 bg-white"
-                              />
-                            </div>
-                            <div className="md:col-span-3">
-                              <label className="block text-xs mb-1 text-(--color-gray-600) cabin-400">
-                                Type
-                              </label>
-                              <select
-                                value={field.fieldType}
-                                onChange={(event) =>
-                                  updateDynamicField(index, "fieldType", event.target.value)
-                                }
-                                className="w-full border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400 bg-white"
-                              >
-                                <option value="text">Text</option>
-                                <option value="number">Number</option>
-                                <option value="email">Email</option>
-                                <option value="file">File</option>
-                                <option value="dropdown">Dropdown</option>
-                              </select>
-                            </div>
-                            <div className="md:col-span-4">
-                              <label className="block text-xs mb-1 text-(--color-gray-600) cabin-400">
-                                Dropdown Options
-                              </label>
-                              <input
-                                value={field.optionsText}
-                                disabled={field.fieldType !== "dropdown"}
-                                onChange={(event) =>
-                                  updateDynamicField(index, "optionsText", event.target.value)
-                                }
-                                placeholder="Immediate, 15 days, 30 days"
-                                className="w-full border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400 bg-white disabled:bg-gray-100"
-                              />
-                            </div>
-                            <div className="md:col-span-1 flex items-end justify-end gap-2">
-                              <label className="flex items-center gap-1 text-xs cabin-400 text-(--color-dark)">
-                                <input
-                                  type="checkbox"
-                                  checked={field.required}
-                                  onChange={(event) =>
-                                    updateDynamicField(index, "required", event.target.checked)
-                                  }
-                                />
-                                Req
-                              </label>
-                              {dynamicFields.length > 1 && (
-                                <button
-                                  type="button"
-                                  onClick={() => removeField(index)}
-                                  className="text-red-600 border border-red-300 px-2 py-1 text-xs cabin-400 hover:bg-red-50"
-                                >
-                                  X
-                                </button>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center justify-between gap-3">
-                      <button
-                        type="button"
-                        onClick={resetJobBuilder}
-                        className="border border-gray-300 text-(--color-dark) hover:bg-gray-50 px-5 py-2 text-sm font-semibold transition-colors duration-200 cabin-400"
-                      >
-                        Clear Form
-                      </button>
-                      <button
-                        type="submit"
-                        disabled={isCreatingJob}
-                        className="bg-(--color-primary) hover:bg-(--color-primary-dark) text-white px-6 py-2 text-sm font-semibold transition-colors duration-200 cabin-400"
-                      >
-                        {isCreatingJob
-                          ? editingJobId
-                            ? "Updating..."
-                            : "Creating..."
-                          : editingJobId
-                            ? "Update Job"
-                            : "Create Job"}
-                      </button>
-                    </div>
-                  </form>
-
-                  <div className="border border-gray-200 overflow-x-auto">
-                    <table className="w-full min-w-[760px] text-sm">
-                      <thead className="bg-gray-100 text-left">
-                        <tr>
-                          <th className="px-3 py-2 cabin-400 text-(--color-dark)">Title</th>
-                          <th className="px-3 py-2 cabin-400 text-(--color-dark)">Location</th>
-                          <th className="px-3 py-2 cabin-400 text-(--color-dark)">Type</th>
-                          <th className="px-3 py-2 cabin-400 text-(--color-dark)">Status</th>
-                          <th className="px-3 py-2 cabin-400 text-(--color-dark)">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {jobs.length === 0 ? (
-                          <tr>
-                            <td
-                              colSpan={5}
-                              className="px-3 py-6 text-center text-(--color-gray-600) cabin-400"
-                            >
-                              No jobs created yet.
-                            </td>
-                          </tr>
-                        ) : (
-                          jobs.map((job) => (
-                            <tr key={job._id} className="border-t border-gray-200">
-                              <td className="px-3 py-2 cabin-400">{job.title}</td>
-                              <td className="px-3 py-2 cabin-400">{job.location || "-"}</td>
-                              <td className="px-3 py-2 cabin-400">{job.type || "-"}</td>
-                              <td className="px-3 py-2">
-                                <span
-                                  className={`px-2 py-1 text-xs cabin-400 ${
-                                    job.isActive
-                                      ? "bg-green-100 text-green-700"
-                                      : "bg-gray-200 text-gray-700"
-                                  }`}
-                                >
-                                  {job.isActive ? "Active" : "Inactive"}
-                                </span>
-                              </td>
-                              <td className="px-3 py-2">
-                                <div className="flex gap-2">
-                                  <button
-                                    type="button"
-                                    onClick={() => startEditingJob(job)}
-                                    className="border border-(--color-primary) text-(--color-primary) px-2 py-1 text-xs cabin-400 hover:bg-(--color-primary) hover:text-white"
-                                  >
-                                    Edit
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={() => setJobPendingDelete(job)}
-                                    className="border border-red-300 text-red-700 px-2 py-1 text-xs cabin-400 hover:bg-red-50"
-                                  >
-                                    Delete
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                          ))
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
+                  <JobsTable
+                    jobs={jobs}
+                    startEditingJob={startEditingJob}
+                    setJobPendingDelete={setJobPendingDelete}
+                  />
                 </div>
               ) : (
-                <div className="space-y-5">
-                  <div className="grid md:grid-cols-4 gap-3">
-                    <input
-                      value={applicationSearch}
-                      onChange={(event) => setApplicationSearch(event.target.value)}
-                      placeholder="Search by candidate name or email"
-                      className="border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400"
-                    />
-                    <select
-                      value={statusFilter}
-                      onChange={(event) => setStatusFilter(event.target.value)}
-                      className="border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400"
-                    >
-                      <option value="All">All Statuses</option>
-                      <option value="Pending">Pending</option>
-                      <option value="Accepted">Accepted</option>
-                      <option value="Rejected">Rejected</option>
-                    </select>
-                    <select
-                      value={jobFilter}
-                      onChange={(event) => setJobFilter(event.target.value)}
-                      className="border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400"
-                    >
-                      <option value="All">All Jobs</option>
-                      {jobs.map((job) => (
-                        <option key={job._id} value={job._id}>
-                          {job.title}
-                        </option>
-                      ))}
-                    </select>
-                    <button
-                      type="button"
-                      onClick={loadApplications}
-                      className="bg-(--color-primary) hover:bg-(--color-primary-dark) text-white px-4 py-2 text-sm font-semibold transition-colors duration-200 cabin-400"
-                    >
-                      {isLoadingApps ? "Loading..." : "Search"}
-                    </button>
-                  </div>
-
-                  <div className="border border-gray-200 overflow-x-auto">
-                    <table className="w-full min-w-[760px] text-sm">
-                      <thead className="bg-gray-100 text-left">
-                        <tr>
-                          <th className="px-3 py-2 cabin-400 text-(--color-dark)">Candidate</th>
-                          <th className="px-3 py-2 cabin-400 text-(--color-dark)">Email</th>
-                          <th className="px-3 py-2 cabin-400 text-(--color-dark)">Role</th>
-                          <th className="px-3 py-2 cabin-400 text-(--color-dark)">Status</th>
-                          <th className="px-3 py-2 cabin-400 text-(--color-dark)">Applied</th>
-                          <th className="px-3 py-2 cabin-400 text-(--color-dark)">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {applications.length === 0 ? (
-                          <tr>
-                            <td
-                              colSpan={6}
-                              className="px-3 py-6 text-center text-(--color-gray-600) cabin-400"
-                            >
-                              No applications found.
-                            </td>
-                          </tr>
-                        ) : (
-                          applications.map((application) => (
-                            <tr key={application._id} className="border-t border-gray-200">
-                              <td className="px-3 py-2 cabin-400">{application.candidateName}</td>
-                              <td className="px-3 py-2 cabin-400">{application.candidateEmail}</td>
-                              <td className="px-3 py-2 cabin-400">
-                                {application.jobId?.title || "N/A"}
-                              </td>
-                              <td className="px-3 py-2">
-                                <span
-                                  className={`px-2 py-1 text-xs cabin-400 ${
-                                    application.status === "Accepted"
-                                      ? "bg-green-100 text-green-700"
-                                      : application.status === "Rejected"
-                                        ? "bg-red-100 text-red-700"
-                                        : "bg-yellow-100 text-yellow-700"
-                                  }`}
-                                >
-                                  {application.status}
-                                </span>
-                              </td>
-                              <td className="px-3 py-2 cabin-400">
-                                {new Date(application.appliedAt).toLocaleDateString()}
-                              </td>
-                              <td className="px-3 py-2">
-                                <div className="flex gap-2">
-                                  <button
-                                    type="button"
-                                    onClick={() => setSelectedApplication(application)}
-                                    className="border border-(--color-primary) text-(--color-primary) px-2 py-1 text-xs cabin-400 hover:bg-(--color-primary) hover:text-white"
-                                  >
-                                    View
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      updateApplicationStatus(application._id, "Accepted")
-                                    }
-                                    className="border border-green-300 text-green-700 px-2 py-1 text-xs cabin-400 hover:bg-green-50"
-                                  >
-                                    Accept
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      updateApplicationStatus(application._id, "Rejected")
-                                    }
-                                    className="border border-red-300 text-red-700 px-2 py-1 text-xs cabin-400 hover:bg-red-50"
-                                  >
-                                    Reject
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                          ))
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+                <ApplicationsTable
+                  applications={applications}
+                  isLoadingApps={isLoadingApps}
+                  applicationSearch={applicationSearch}
+                  setApplicationSearch={setApplicationSearch}
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                  jobFilter={jobFilter}
+                  setJobFilter={setJobFilter}
+                  jobs={jobs}
+                  loadApplications={loadApplications}
+                  updateApplicationStatus={updateApplicationStatus}
+                  setSelectedApplication={setSelectedApplication}
+                />
               )}
             </div>
           </div>
