@@ -1,49 +1,30 @@
 import { useEffect, useMemo, useState } from "react";
+import FilterBar from "../components/careers/FilterBar";
+import JobCard from "../components/careers/JobCard";
+import ApplicationModal from "../components/careers/ApplicationModal";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
-
-import DOMPurify from "dompurify";
-
-const formatPostedDate = (rawDate) => {
-  const date = new Date(rawDate);
-  if (Number.isNaN(date.getTime())) {
-    return "Recently posted";
-  }
-  return `Posted ${date.toLocaleDateString()}`;
-};
 
 const Careers = () => {
   const [jobs, setJobs] = useState([]);
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState("All");
   const [locationFilter, setLocationFilter] = useState("All");
-  const [selectedJobId, setSelectedJobId] = useState("");
-  const [statusMessage, setStatusMessage] = useState("");
-  const [statusType, setStatusType] = useState("success");
-  const [candidateName, setCandidateName] = useState("");
-  const [candidateEmail, setCandidateEmail] = useState("");
-  const [dynamicResponses, setDynamicResponses] = useState({});
-  const [cvFile, setCvFile] = useState(null);
+  const [selectedJob, setSelectedJob] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoadingJobs, setIsLoadingJobs] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     const loadJobs = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}/jobs`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch jobs");
-        }
+        if (!response.ok) throw new Error("Failed to fetch jobs");
         const data = await response.json();
-        const list = Array.isArray(data) ? data : [];
-        setJobs(list);
-        if (list.length > 0) {
-          setSelectedJobId(list[0]._id);
-        }
+        setJobs(Array.isArray(data) ? data : []);
       } catch {
         setJobs([]);
-        setStatusType("error");
-        setStatusMessage("Could not fetch open positions at this time. Please try again later.");
+        setErrorMsg("Could not fetch open positions at this time.");
       } finally {
         setIsLoadingJobs(false);
       }
@@ -71,364 +52,197 @@ const Careers = () => {
     });
   }, [jobs, search, typeFilter, locationFilter]);
 
-  useEffect(() => {
-    if (filteredJobs.length > 0 && !filteredJobs.some((job) => job._id === selectedJobId)) {
-      setSelectedJobId(filteredJobs[0]._id);
-    }
-    if (filteredJobs.length === 0) {
-      setSelectedJobId("");
-    }
-  }, [filteredJobs, selectedJobId]);
-
-  const selectedJob =
-    filteredJobs.find((job) => job._id === selectedJobId) ?? filteredJobs[0] ?? null;
-
-  const handleFieldChange = (label, value) => {
-    setDynamicResponses((prev) => ({ ...prev, [label]: value }));
+  const handleOpenModal = (job) => {
+    setSelectedJob(job);
+    setIsModalOpen(true);
   };
 
-  const resetForm = () => {
-    setCandidateName("");
-    setCandidateEmail("");
-    setDynamicResponses({});
-    setCvFile(null);
-  };
-
-  const handleApply = async (event) => {
-    event.preventDefault();
-    if (!selectedJob || !cvFile) {
-      setStatusType("error");
-      setStatusMessage("Please select a job and attach your CV.");
-      return;
-    }
-
-    setIsSubmitting(true);
-    try {
-      const formData = new FormData();
-      formData.append("jobId", selectedJob._id);
-      formData.append("candidateName", candidateName);
-      formData.append("candidateEmail", candidateEmail);
-      formData.append("responses", JSON.stringify(dynamicResponses));
-      formData.append("cv", cvFile);
-
-      const response = await fetch(`${API_BASE_URL}/apply`, {
-        method: "POST",
-        body: formData,
-      });
-      const result = await response.json();
-      if (!response.ok) {
-        throw new Error(result.message || "Failed to submit application");
-      }
-
-      setStatusType("success");
-      setStatusMessage("Application submitted successfully.");
-      resetForm();
-    } catch (error) {
-      setStatusType("error");
-      setStatusMessage(error.message || "Could not submit application.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const featureTiles = [
+    {
+      title: "INNOVATE FASTER",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&q=80",
+    },
+    {
+      title: "COLLABORATE SMARTER",
+      image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&q=80",
+    },
+    {
+      title: "BUILD THE FUTURE",
+      image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&q=80",
+    },
+    {
+      title: "DEV INNOVATION",
+      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&q=80",
+    },
+  ];
 
   return (
-    <main className="min-h-screen bg-white overflow-x-hidden">
-      <section className="relative border-b border-gray-200 bg-gradient-to-br from-(--color-dark) via-[#0B3A7A] to-(--color-primary)">
-        <div className="absolute -top-12 -left-8 w-48 h-48 rounded-full bg-(--color-primary)/12" />
-        <div className="absolute top-20 right-12 w-24 h-24 rotate-12 bg-(--color-primary)/15" />
-        <div className="absolute -bottom-10 left-[42%] w-36 h-36 rounded-full border-8 border-(--color-primary)/20" />
+    <main className="min-h-screen bg-gray-50 overflow-x-hidden">
+      {/* 1. Hero Section (Stitch Redesign) */}
+      <section className="relative bg-[#061121] overflow-hidden">
+        {/* Background Gradients */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/40 via-[#061121] to-[#061121]"></div>
+        <div className="absolute -top-[30%] -right-[10%] w-[70%] h-[120%] bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.15)_0%,rgba(6,17,33,0)_70%)] pointer-events-none"></div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-          <div className="grid lg:grid-cols-12 gap-8 items-end">
-            <div className="lg:col-span-7">
-              <p className="text-white/85 text-xs md:text-sm font-semibold cabin-400 tracking-wide uppercase">
-                Careers at Tech4Edges
-              </p>
-              <h1 className="mt-3 text-3xl md:text-5xl text-white font-bold cabin-400 leading-tight">
-                Build with a team that ships real tech impact.
-              </h1>
-              <p className="mt-4 text-sm md:text-base text-white/85 cabin-400 max-w-2xl">
-                We combine product thinking, design quality, and engineering rigor
-                to deliver modern digital systems for ambitious organizations.
-              </p>
-            </div>
-            <div className="lg:col-span-5 grid grid-cols-3 gap-3">
-              <div className="border border-white/30 bg-white/10 backdrop-blur-sm p-4">
-                <p className="text-xs text-white/80 cabin-400">Open Roles</p>
-                <p className="text-2xl font-bold text-white cabin-400">{jobs.length}</p>
-              </div>
-              {/*<div className="border border-white/30 bg-white/10 backdrop-blur-sm p-4">
-                <p className="text-xs text-white/80 cabin-400">Teams</p>
-                <p className="text-2xl font-bold text-white cabin-400">6</p>
-              </div>*/}
-              <div className="border border-white/30 bg-white/10 backdrop-blur-sm p-4">
-                <p className="text-xs text-white/80 cabin-400">Response</p>
-                <p className="text-2xl font-bold text-white cabin-400">48h</p>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 flex flex-col lg:flex-row items-center">
+          {/* Left Content */}
+          <div className="w-full lg:w-3/5 z-10 text-center lg:text-left">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white font-extrabold cabin-400 leading-tight mb-6">
+              Join the Frontier of <br className="hidden lg:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
+                Digital Innovation
+              </span>
+            </h1>
+            <p className="text-lg text-gray-400 cabin-400 max-w-2xl mx-auto lg:mx-0 mb-10">
+              Join us for next-gen modern design, innovating, and technology of digital innovation.
+            </p>
+            <a
+              href="#open-roles"
+              className="inline-block bg-(--color-primary) hover:bg-(--color-primary-dark) text-white font-bold py-4 px-8 rounded-lg shadow-[0_0_15px_rgba(29,78,216,0.5)] transition-all hover:scale-105"
+            >
+              Explore Open Roles &rarr;
+            </a>
+          </div>
+
+          {/* Right Graphic */}
+          <div className="w-full lg:w-2/5 hidden lg:block z-10 relative">
+            <div className="relative w-full aspect-square max-w-md mx-auto">
+              <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-cyan-400/20 rounded-2xl backdrop-blur-3xl border border-white/10 shadow-2xl transform rotate-3"></div>
+              <div className="absolute inset-4 bg-gradient-to-br from-[#0a1930] to-[#061121] rounded-xl border border-white/5 flex items-center justify-center overflow-hidden">
+                <div className="w-48 h-48 bg-blue-500/30 rounded-full blur-3xl absolute"></div>
+                <svg className="w-32 h-32 text-blue-400 relative z-10 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                </svg>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="grid md:grid-cols-3 gap-4">
-          <article className="border border-gray-200 p-5 bg-white">
-            <h2 className="text-lg font-semibold text-(--color-dark) cabin-400">
-              Why Tech4Edges
-            </h2>
-            <p className="mt-2 text-sm text-(--color-gray-600) cabin-400">
-              We solve complex business challenges through focused execution,
-              high-quality engineering, and responsible product design.
-            </p>
-          </article>
-          <article className="border border-gray-200 p-5 bg-gradient-to-br from-(--color-primary)/12 to-white">
-            <h2 className="text-lg font-semibold text-(--color-dark) cabin-400">
-              How We Work
-            </h2>
-            <p className="mt-2 text-sm text-(--color-gray-600) cabin-400">
-              Clear ownership, rapid feedback, practical architecture decisions,
-              and a collaborative team culture.
-            </p>
-          </article>
-          <article className="border border-gray-200 p-5 bg-white">
-            <h2 className="text-lg font-semibold text-(--color-dark) cabin-400">
-              What You Build
-            </h2>
-            <p className="mt-2 text-sm text-(--color-gray-600) cabin-400">
-              Scalable web platforms, internal tools, and customer-facing apps that
-              create measurable operational value.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        <div className="grid lg:grid-cols-12 gap-6">
-          <aside className="lg:col-span-4">
-            <div className="border border-gray-200 bg-white p-5 lg:sticky lg:top-24">
-              <h2 className="text-lg font-semibold text-(--color-dark) cabin-400">
-                Search & Filter Roles
-              </h2>
-              <div className="mt-4 space-y-4">
-                <div>
-                  <label className="block text-xs mb-1 text-(--color-gray-600) cabin-400">
-                    Search
-                  </label>
-                  <input
-                    type="text"
-                    value={search}
-                    onChange={(event) => setSearch(event.target.value)}
-                    placeholder="Role or keyword"
-                    className="w-full border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs mb-1 text-(--color-gray-600) cabin-400">
-                    Job Type
-                  </label>
-                  <select
-                    value={typeFilter}
-                    onChange={(event) => setTypeFilter(event.target.value)}
-                    className="w-full border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400 bg-white"
-                  >
-                    {uniqueTypes.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs mb-1 text-(--color-gray-600) cabin-400">
-                    Location
-                  </label>
-                  <select
-                    value={locationFilter}
-                    onChange={(event) => setLocationFilter(event.target.value)}
-                    className="w-full border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400 bg-white"
-                  >
-                    {uniqueLocations.map((location) => (
-                      <option key={location} value={location}>
-                        {location}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSearch("");
-                    setTypeFilter("All");
-                    setLocationFilter("All");
-                  }}
-                  className="w-full border border-(--color-primary) text-(--color-primary) hover:bg-(--color-primary) hover:text-white px-4 py-2 text-sm transition-colors duration-200 cabin-400"
-                >
-                  Reset Filters
-                </button>
-              </div>
-            </div>
-          </aside>
-
-          <div className="lg:col-span-8 space-y-6">
-            {statusMessage && (
+      {/* 2. Feature Tiles (Stitch Redesign) */}
+      <section className="bg-white py-12 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex gap-4 overflow-x-auto pb-6 snap-x hide-scrollbar">
+            {featureTiles.map((tile, idx) => (
               <div
-                className={`p-3 text-sm border cabin-400 ${
-                  statusType === "success"
-                    ? "bg-green-50 border-green-200 text-green-700"
-                    : "bg-red-50 border-red-200 text-red-700"
-                }`}
+                key={idx}
+                className="relative min-w-[280px] w-72 aspect-[3/4] shrink-0 rounded-2xl overflow-hidden group snap-start cursor-pointer shadow-md border border-gray-100"
               >
-                {statusMessage}
-              </div>
-            )}
-
-            {isLoadingJobs ? (
-              <div className="border border-dashed border-gray-300 bg-gray-50 p-8 text-center">
-                <p className="text-sm text-(--color-gray-600) cabin-400">
-                  Loading available positions...
-                </p>
-              </div>
-            ) : filteredJobs.length === 0 ? (
-              <div className="border border-dashed border-gray-300 bg-gray-50 p-8 text-center">
-                <p className="text-sm text-(--color-gray-600) cabin-400">
-                  No roles matched your filters.
-                </p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {filteredJobs.map((job) => (
-                  <article
-                    key={job._id}
-                    className="border border-gray-200 hover:border-(--color-primary) bg-white p-5 transition-colors duration-200"
-                  >
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-                      <div>
-                        <h3 className="text-xl font-semibold text-(--color-dark) cabin-400">
-                          {job.title}
-                        </h3>
-                        <div 
-                          className="mt-2 text-sm text-(--color-gray-600) cabin-400 prose prose-sm max-w-none"
-                          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(job.description || "") }}
-                        />
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setSelectedJobId(job._id)}
-                        className="shrink-0 bg-(--color-primary) hover:bg-(--color-primary-dark) text-white px-4 py-2 text-sm font-semibold transition-colors duration-200 cabin-400"
-                      >
-                        Apply Now
-                      </button>
-                    </div>
-                    <div className="mt-4 flex flex-wrap items-center gap-2 text-xs cabin-400">
-                      <span className="px-2 py-1 bg-(--color-primary)/10 text-(--color-primary)">
-                        {job.type || "Role"}
-                      </span>
-                      <span className="px-2 py-1 bg-gray-100 text-(--color-dark)">
-                        {job.location || "Location flexible"}
-                      </span>
-                      <span className="text-(--color-gray-600) ml-auto">
-                        {formatPostedDate(job.postedDate)}
-                      </span>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            )}
-
-            {selectedJob && (
-              <section className="border border-gray-200 bg-gray-50 p-5">
-                <h2 className="text-xl font-bold text-(--color-dark) cabin-400">
-                  Apply for {selectedJob.title}
-                </h2>
-                <p className="mt-1 text-sm text-(--color-gray-600) cabin-400">
-                  Submit your details and attach your CV to apply.
-                </p>
-
-                <form className="mt-5 grid md:grid-cols-2 gap-4" onSubmit={handleApply}>
-                  <div>
-                    <label className="block text-xs mb-1 text-(--color-gray-600) cabin-400">
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={candidateName}
-                      onChange={(event) => setCandidateName(event.target.value)}
-                      className="w-full border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400 bg-white"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs mb-1 text-(--color-gray-600) cabin-400">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      value={candidateEmail}
-                      onChange={(event) => setCandidateEmail(event.target.value)}
-                      className="w-full border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400 bg-white"
-                    />
-                  </div>
-
-                  {selectedJob.formSchema.map((field) => (
-                    <div key={field.label}>
-                      <label className="block text-xs mb-1 text-(--color-gray-600) cabin-400">
-                        {field.label}
-                      </label>
-                      {field.fieldType === "dropdown" ? (
-                        <select
-                          required={field.required}
-                          value={dynamicResponses[field.label] ?? ""}
-                          onChange={(event) => handleFieldChange(field.label, event.target.value)}
-                          className="w-full border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400 bg-white"
-                        >
-                          <option value="">Select an option</option>
-                          {field.options?.map((option) => (
-                            <option key={option} value={option}>
-                              {option}
-                            </option>
-                          ))}
-                        </select>
-                      ) : (
-                        <input
-                          type={field.fieldType}
-                          required={field.required}
-                          value={dynamicResponses[field.label] ?? ""}
-                          onChange={(event) => handleFieldChange(field.label, event.target.value)}
-                          className="w-full border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400 bg-white"
-                        />
-                      )}
-                    </div>
+                <img
+                  src={tile.image}
+                  alt={tile.title}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+                <h3 className="absolute bottom-6 left-6 right-6 text-2xl font-black text-white leading-tight uppercase tracking-wide">
+                  {tile.title.split(" ").map((word, i) => (
+                    <span key={i} className="block">
+                      {word}
+                    </span>
                   ))}
-
-                  <div className="md:col-span-2">
-                    <label className="block text-xs mb-1 text-(--color-gray-600) cabin-400">
-                      Upload CV (PDF or DOCX)
-                    </label>
-                    <input
-                      type="file"
-                      accept=".pdf,.doc,.docx"
-                      required
-                      onChange={(event) => setCvFile(event.target.files?.[0] || null)}
-                      className="w-full border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400 bg-white"
-                    />
-                  </div>
-
-                  <div className="md:col-span-2 flex justify-end">
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="bg-(--color-primary) hover:bg-(--color-primary-dark) text-white px-6 py-2 text-sm font-semibold transition-colors duration-200 cabin-400"
-                    >
-                      {isSubmitting ? "Submitting..." : "Submit Application"}
-                    </button>
-                  </div>
-                </form>
-              </section>
-            )}
+                </h3>
+              </div>
+            ))}
           </div>
         </div>
       </section>
+
+      {/* 3. Main ATS Section */}
+      <section id="open-roles" className="max-w-7xl mx-auto py-12">
+        
+        {/* Top Filter Bar */}
+        <FilterBar
+          search={search}
+          setSearch={setSearch}
+          typeFilter={typeFilter}
+          setTypeFilter={setTypeFilter}
+          locationFilter={locationFilter}
+          setLocationFilter={setLocationFilter}
+          uniqueTypes={uniqueTypes}
+          uniqueLocations={uniqueLocations}
+          onReset={() => {
+            setSearch("");
+            setTypeFilter("All");
+            setLocationFilter("All");
+          }}
+        />
+
+        <div className="px-4 sm:px-6 lg:px-8 mt-8">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="text-2xl font-bold text-(--color-dark) cabin-400">
+              Open Positions
+            </h2>
+            <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">
+              {filteredJobs.length} roles
+            </span>
+          </div>
+
+          {errorMsg && (
+            <div className="p-4 mb-6 bg-red-50 text-red-700 border border-red-200 rounded-lg">
+              {errorMsg}
+            </div>
+          )}
+
+          {isLoadingJobs ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="bg-white border border-gray-200 p-6 rounded-xl animate-pulse h-40">
+                  <div className="h-10 w-10 bg-gray-200 rounded-lg mb-4"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
+                  <div className="h-3 bg-gray-200 rounded w-1/3"></div>
+                </div>
+              ))}
+            </div>
+          ) : filteredJobs.length === 0 ? (
+            <div className="bg-white border border-dashed border-gray-300 rounded-xl p-12 text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
+                <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">No roles found</h3>
+              <p className="text-gray-500 mb-6">We couldn't find any positions matching your criteria.</p>
+              <button
+                onClick={() => {
+                  setSearch("");
+                  setTypeFilter("All");
+                  setLocationFilter("All");
+                }}
+                className="text-(--color-primary) font-semibold hover:underline"
+              >
+                Clear all filters
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+              {filteredJobs.map((job) => (
+                <JobCard 
+                  key={job._id} 
+                  job={job} 
+                  onClick={handleOpenModal} 
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* 4. Application Modal */}
+      <ApplicationModal 
+        isOpen={isModalOpen}
+        job={selectedJob}
+        onClose={() => setIsModalOpen(false)}
+      />
+      
+      <style dangerouslySetInnerHTML={{__html: `
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .hide-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}} />
     </main>
   );
 };
