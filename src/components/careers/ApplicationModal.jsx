@@ -239,21 +239,33 @@ const ApplicationModal = ({ job, isOpen, onClose }) => {
                     <label className="block text-xs font-semibold text-gray-700 mb-2">
                       Upload Resume/CV <span className="text-red-500">*</span>
                     </label>
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors">
-                      <svg className="w-8 h-8 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                      </svg>
-                      <p className="text-sm text-gray-600 mb-1">
-                        <span className="font-semibold text-(--color-primary)">Click to upload</span> or drag and drop
-                      </p>
-                      <p className="text-xs text-gray-500 mb-4">PDF or DOCX up to 5MB</p>
+                    <div className="relative border-2 border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors overflow-hidden">
                       <input
                         type="file"
                         accept=".pdf,.doc,.docx"
                         required
                         onChange={(e) => setCvFile(e.target.files?.[0] || null)}
-                        className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer"
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                        title="Click to upload or drag and drop"
                       />
+                      <svg className="w-8 h-8 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      </svg>
+                      {cvFile ? (
+                        <div className="text-center">
+                          <p className="text-sm font-semibold text-(--color-primary) truncate max-w-[200px]">
+                            {cvFile.name}
+                          </p>
+                          <p className="text-xs text-green-600 mt-1">Ready to upload</p>
+                        </div>
+                      ) : (
+                        <>
+                          <p className="text-sm text-gray-600 mb-1">
+                            <span className="font-semibold text-(--color-primary)">Click to upload</span> or drag and drop
+                          </p>
+                          <p className="text-xs text-gray-500">PDF or DOCX up to 5MB</p>
+                        </>
+                      )}
                     </div>
                   </div>
 
