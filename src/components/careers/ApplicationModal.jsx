@@ -10,7 +10,7 @@ const ApplicationModal = ({ job, isOpen, onClose }) => {
   const [cvFile, setCvFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
-  const [statusType, setStatusType] = useState("success");
+  const [statusType, setStatusType] = useState("");
   const [activeTab, setActiveTab] = useState("details"); // 'details' | 'apply'
 
   // Lock body scroll when modal is open
@@ -25,6 +25,7 @@ const ApplicationModal = ({ job, isOpen, onClose }) => {
       setDynamicResponses({});
       setCvFile(null);
       setStatusMessage("");
+      setStatusType("");
       setActiveTab("details");
     }
     return () => {
