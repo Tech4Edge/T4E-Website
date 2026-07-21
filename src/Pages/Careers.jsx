@@ -217,14 +217,14 @@ const Careers = () => {
               ))}
             </div>
           ) : filteredJobs.length === 0 ? (
-            <div className="bg-white border border-dashed border-gray-300 rounded-xl p-12 text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
-                <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">No roles found</h3>
-              <p className="text-gray-500 mb-6">We couldn't find any positions matching your criteria.</p>
+            <div className="py-20 text-center bg-white border border-gray-100 rounded-xl shadow-sm">
+              <svg className="mx-auto h-24 w-24 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <h3 className="text-xl font-bold text-gray-800 mb-2">No roles found</h3>
+              <p className="text-gray-500 max-w-md mx-auto mb-6">
+                We couldn't find any positions matching your search. Please try adjusting your filters or check back later!
+              </p>
               <button
                 onClick={() => {
                   setSearch("");
@@ -239,11 +239,12 @@ const Careers = () => {
           ) : (
             <>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                {paginatedJobs.map((job) => (
+                {paginatedJobs.map((job, idx) => (
                   <JobCard 
                     key={job._id} 
                     job={job} 
-                    onClick={handleOpenModal} 
+                    onClick={handleOpenModal}
+                    index={idx}
                   />
                 ))}
               </div>

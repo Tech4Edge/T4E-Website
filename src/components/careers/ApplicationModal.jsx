@@ -91,8 +91,8 @@ const ApplicationModal = ({ job, isOpen, onClose }) => {
       
       // Auto-close after success
       setTimeout(() => {
-        onClose();
-      }, 3000);
+        if (isOpen) onClose();
+      }, 4000);
     } catch (error) {
       setStatusType("error");
       setStatusMessage(error.message || "Could not submit application.");
@@ -127,29 +127,43 @@ const ApplicationModal = ({ job, isOpen, onClose }) => {
           </button>
         </div>
 
-        {/* Tabs */}
-        <div className="flex border-b border-gray-200 px-6 pt-2 bg-gray-50 sticky top-[69px] z-10">
-          <button
-            onClick={() => setActiveTab("details")}
-            className={`px-4 py-3 text-sm font-semibold border-b-2 transition-colors ${
-              activeTab === "details"
-                ? "border-(--color-primary) text-(--color-primary)"
-                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-            }`}
-          >
-            Job Details
-          </button>
-          <button
-            onClick={() => setActiveTab("apply")}
-            className={`px-4 py-3 text-sm font-semibold border-b-2 transition-colors ${
-              activeTab === "apply"
-                ? "border-(--color-primary) text-(--color-primary)"
-                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-            }`}
-          >
-            Apply Now
-          </button>
-        </div>
+        {/* Stepper Header */}
+        {statusType !== "success" && (
+          <div className="flex border-b border-gray-200 px-6 py-4 bg-gray-50 sticky top-[69px] z-10 items-center justify-between">
+            <div className="flex items-center w-full">
+              <div 
+                className={`flex items-center gap-2 cursor-pointer transition-colors ${activeTab === "details" ? "text-[#1E90FF]" : "text-gray-400 hover:text-gray-600"}`}
+                onClick={() => setActiveTab("details")}
+              >
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${activeTab === "details" ? "bg-[#1E90FF] text-white" : "bg-gray-200 text-gray-600"}`}>
+                  1
+                </div>
+                <span className="text-sm font-semibold hidden sm:inline">Job Details</span>
+              </div>
+              
+              <div className="flex-1 h-px bg-gray-300 mx-4"></div>
+              
+              <div 
+                className={`flex items-center gap-2 cursor-pointer transition-colors ${activeTab === "apply" ? "text-[#1E90FF]" : "text-gray-400 hover:text-gray-600"}`}
+                onClick={() => setActiveTab("apply")}
+              >
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${activeTab === "apply" ? "bg-[#1E90FF] text-white" : "bg-gray-200 text-gray-600"}`}>
+                  2
+                </div>
+                <span className="text-sm font-semibold hidden sm:inline">Application</span>
+              </div>
+              
+              <div className="flex-1 h-px bg-gray-300 mx-4"></div>
+              
+              <div className="flex items-center gap-2 text-gray-400">
+                <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold bg-gray-200 text-gray-600">
+                  3
+                </div>
+                <span className="text-sm font-semibold hidden sm:inline">Submit</span>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Content Area */}
         <div className="flex-1 p-6 bg-white overflow-y-auto">
@@ -180,19 +194,25 @@ const ApplicationModal = ({ job, isOpen, onClose }) => {
             </div>
           ) : (
             <div className="animate-in fade-in duration-300">
-              {statusMessage && (
-                <div
-                  className={`p-4 mb-6 rounded-md text-sm font-medium ${
-                    statusType === "success"
-                      ? "bg-green-50 border border-green-200 text-green-700"
-                      : "bg-red-50 border border-red-200 text-red-700"
-                  }`}
-                >
-                  {statusMessage}
+              {statusType === "success" ? (
+                <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center animate-in zoom-in-95 duration-500">
+                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                    <svg className="w-10 h-10 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Application Submitted!</h3>
+                  <p className="text-gray-500 max-w-sm mx-auto mb-8">
+                    Thank you for applying to the <span className="font-semibold text-gray-700">{job.title}</span> position. We've received your application and will be in touch soon.
+                  </p>
+                  <button 
+                    onClick={onClose}
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-6 rounded-md transition-colors"
+                  >
+                    Close
+                  </button>
                 </div>
-              )}
-
-              {statusType !== "success" && (
+              ) : (
                 <form onSubmit={handleApply} className="space-y-5">
                   <div className="grid md:grid-cols-2 gap-5">
                     <div>
@@ -274,22 +294,33 @@ const ApplicationModal = ({ job, isOpen, onClose }) => {
                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                         title="Click to upload or drag and drop"
                       />
-                      <svg className="w-8 h-8 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                      </svg>
                       {cvFile ? (
-                        <div className="text-center">
-                          <p className="text-sm font-semibold text-(--color-primary) truncate max-w-[200px]">
+                        <div className="text-center w-full flex flex-col items-center">
+                          <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center text-blue-500 mb-3">
+                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                          </div>
+                          <p className="text-sm font-semibold text-gray-900 truncate max-w-[200px]">
                             {cvFile.name}
                           </p>
-                          <p className="text-xs text-green-600 mt-1">Ready to upload</p>
+                          <p className="text-xs text-gray-500 mt-1">
+                            {(cvFile.size / (1024 * 1024)).toFixed(2)} MB • Ready to upload
+                          </p>
+                          <button 
+                            type="button" 
+                            onClick={(e) => { e.preventDefault(); setCvFile(null); }}
+                            className="mt-3 text-xs text-red-500 hover:text-red-700 font-medium relative z-20"
+                          >
+                            Remove file
+                          </button>
                         </div>
                       ) : (
                         <>
                           <p className="text-sm text-gray-600 mb-1">
-                            <span className="font-semibold text-(--color-primary)">Click to upload</span> or drag and drop
+                            <span className="font-semibold text-[#1E90FF]">Click to upload</span> or drag and drop
                           </p>
-                          <p className="text-xs text-gray-500">PDF or DOCX up to 5MB</p>
+                          <p className="text-xs text-gray-500">PDF, DOC, DOCX up to 5MB</p>
                         </>
                       )}
                     </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const FilterBar = ({
   search,
@@ -14,15 +14,43 @@ const FilterBar = ({
   uniqueDepartments,
   onReset,
 }) => {
+  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+  
+  const activeFiltersCount = (typeFilter !== "All" ? 1 : 0) + (locationFilter !== "All" ? 1 : 0) + (departmentFilter !== "All" ? 1 : 0);
+
   return (
     <div className="sticky top-16 z-30 bg-white border-b border-gray-200 py-4 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row gap-4 items-center shadow-sm">
-      {/* Dropdown Filters */}
-      <div className="flex gap-4 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
-        <div className="shrink-0 min-w-[150px]">
+      
+      {/* Mobile Filter Toggle */}
+      <div className="w-full md:hidden flex justify-between items-center gap-2">
+        <button 
+          onClick={() => setIsMobileFiltersOpen(!isMobileFiltersOpen)}
+          className="flex items-center gap-2 bg-gray-50 border border-gray-200 px-4 py-2 rounded-md text-sm font-medium text-gray-700"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+          </svg>
+          Filters {activeFiltersCount > 0 && `(${activeFiltersCount})`}
+        </button>
+        
+        {/* Reset button for mobile (visible when filters active) */}
+        {(search || typeFilter !== "All" || locationFilter !== "All" || departmentFilter !== "All") && (
+          <button
+            onClick={onReset}
+            className="text-sm text-gray-500 hover:text-[#1E90FF] transition-colors"
+          >
+            Clear
+          </button>
+        )}
+      </div>
+
+      {/* Dropdown Filters (Desktop + Mobile Drawer) */}
+      <div className={`${isMobileFiltersOpen ? 'flex' : 'hidden'} md:flex flex-col md:flex-row gap-4 w-full md:w-auto pb-2 md:pb-0`}>
+        <div className="shrink-0 md:min-w-[150px] w-full">
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="w-full appearance-none border border-gray-300 rounded-md px-4 py-2 pr-8 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 bg-white bg-no-repeat bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%208l5%205%205-5%22%20fill%3D%22none%22%20stroke%3D%22%23666%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_0.5rem_center] bg-[length:1em_1em]"
+            className="w-full appearance-none border border-gray-300 rounded-md px-4 py-2 pr-8 text-sm outline-none focus:border-[#1E90FF] focus:ring-2 focus:ring-[#1E90FF]/20 bg-white bg-no-repeat bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%208l5%205%205-5%22%20fill%3D%22none%22%20stroke%3D%22%23666%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_0.5rem_center] bg-[length:1em_1em]"
           >
             {uniqueTypes.map((type) => (
               <option key={type} value={type}>
@@ -32,11 +60,11 @@ const FilterBar = ({
           </select>
         </div>
         
-        <div className="shrink-0 min-w-[150px]">
+        <div className="shrink-0 md:min-w-[150px] w-full">
           <select
             value={locationFilter}
             onChange={(e) => setLocationFilter(e.target.value)}
-            className="w-full appearance-none border border-gray-300 rounded-md px-4 py-2 pr-8 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 bg-white bg-no-repeat bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%208l5%205%205-5%22%20fill%3D%22none%22%20stroke%3D%22%23666%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_0.5rem_center] bg-[length:1em_1em]"
+            className="w-full appearance-none border border-gray-300 rounded-md px-4 py-2 pr-8 text-sm outline-none focus:border-[#1E90FF] focus:ring-2 focus:ring-[#1E90FF]/20 bg-white bg-no-repeat bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%208l5%205%205-5%22%20fill%3D%22none%22%20stroke%3D%22%23666%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_0.5rem_center] bg-[length:1em_1em]"
           >
             {uniqueLocations.map((location) => (
               <option key={location} value={location}>
@@ -46,11 +74,11 @@ const FilterBar = ({
           </select>
         </div>
 
-        <div className="shrink-0 min-w-[150px]">
+        <div className="shrink-0 md:min-w-[150px] w-full">
           <select
             value={departmentFilter}
             onChange={(e) => setDepartmentFilter(e.target.value)}
-            className="w-full appearance-none border border-gray-300 rounded-md px-4 py-2 pr-8 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 bg-white bg-no-repeat bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%208l5%205%205-5%22%20fill%3D%22none%22%20stroke%3D%22%23666%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_0.5rem_center] bg-[length:1em_1em]"
+            className="w-full appearance-none border border-gray-300 rounded-md px-4 py-2 pr-8 text-sm outline-none focus:border-[#1E90FF] focus:ring-2 focus:ring-[#1E90FF]/20 bg-white bg-no-repeat bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%208l5%205%205-5%22%20fill%3D%22none%22%20stroke%3D%22%23666%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_0.5rem_center] bg-[length:1em_1em]"
           >
             {uniqueDepartments?.map((dept) => (
               <option key={dept} value={dept}>
@@ -81,15 +109,15 @@ const FilterBar = ({
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search for roles..."
-          className="w-full border border-gray-300 rounded-md pl-10 pr-4 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20"
+          className="w-full border border-gray-300 rounded-md pl-10 pr-4 py-2 text-sm outline-none focus:border-[#1E90FF] focus:ring-2 focus:ring-[#1E90FF]/20"
         />
       </div>
       
-      {/* Reset button (visible when filters active) */}
-      {(search || typeFilter !== "All" || locationFilter !== "All" || departmentFilter !== "All") && (
+      {/* Reset button (visible when filters active on Desktop) */}
+      {(search || activeFiltersCount > 0) && (
         <button
           onClick={onReset}
-          className="shrink-0 text-sm text-(--color-gray-600) hover:text-(--color-primary) transition-colors px-2 py-2 cursor-pointer"
+          className="hidden md:block shrink-0 text-sm text-gray-600 hover:text-[#1E90FF] transition-colors px-2 py-2 cursor-pointer"
         >
           Reset Filters
         </button>

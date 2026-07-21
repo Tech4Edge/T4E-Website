@@ -8,6 +8,7 @@ import AdminLayout from "../components/admin/AdminLayout";
 import AdminLoginScreen from "../components/admin/AdminLoginScreen";
 import DashboardAnalytics from "../components/admin/DashboardAnalytics";
 import PreviewModal from "../components/admin/PreviewModal";
+import { useNotifications } from "../hooks/useNotifications";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
@@ -21,13 +22,15 @@ const defaultField = {
 
 const Admin = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("jobs");
+  const [activeTab, setActiveTab] = useState("dashboard");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isInitializing, setIsInitializing] = useState(true);
   const [loginForm, setLoginForm] = useState({ username: "", password: "" });
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
   const [statusType, setStatusType] = useState("success");
+  const [globalSearch, setGlobalSearch] = useState("");
+  const [isJobFormOpen, setIsJobFormOpen] = useState(false);
 
   const [jobForm, setJobForm] = useState({
     title: "",
@@ -102,6 +105,8 @@ const Admin = () => {
     return { response, data, unauthorized: false };
   };
 
+  const { notifications, unreadCount, markAllRead, deleteOne, deleteAll } = useNotifications(isAuthenticated, fetchWithAdminAuth);
+
   const loadJobs = async () => {
     if (!isAuthenticated) {
       handleUnauthorized();
@@ -149,9 +154,9 @@ const Admin = () => {
       if (!response.ok) {
         throw new Error(data.message || "Failed to load applications");
       }
-      setApplications(Array.isArray(data) ? data : []);
+      setApplications(Array.isArray(data.applications) ? data.applications : []);
       setSelectedApplication((prev) =>
-        prev ? data.find((item) => item._id === prev._id) || null : null,
+        prev ? (data.applications || []).find((item) => item._id === prev._id) || null : null,
       );
     } catch (error) {
       postStatus(error.message || "Could not load applications.", "error");
@@ -284,11 +289,13 @@ const Admin = () => {
     });
     setDynamicFields([{ ...defaultField }]);
     setEditingJobId(null);
+    setIsJobFormOpen(false);
   };
 
   const startEditingJob = (job) => {
     setEditingJobId(job._id);
     setActiveTab("jobs");
+    setIsJobFormOpen(true);
     setJobForm({
       title: job.title || "",
       location: job.location || "",
@@ -310,6 +317,7 @@ const Admin = () => {
 
   const duplicateJob = (job) => {
     setActiveTab("jobs");
+    setIsJobFormOpen(true);
     setEditingJobId(null); // It's a new job
     setJobForm({
       title: `${job.title} (Copy)`,
@@ -448,6 +456,26 @@ const Admin = () => {
     return Object.entries(responses);
   };
 
+  const handleGlobalSearchSubmit = () => {
+    if (activeTab === "dashboard") {
+      setApplicationSearch(globalSearch);
+      setActiveTab("applications");
+    } else if (activeTab === "applications") {
+      setApplicationSearch(globalSearch);
+      loadApplications();
+    }
+  };
+
+  const filteredJobs = useMemo(() => {
+    if (!globalSearch.trim()) return jobs;
+    const lower = globalSearch.toLowerCase();
+    return jobs.filter(j => 
+      j.title.toLowerCase().includes(lower) || 
+      (j.location && j.location.toLowerCase().includes(lower)) ||
+      (j.department && j.department.toLowerCase().includes(lower))
+    );
+  }, [jobs, globalSearch]);
+
   if (isInitializing) {
     return <Loader />;
   }
@@ -465,7 +493,19 @@ const Admin = () => {
 
   return (
     <>
-      <AdminLayout activeTab={activeTab} onTabChange={setActiveTab} onLogout={handleLogout}>
+      <AdminLayout 
+        activeTab={activeTab} 
+        onTabChange={setActiveTab} 
+        onLogout={handleLogout}
+        globalSearch={globalSearch}
+        onGlobalSearchChange={setGlobalSearch}
+        onGlobalSearchSubmit={handleGlobalSearchSubmit}
+        notifications={notifications}
+        unreadCount={unreadCount}
+        markAllRead={markAllRead}
+        deleteNotification={deleteOne}
+        deleteAllNotifications={deleteAll}
+      >
         {statusMessage && (
           <div
             className={`p-3 text-sm border mb-6 ${
@@ -479,25 +519,45 @@ const Admin = () => {
         )}
 
         {activeTab === "dashboard" && (
-          <DashboardAnalytics fetchWithAdminAuth={fetchWithAdminAuth} postStatus={postStatus} />
+          <DashboardAnalytics 
+            fetchWithAdminAuth={fetchWithAdminAuth} 
+            postStatus={postStatus} 
+            onSwitchTab={setActiveTab}
+            onViewApplication={(app) => {
+              setSelectedApplication(app);
+              setActiveTab("applications");
+            }}
+          />
         )}
 
         {activeTab === "jobs" && (
           <div className="space-y-8">
-            <JobBuilder
-              jobForm={jobForm}
-              updateJobForm={updateJobForm}
-              dynamicFields={dynamicFields}
-              updateDynamicField={updateDynamicField}
-              addField={addField}
-              removeField={removeField}
-              resetJobBuilder={resetJobBuilder}
-              submitJob={submitJob}
-              isCreatingJob={isCreatingJob}
-              editingJobId={editingJobId}
-            />
+            <div className="flex justify-end">
+              <button 
+                onClick={() => setIsJobFormOpen(!isJobFormOpen)}
+                className="bg-[#1E90FF] hover:bg-[#1570d1] text-white px-4 py-2 text-sm font-semibold transition-colors duration-200 cabin-400"
+              >
+                {isJobFormOpen ? "Cancel" : "+ Create Job"}
+              </button>
+            </div>
+            {isJobFormOpen && (
+              <div className="bg-white border border-gray-200 p-6 shadow-sm animate-in fade-in slide-in-from-top-4 duration-300">
+                <JobBuilder
+                  jobForm={jobForm}
+                  updateJobForm={updateJobForm}
+                  dynamicFields={dynamicFields}
+                  updateDynamicField={updateDynamicField}
+                  addField={addField}
+                  removeField={removeField}
+                  resetJobBuilder={resetJobBuilder}
+                  submitJob={submitJob}
+                  isCreatingJob={isCreatingJob}
+                  editingJobId={editingJobId}
+                />
+              </div>
+            )}
             <JobsTable
-              jobs={jobs}
+              jobs={filteredJobs}
               startEditingJob={startEditingJob}
               setJobPendingDelete={setJobPendingDelete}
               duplicateJob={duplicateJob}

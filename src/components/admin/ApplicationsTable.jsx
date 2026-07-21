@@ -81,7 +81,7 @@ const ApplicationsTable = ({
           onClick={exportApplications}
           className="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 text-sm font-semibold transition-colors duration-200 cabin-400"
         >
-          Export CSV
+          Export Excel
         </button>
       </div>
 

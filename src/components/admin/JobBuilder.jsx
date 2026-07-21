@@ -58,6 +58,7 @@ const JobBuilder = ({
             onChange={(event) => updateJobForm("type", event.target.value)}
             className="w-full border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400"
           />
+        </div>
         <div>
           <label className="block text-xs mb-1 text-gray-600 cabin-400">
             Department

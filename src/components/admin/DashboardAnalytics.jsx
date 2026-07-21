@@ -3,7 +3,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recha
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
-const DashboardAnalytics = ({ fetchWithAdminAuth, postStatus }) => {
+const DashboardAnalytics = ({ fetchWithAdminAuth, postStatus, onSwitchTab, onViewApplication }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [dateRange, setDateRange] = useState("30d");
@@ -26,8 +26,16 @@ const DashboardAnalytics = ({ fetchWithAdminAuth, postStatus }) => {
     }
   };
 
+  const normalizeStatus = (status) => {
+    if (status === "Pending") return "New";
+    if (status === "Reviewing") return "Under Review";
+    if (status === "Accepted") return "Hired";
+    return status;
+  };
+
   const getStatusColor = (status) => {
-    switch (status) {
+    const s = normalizeStatus(status);
+    switch (s) {
       case 'New': return '#9ca3af'; // gray-400
       case 'Under Review': return '#3b82f6'; // blue-500
       case 'Interview': return '#eab308'; // yellow-500
@@ -37,6 +45,9 @@ const DashboardAnalytics = ({ fetchWithAdminAuth, postStatus }) => {
       default: return '#9ca3af';
     }
   };
+
+  // Calculate total apps for the donut chart center
+  const totalAppsForDonut = data?.pipelineBreakdown?.reduce((sum, item) => sum + item.count, 0) || 0;
 
   if (loading || !data) {
     return (
@@ -67,7 +78,7 @@ const DashboardAnalytics = ({ fetchWithAdminAuth, postStatus }) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white border border-gray-200 p-5 shadow-sm relative overflow-hidden">
+        <div className="bg-white border-y border-r border-l-4 border-l-green-500 border-gray-200 p-5 shadow-sm relative overflow-hidden">
           <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Hires This Month</p>
           <p className="text-4xl font-bold text-gray-900">{data.hiresThisMonth}</p>
           <svg className="absolute bottom-4 right-4 w-16 h-8 text-blue-400" viewBox="0 0 100 40" fill="none" preserveAspectRatio="none">
@@ -75,7 +86,10 @@ const DashboardAnalytics = ({ fetchWithAdminAuth, postStatus }) => {
           </svg>
         </div>
         
-        <div className="bg-white border border-gray-200 p-5 shadow-sm relative">
+        <div 
+          onClick={() => onSwitchTab('applications')}
+          className="bg-white border-y border-r border-l-4 border-l-blue-500 border-gray-200 p-5 shadow-sm relative cursor-pointer hover:shadow-md hover:bg-gray-50 transition-all"
+        >
           <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">New Apps (24h)</p>
           <p className="text-4xl font-bold text-gray-900">{data.newApplications24h}</p>
           <svg className="absolute top-5 right-5 w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -83,13 +97,13 @@ const DashboardAnalytics = ({ fetchWithAdminAuth, postStatus }) => {
           </svg>
         </div>
 
-        <div className="bg-white border border-gray-200 p-5 shadow-sm relative">
+        <div className="bg-white border-y border-r border-l-4 border-l-yellow-500 border-gray-200 p-5 shadow-sm relative">
           <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Open Positions</p>
           <p className="text-4xl font-bold text-gray-900">{data.openPositions}</p>
           <div className="absolute top-6 right-6 w-3 h-3 bg-green-500 rounded-full"></div>
         </div>
 
-        <div className="bg-white border border-gray-200 p-5 shadow-sm">
+        <div className="bg-white border-y border-r border-l-4 border-l-purple-500 border-gray-200 p-5 shadow-sm relative">
           <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Avg. Time-To-Hire</p>
           <p className="text-4xl font-bold text-gray-900">
             {data.avgTimeToHire} <span className="text-lg font-normal text-gray-500">Days</span>
@@ -110,6 +124,7 @@ const DashboardAnalytics = ({ fetchWithAdminAuth, postStatus }) => {
                   <th className="px-5 py-3 font-semibold">Job Role</th>
                   <th className="px-5 py-3 font-semibold">Applied</th>
                   <th className="px-5 py-3 font-semibold">Status</th>
+                  <th className="px-5 py-3 font-semibold text-right">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -137,8 +152,16 @@ const DashboardAnalytics = ({ fetchWithAdminAuth, postStatus }) => {
                       </td>
                       <td className="px-5 py-3">
                         <span className="px-2.5 py-1 text-xs font-semibold bg-blue-100 text-blue-700 rounded-sm uppercase tracking-wider">
-                          {app.status}
+                          {normalizeStatus(app.status)}
                         </span>
+                      </td>
+                      <td className="px-5 py-3 text-right">
+                        <button 
+                          onClick={() => onViewApplication(app)}
+                          className="text-[#1E90FF] hover:text-[#1570d1] text-sm font-semibold flex items-center justify-end gap-1 w-full"
+                        >
+                          View <span>→</span>
+                        </button>
                       </td>
                     </tr>
                   ))
@@ -178,21 +201,58 @@ const DashboardAnalytics = ({ fetchWithAdminAuth, postStatus }) => {
                     layout="horizontal" 
                     verticalAlign="bottom" 
                     align="center"
-                    iconType="square"
-                    wrapperStyle={{ fontSize: '12px', paddingTop: '20px' }}
+                    iconType="circle"
+                    wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }}
                     formatter={(value, entry) => {
-                      const item = data.pipelineBreakdown.find(d => d.status === entry.payload.status);
-                      return <span className="text-gray-600">{entry.payload.status} ({item?.percentage || 0}%)</span>;
+                      const item = data.pipelineBreakdown.find(d => normalizeStatus(d.status) === normalizeStatus(entry.payload.status));
+                      return <span className="text-gray-600">{normalizeStatus(entry.payload.status)} ({item?.percentage || 0}%)</span>;
                     }}
                     payload={data.pipelineBreakdown.map(item => ({
-                      value: item.status,
-                      type: 'square',
+                      value: normalizeStatus(item.status),
+                      type: 'circle',
                       color: getStatusColor(item.status),
                       payload: item
                     }))}
                   />
+                  
+                  {/* Center Text */}
+                  <text x="50%" y="45%" textAnchor="middle" dominantBaseline="middle">
+                    <tspan x="50%" dy="-5" fontSize="24" fontWeight="bold" fill="#111827">
+                      {totalAppsForDonut}
+                    </tspan>
+                    <tspan x="50%" dy="20" fontSize="12" fill="#6B7280">
+                      Total Apps
+                    </tspan>
+                  </text>
                 </PieChart>
               </ResponsiveContainer>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-6">
+        <div className="bg-white border border-gray-200 shadow-sm flex flex-col">
+          <div className="p-5 border-b border-gray-100 flex justify-between items-center">
+            <h3 className="text-lg font-bold text-gray-900">Recent Hires</h3>
+          </div>
+          <div className="p-5">
+            {(!data.recentHires || data.recentHires.length === 0) ? (
+              <p className="text-gray-500 text-sm text-center py-4">No recent hires</p>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {data.recentHires.map(hire => (
+                  <div key={hire._id} className="border border-gray-100 p-4 rounded-md flex items-center gap-4 hover:shadow-sm transition-shadow">
+                    <div className="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold text-sm shrink-0">
+                      {hire.candidateName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-gray-900 truncate">{hire.candidateName}</p>
+                      <p className="text-xs text-gray-500 truncate">{hire.jobId?.title || 'Unknown Role'}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         </div>
