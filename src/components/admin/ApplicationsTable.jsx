@@ -1,5 +1,7 @@
 import React from "react";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
+
 const ApplicationsTable = ({
   applications,
   isLoadingApps,
@@ -14,6 +16,25 @@ const ApplicationsTable = ({
   updateApplicationStatus,
   setSelectedApplication,
 }) => {
+  const exportApplications = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/admin/applications/export`, {
+        credentials: "include",
+      });
+      if (!response.ok) throw new Error("Export failed");
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `applications_export_${new Date().toISOString().split("T")[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      alert("Failed to export applications.");
+    }
+  };
   return (
     <div className="space-y-5">
       <div className="grid md:grid-cols-4 gap-3">
@@ -29,8 +50,11 @@ const ApplicationsTable = ({
           className="border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400"
         >
           <option value="All">All Statuses</option>
-          <option value="Pending">Pending</option>
-          <option value="Accepted">Accepted</option>
+          <option value="New">New</option>
+          <option value="Under Review">Under Review</option>
+          <option value="Interview">Interview</option>
+          <option value="Offer">Offer</option>
+          <option value="Hired">Hired</option>
           <option value="Rejected">Rejected</option>
         </select>
         <select
@@ -48,9 +72,16 @@ const ApplicationsTable = ({
         <button
           type="button"
           onClick={loadApplications}
-          className="bg-(--color-primary) hover:bg-(--color-primary-dark) text-white px-4 py-2 text-sm font-semibold transition-colors duration-200 cabin-400"
+          className="bg-[#1E90FF] hover:bg-[#1570d1] text-white px-4 py-2 text-sm font-semibold transition-colors duration-200 cabin-400"
         >
           {isLoadingApps ? "Loading..." : "Search"}
+        </button>
+        <button
+          type="button"
+          onClick={exportApplications}
+          className="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 text-sm font-semibold transition-colors duration-200 cabin-400"
+        >
+          Export CSV
         </button>
       </div>
 
@@ -85,49 +116,37 @@ const ApplicationsTable = ({
                     {application.jobId?.title || "N/A"}
                   </td>
                   <td className="px-3 py-2">
-                    <span
-                      className={`px-2 py-1 text-xs cabin-400 ${
-                        application.status === "Accepted"
-                          ? "bg-green-100 text-green-700"
-                          : application.status === "Rejected"
-                            ? "bg-red-100 text-red-700"
-                            : "bg-yellow-100 text-yellow-700"
+                    <select
+                      value={application.status}
+                      onChange={(e) => updateApplicationStatus(application._id, e.target.value)}
+                      className={`text-xs font-semibold px-2 py-1 outline-none border-b-2 ${
+                        application.status === "New" ? "text-gray-500 border-gray-300 bg-gray-50" :
+                        application.status === "Under Review" ? "text-blue-600 border-blue-400 bg-blue-50" :
+                        application.status === "Interview" ? "text-yellow-600 border-yellow-400 bg-yellow-50" :
+                        application.status === "Offer" ? "text-orange-600 border-orange-400 bg-orange-50" :
+                        application.status === "Hired" ? "text-green-600 border-green-400 bg-green-50" :
+                        "text-red-600 border-red-400 bg-red-50"
                       }`}
                     >
-                      {application.status}
-                    </span>
+                      <option value="New">New</option>
+                      <option value="Under Review">Under Review</option>
+                      <option value="Interview">Interview</option>
+                      <option value="Offer">Offer</option>
+                      <option value="Hired">Hired</option>
+                      <option value="Rejected">Rejected</option>
+                    </select>
                   </td>
                   <td className="px-3 py-2 cabin-400">
                     {new Date(application.appliedAt).toLocaleDateString()}
                   </td>
                   <td className="px-3 py-2">
-                    <div className="flex gap-2">
-                      <button
-                        type="button"
-                        onClick={() => setSelectedApplication(application)}
-                        className="border border-(--color-primary) text-(--color-primary) px-2 py-1 text-xs cabin-400 hover:bg-(--color-primary) hover:text-white"
-                      >
-                        View
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          updateApplicationStatus(application._id, "Accepted")
-                        }
-                        className="border border-green-300 text-green-700 px-2 py-1 text-xs cabin-400 hover:bg-green-50"
-                      >
-                        Accept
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          updateApplicationStatus(application._id, "Rejected")
-                        }
-                        className="border border-red-300 text-red-700 px-2 py-1 text-xs cabin-400 hover:bg-red-50"
-                      >
-                        Reject
-                      </button>
-                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedApplication(application)}
+                      className="text-[#1E90FF] hover:underline text-xs font-semibold"
+                    >
+                      View Details
+                    </button>
                   </td>
                 </tr>
               ))

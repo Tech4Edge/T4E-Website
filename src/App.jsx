@@ -1,10 +1,23 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter } from "react-router";
+import { BrowserRouter, useLocation } from "react-router";
 import "./App.css";
 import Router from "./router/Router";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
+
+function AppContent() {
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith("/admin");
+
+  return (
+    <>
+      {!isAdmin && <Navbar />}
+      <Router />
+      {!isAdmin && <Footer />}
+    </>
+  );
+}
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,13 +35,9 @@ function App() {
   }
 
   return (
-    <>
-      <BrowserRouter>
-        <Navbar />
-        <Router />
-        <Footer />
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
   );
 }
 

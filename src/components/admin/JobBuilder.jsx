@@ -58,8 +58,37 @@ const JobBuilder = ({
             onChange={(event) => updateJobForm("type", event.target.value)}
             className="w-full border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400"
           />
+        <div>
+          <label className="block text-xs mb-1 text-gray-600 cabin-400">
+            Department
+          </label>
+          <select
+            value={jobForm.department || ""}
+            onChange={(event) => updateJobForm("department", event.target.value)}
+            className="w-full border border-gray-300 px-3 py-2 text-sm outline-none focus:border-[#1E90FF] focus:ring-2 focus:ring-[#1E90FF]/20 cabin-400 bg-white"
+          >
+            <option value="">Select Department...</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Design">Design</option>
+            <option value="Product">Product</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Sales">Sales</option>
+            <option value="HR">HR</option>
+            <option value="Operations">Operations</option>
+          </select>
         </div>
-        <label className="flex items-center gap-2 text-sm text-(--color-dark) cabin-400 mt-6">
+        <div>
+          <label className="block text-xs mb-1 text-gray-600 cabin-400">
+            Closing Date (Optional)
+          </label>
+          <input
+            type="date"
+            value={jobForm.closingDate ? jobForm.closingDate.split('T')[0] : ""}
+            onChange={(event) => updateJobForm("closingDate", event.target.value)}
+            className="w-full border border-gray-300 px-3 py-2 text-sm outline-none focus:border-[#1E90FF] focus:ring-2 focus:ring-[#1E90FF]/20 cabin-400 bg-white"
+          />
+        </div>
+        <label className="flex items-center gap-2 text-sm text-(--color-dark) cabin-400 md:col-span-2 mt-2">
           <input
             type="checkbox"
             checked={jobForm.isActive}

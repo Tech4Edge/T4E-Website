@@ -4,6 +4,10 @@ import Loader from "../components/Loader";
 import JobBuilder from "../components/admin/JobBuilder";
 import JobsTable from "../components/admin/JobsTable";
 import ApplicationsTable from "../components/admin/ApplicationsTable";
+import AdminLayout from "../components/admin/AdminLayout";
+import AdminLoginScreen from "../components/admin/AdminLoginScreen";
+import DashboardAnalytics from "../components/admin/DashboardAnalytics";
+import PreviewModal from "../components/admin/PreviewModal";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
@@ -36,6 +40,7 @@ const Admin = () => {
   const [isCreatingJob, setIsCreatingJob] = useState(false);
   const [editingJobId, setEditingJobId] = useState(null);
   const [jobPendingDelete, setJobPendingDelete] = useState(null);
+  const [previewJob, setPreviewJob] = useState(null);
 
   const [jobs, setJobs] = useState([]);
   const [applications, setApplications] = useState([]);
@@ -189,6 +194,29 @@ const Admin = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
 
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    
+    let timeoutId;
+    const resetTimer = () => {
+      clearTimeout(timeoutId);
+      // 30 minutes
+      timeoutId = setTimeout(() => {
+        handleLogout();
+        postStatus("Session expired due to inactivity.", "error");
+      }, 30 * 60 * 1000);
+    };
+
+    const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
+    events.forEach(event => document.addEventListener(event, resetTimer));
+    resetTimer();
+
+    return () => {
+      clearTimeout(timeoutId);
+      events.forEach(event => document.removeEventListener(event, resetTimer));
+    };
+  }, [isAuthenticated]);
+
   const handleLogin = async (event) => {
     event.preventDefault();
     setIsLoggingIn(true);
@@ -278,6 +306,30 @@ const Admin = () => {
           }))
         : [{ ...defaultField }],
     );
+  };
+
+  const duplicateJob = (job) => {
+    setActiveTab("jobs");
+    setEditingJobId(null); // It's a new job
+    setJobForm({
+      title: `${job.title} (Copy)`,
+      location: job.location || "",
+      type: job.type || "",
+      department: job.department || "",
+      description: job.description || "",
+      isActive: false, // Default to inactive when duplicating
+    });
+    setDynamicFields(
+      Array.isArray(job.formSchema) && job.formSchema.length > 0
+        ? job.formSchema.map((field) => ({
+            label: field.label || "",
+            fieldType: field.fieldType || "text",
+            required: Boolean(field.required),
+            optionsText: Array.isArray(field.options) ? field.options.join(", ") : "",
+          }))
+        : [{ ...defaultField }],
+    );
+    postStatus("Job duplicated. Please review and save.", "success");
   };
 
   const submitJob = async (event) => {
@@ -400,34 +452,23 @@ const Admin = () => {
     return <Loader />;
   }
 
-  return (
-    <main className="min-h-screen bg-white">
-      <section className="border-b border-gray-200 bg-(--color-dark)">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex items-center justify-between gap-4">
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-white cabin-400">
-              Admin Dashboard
-            </h1>
-            <p className="mt-2 text-sm text-gray-300 cabin-400">
-              Manage jobs and applications from one ATS workspace.
-            </p>
-          </div>
-          {isAuthenticated && (
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="border border-white/30 text-white hover:bg-white hover:text-(--color-dark) px-4 py-2 text-sm cabin-400 transition-colors duration-200"
-            >
-              Logout
-            </button>
-          )}
-        </div>
-      </section>
+  if (!isAuthenticated) {
+    return (
+      <AdminLoginScreen 
+        loginForm={loginForm}
+        setLoginForm={setLoginForm}
+        isLoggingIn={isLoggingIn}
+        handleLogin={handleLogin}
+      />
+    );
+  }
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+  return (
+    <>
+      <AdminLayout activeTab={activeTab} onTabChange={setActiveTab} onLogout={handleLogout}>
         {statusMessage && (
           <div
-            className={`p-3 text-sm border cabin-400 ${
+            className={`p-3 text-sm border mb-6 ${
               statusType === "success"
                 ? "bg-green-50 border-green-200 text-green-700"
                 : "bg-red-50 border-red-200 text-red-700"
@@ -437,179 +478,111 @@ const Admin = () => {
           </div>
         )}
 
-        {!isAuthenticated ? (
-          <div className="max-w-lg border border-gray-200 bg-white p-6">
-            <h2 className="text-lg font-semibold text-(--color-dark) cabin-400">
-              Admin Login
-            </h2>
-            <p className="mt-1 text-sm text-(--color-gray-600) cabin-400">
-              Use `ADMIN_USERNAME` and `ADMIN_PASSWORD` configured on the backend.
-            </p>
-            <form className="mt-4 space-y-4" onSubmit={handleLogin}>
-              <div>
-                <label className="block text-xs mb-1 text-(--color-gray-600) cabin-400">
-                  Username
-                </label>
-                <input
-                  required
-                  value={loginForm.username}
-                  onChange={(event) =>
-                    setLoginForm((prev) => ({ ...prev, username: event.target.value }))
-                  }
-                  className="w-full border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400"
-                />
-              </div>
-              <div>
-                <label className="block text-xs mb-1 text-(--color-gray-600) cabin-400">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  required
-                  value={loginForm.password}
-                  onChange={(event) =>
-                    setLoginForm((prev) => ({ ...prev, password: event.target.value }))
-                  }
-                  className="w-full border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400"
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={isLoggingIn}
-                className="bg-(--color-primary) hover:bg-(--color-primary-dark) text-white px-6 py-2 text-sm font-semibold transition-colors duration-200 cabin-400"
-              >
-                {isLoggingIn ? "Signing in..." : "Sign In"}
-              </button>
-            </form>
-          </div>
-        ) : (
-          <div className="border border-gray-200 bg-white">
-            <div className="border-b border-gray-200 flex">
-              <button
-                type="button"
-                onClick={() => setActiveTab("jobs")}
-                className={`px-5 py-3 text-sm font-semibold cabin-400 transition-colors duration-200 ${
-                  activeTab === "jobs"
-                    ? "text-(--color-primary) border-b-2 border-(--color-primary)"
-                    : "text-(--color-dark)"
-                }`}
-              >
-                Jobs
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveTab("applications")}
-                className={`px-5 py-3 text-sm font-semibold cabin-400 transition-colors duration-200 ${
-                  activeTab === "applications"
-                    ? "text-(--color-primary) border-b-2 border-(--color-primary)"
-                    : "text-(--color-dark)"
-                }`}
-              >
-                Applications
-              </button>
-            </div>
+        {activeTab === "dashboard" && (
+          <DashboardAnalytics fetchWithAdminAuth={fetchWithAdminAuth} postStatus={postStatus} />
+        )}
 
-            <div className="p-5">
-              {activeTab === "jobs" ? (
-                <div className="space-y-8">
-                  <JobBuilder
-                    jobForm={jobForm}
-                    updateJobForm={updateJobForm}
-                    dynamicFields={dynamicFields}
-                    updateDynamicField={updateDynamicField}
-                    addField={addField}
-                    removeField={removeField}
-                    resetJobBuilder={resetJobBuilder}
-                    submitJob={submitJob}
-                    isCreatingJob={isCreatingJob}
-                    editingJobId={editingJobId}
-                  />
-
-                  <JobsTable
-                    jobs={jobs}
-                    startEditingJob={startEditingJob}
-                    setJobPendingDelete={setJobPendingDelete}
-                  />
-                </div>
-              ) : (
-                <ApplicationsTable
-                  applications={applications}
-                  isLoadingApps={isLoadingApps}
-                  applicationSearch={applicationSearch}
-                  setApplicationSearch={setApplicationSearch}
-                  statusFilter={statusFilter}
-                  setStatusFilter={setStatusFilter}
-                  jobFilter={jobFilter}
-                  setJobFilter={setJobFilter}
-                  jobs={jobs}
-                  loadApplications={loadApplications}
-                  updateApplicationStatus={updateApplicationStatus}
-                  setSelectedApplication={setSelectedApplication}
-                />
-              )}
-            </div>
+        {activeTab === "jobs" && (
+          <div className="space-y-8">
+            <JobBuilder
+              jobForm={jobForm}
+              updateJobForm={updateJobForm}
+              dynamicFields={dynamicFields}
+              updateDynamicField={updateDynamicField}
+              addField={addField}
+              removeField={removeField}
+              resetJobBuilder={resetJobBuilder}
+              submitJob={submitJob}
+              isCreatingJob={isCreatingJob}
+              editingJobId={editingJobId}
+            />
+            <JobsTable
+              jobs={jobs}
+              startEditingJob={startEditingJob}
+              setJobPendingDelete={setJobPendingDelete}
+              duplicateJob={duplicateJob}
+              setPreviewJob={setPreviewJob}
+            />
           </div>
         )}
-      </section>
 
+        {activeTab === "applications" && (
+          <ApplicationsTable
+            applications={applications}
+            isLoadingApps={isLoadingApps}
+            applicationSearch={applicationSearch}
+            setApplicationSearch={setApplicationSearch}
+            statusFilter={statusFilter}
+            setStatusFilter={setStatusFilter}
+            jobFilter={jobFilter}
+            setJobFilter={setJobFilter}
+            jobs={jobs}
+            loadApplications={loadApplications}
+            updateApplicationStatus={updateApplicationStatus}
+            setSelectedApplication={setSelectedApplication}
+          />
+        )}
+      </AdminLayout>
+
+      {/* Selected Application Drawer */}
       <div
-        className={`fixed inset-0 z-40 bg-black/30 transition-opacity duration-200 ${
+        className={`fixed inset-0 z-[100] bg-black/30 transition-opacity duration-200 ${
           selectedApplication ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={() => setSelectedApplication(null)}
       />
       <aside
-        className={`fixed top-0 right-0 h-full w-full sm:w-[420px] bg-white z-50 border-l border-gray-200 shadow-xl transform transition-transform duration-200 ${
+        className={`fixed top-0 right-0 h-full w-full sm:w-[420px] bg-white z-[110] border-l border-gray-200 shadow-xl transform transition-transform duration-200 ${
           selectedApplication ? "translate-x-0" : "translate-x-full"
         }`}
       >
         {selectedApplication && (
           <div className="h-full overflow-y-auto p-5 space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-(--color-dark) cabin-400">
+              <h3 className="text-lg font-semibold text-[#0F172B] cabin-400">
                 Applicant Detail
               </h3>
               <button
                 type="button"
                 onClick={() => setSelectedApplication(null)}
-                className="text-(--color-gray-600) text-xs border border-gray-300 px-2 py-1 cabin-400"
+                className="text-gray-600 text-xs border border-gray-300 px-2 py-1 cabin-400"
               >
                 Close
               </button>
             </div>
-            <p className="text-sm cabin-400 text-(--color-dark)">
+            <p className="text-sm cabin-400 text-[#0F172B]">
               <span className="font-semibold">Name:</span> {selectedApplication.candidateName}
             </p>
-            <p className="text-sm cabin-400 text-(--color-dark)">
+            <p className="text-sm cabin-400 text-[#0F172B]">
               <span className="font-semibold">Email:</span> {selectedApplication.candidateEmail}
             </p>
-            <p className="text-sm cabin-400 text-(--color-dark)">
+            <p className="text-sm cabin-400 text-[#0F172B]">
               <span className="font-semibold">Role:</span>{" "}
               {selectedApplication.jobId?.title || "N/A"}
             </p>
-            <p className="text-sm cabin-400 text-(--color-dark)">
+            <p className="text-sm cabin-400 text-[#0F172B]">
               <span className="font-semibold">CV:</span>{" "}
               <a
                 href={selectedApplication.cvUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="text-(--color-primary) hover:underline"
+                className="text-[#1E90FF] hover:underline"
               >
                 View uploaded CV
               </a>
             </p>
             <div>
-              <p className="text-sm font-semibold text-(--color-dark) cabin-400 mb-2">
+              <p className="text-sm font-semibold text-[#0F172B] cabin-400 mb-2">
                 Dynamic Responses
               </p>
               <div className="space-y-2">
                 {formatResponses(selectedApplication.responses).length === 0 ? (
-                  <p className="text-xs text-(--color-gray-600) cabin-400">
+                  <p className="text-xs text-gray-600 cabin-400">
                     No responses submitted.
                   </p>
                 ) : (
                   formatResponses(selectedApplication.responses).map(([key, value]) => (
-                    <div key={key} className="text-sm cabin-400 text-(--color-dark)">
+                    <div key={key} className="text-sm cabin-400 text-[#0F172B]">
                       <span className="font-semibold">{key}:</span> {String(value)}
                     </div>
                   ))
@@ -620,15 +593,16 @@ const Admin = () => {
         )}
       </aside>
 
+      {/* Delete Job Modal */}
       <div
-        className={`fixed inset-0 z-60 bg-black/40 transition-opacity duration-200 ${
+        className={`fixed inset-0 z-[120] bg-black/40 transition-opacity duration-200 ${
           jobPendingDelete ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >
         <div className="min-h-full w-full flex items-center justify-center p-4">
           <div className="w-full max-w-md bg-white border border-gray-200 p-5 shadow-xl">
-            <h3 className="text-lg font-semibold text-(--color-dark) cabin-400">Delete Job</h3>
-            <p className="mt-2 text-sm text-(--color-gray-600) cabin-400">
+            <h3 className="text-lg font-semibold text-[#0F172B] cabin-400">Delete Job</h3>
+            <p className="mt-2 text-sm text-gray-600 cabin-400">
               Are you sure you want to delete{" "}
               <span className="font-semibold">{jobPendingDelete?.title || "this job"}</span>?
               This action cannot be undone.
@@ -637,7 +611,7 @@ const Admin = () => {
               <button
                 type="button"
                 onClick={() => setJobPendingDelete(null)}
-                className="border border-gray-300 text-(--color-dark) px-4 py-2 text-sm cabin-400 hover:bg-gray-50"
+                className="border border-gray-300 text-[#0F172B] px-4 py-2 text-sm cabin-400 hover:bg-gray-50"
               >
                 Cancel
               </button>
@@ -652,7 +626,9 @@ const Admin = () => {
           </div>
         </div>
       </div>
-    </main>
+      
+      <PreviewModal job={previewJob} onClose={() => setPreviewJob(null)} />
+    </>
   );
 };
 

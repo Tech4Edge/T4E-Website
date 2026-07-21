@@ -1,6 +1,6 @@
 import React from "react";
 
-const JobsTable = ({ jobs, startEditingJob, setJobPendingDelete }) => {
+const JobsTable = ({ jobs, startEditingJob, setJobPendingDelete, duplicateJob, setPreviewJob }) => {
   return (
     <div className="border border-gray-200 overflow-x-auto">
       <table className="w-full min-w-[760px] text-sm">
@@ -44,8 +44,22 @@ const JobsTable = ({ jobs, startEditingJob, setJobPendingDelete }) => {
                   <div className="flex gap-2">
                     <button
                       type="button"
+                      onClick={() => setPreviewJob(job)}
+                      className="border border-gray-300 text-gray-600 px-2 py-1 text-xs cabin-400 hover:bg-gray-50"
+                    >
+                      Preview
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => duplicateJob(job)}
+                      className="border border-blue-300 text-blue-600 px-2 py-1 text-xs cabin-400 hover:bg-blue-50"
+                    >
+                      Duplicate
+                    </button>
+                    <button
+                      type="button"
                       onClick={() => startEditingJob(job)}
-                      className="border border-(--color-primary) text-(--color-primary) px-2 py-1 text-xs cabin-400 hover:bg-(--color-primary) hover:text-white"
+                      className="border border-[#1E90FF] text-[#1E90FF] px-2 py-1 text-xs cabin-400 hover:bg-[#1E90FF] hover:text-white transition-colors"
                     >
                       Edit
                     </button>

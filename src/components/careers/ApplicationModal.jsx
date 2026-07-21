@@ -12,6 +12,7 @@ const ApplicationModal = ({ job, isOpen, onClose }) => {
   const [statusMessage, setStatusMessage] = useState("");
   const [statusType, setStatusType] = useState("");
   const [activeTab, setActiveTab] = useState("details"); // 'details' | 'apply'
+  const [isDragging, setIsDragging] = useState(false);
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -37,6 +38,25 @@ const ApplicationModal = ({ job, isOpen, onClose }) => {
 
   const handleFieldChange = (label, value) => {
     setDynamicResponses((prev) => ({ ...prev, [label]: value }));
+  };
+
+  const handleDrag = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setIsDragging(true);
+    } else if (e.type === "dragleave") {
+      setIsDragging(false);
+    }
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      setCvFile(e.dataTransfer.files[0]);
+    }
   };
 
   const handleApply = async (event) => {
@@ -239,11 +259,17 @@ const ApplicationModal = ({ job, isOpen, onClose }) => {
                     <label className="block text-xs font-semibold text-gray-700 mb-2">
                       Upload Resume/CV <span className="text-red-500">*</span>
                     </label>
-                    <div className="relative border-2 border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors overflow-hidden">
+                    <div 
+                      className={`relative border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center transition-colors overflow-hidden ${isDragging ? "border-[#1E90FF] bg-[#1E90FF]/10" : "border-gray-300 bg-gray-50 hover:bg-gray-100"}`}
+                      onDragEnter={handleDrag}
+                      onDragLeave={handleDrag}
+                      onDragOver={handleDrag}
+                      onDrop={handleDrop}
+                    >
                       <input
                         type="file"
                         accept=".pdf,.doc,.docx"
-                        required
+                        required={!cvFile}
                         onChange={(e) => setCvFile(e.target.files?.[0] || null)}
                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                         title="Click to upload or drag and drop"

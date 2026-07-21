@@ -10,6 +10,7 @@ const Careers = () => {
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState("All");
   const [locationFilter, setLocationFilter] = useState("All");
+  const [departmentFilter, setDepartmentFilter] = useState("All");
   const [selectedJob, setSelectedJob] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoadingJobs, setIsLoadingJobs] = useState(true);
@@ -42,6 +43,10 @@ const Careers = () => {
     () => ["All", ...new Set(jobs.map((job) => job.location).filter(Boolean))],
     [jobs],
   );
+  const uniqueDepartments = useMemo(
+    () => ["All", ...new Set(jobs.map((job) => job.department).filter(Boolean))],
+    [jobs],
+  );
 
   const filteredJobs = useMemo(() => {
     return jobs.filter((job) => {
@@ -49,14 +54,15 @@ const Careers = () => {
       return (
         text.includes(search.toLowerCase()) &&
         (typeFilter === "All" || job.type === typeFilter) &&
-        (locationFilter === "All" || job.location === locationFilter)
+        (locationFilter === "All" || job.location === locationFilter) &&
+        (departmentFilter === "All" || job.department === departmentFilter)
       );
     });
-  }, [jobs, search, typeFilter, locationFilter]);
+  }, [jobs, search, typeFilter, locationFilter, departmentFilter]);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [search, typeFilter, locationFilter]);
+  }, [search, typeFilter, locationFilter, departmentFilter]);
 
   const paginatedJobs = useMemo(() => {
     const startIndex = (currentPage - 1) * JOBS_PER_PAGE;
@@ -171,12 +177,16 @@ const Careers = () => {
           setTypeFilter={setTypeFilter}
           locationFilter={locationFilter}
           setLocationFilter={setLocationFilter}
+          departmentFilter={departmentFilter}
+          setDepartmentFilter={setDepartmentFilter}
           uniqueTypes={uniqueTypes}
           uniqueLocations={uniqueLocations}
+          uniqueDepartments={uniqueDepartments}
           onReset={() => {
             setSearch("");
             setTypeFilter("All");
             setLocationFilter("All");
+            setDepartmentFilter("All");
           }}
         />
 
