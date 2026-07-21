@@ -50,6 +50,18 @@ const Team = () => {
       },
     },
     {
+      id: 7,
+
+      name: "Komal Bibi",
+      position: "Operations Manager",
+      classes: " object-[25%_22%]",
+      image: komal,
+      social: {
+        linkedin: "https://www.linkedin.com/in/komal-bibi",
+        github: "https://github.com/komalbibi",
+      },
+    },
+    {
       id: 4,
       name: "Muhammad Ali",
       position: "Senior developer",
@@ -73,18 +85,6 @@ const Team = () => {
         github: "http://www.github.com/jalal1122",
         instagram:
           "https://www.instagram.com/jalalkhan2084?igsh=MmowZ215d3pobGUx",
-      },
-    },
-    {
-      id: 7,
-
-      name: "Komal Bibi",
-      position: "Operations Manager",
-      classes: " object-[25%_22%]",
-      image: komal,
-      social: {
-        linkedin: "https://www.linkedin.com/in/komal-bibi",
-        github: "https://github.com/komalbibi",
       },
     },
     {
@@ -144,7 +144,7 @@ const Team = () => {
     {
       id: 14,
       name: "Hibba Emaan",
-      position: "Team Member",
+      position: "Graphics Desinger",
       classes: " object-top",
       image: hibba,
       social: {
@@ -155,7 +155,7 @@ const Team = () => {
     {
       id: 15,
       name: "Malika Noreen",
-      position: "Team Member",
+      position: "Graphics Designer",
       classes: " object-top",
       image: malika,
       social: {},
@@ -163,7 +163,7 @@ const Team = () => {
     {
       id:16,
       name: "Zaid",
-      postion: "Marketer",
+      position: "Marketer",
       classes: "object-top",
       image: zaid,
       social: {},
