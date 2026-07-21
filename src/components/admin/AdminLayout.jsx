@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import NotificationsPanel from "./NotificationsPanel";
+import t4eicon from "/t4e_icon.png"
 
 const AdminLayout = ({ 
   activeTab, 
@@ -41,9 +42,7 @@ const AdminLayout = ({
         <div>
           <div className="p-6">
             <h1 className="text-xl font-bold text-white flex items-center gap-2">
-              <svg className="w-6 h-6 text-[#1E90FF]" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-              </svg>
+              <div><img src={t4eicon} alt="T4E" height={40} width={40} /></div>
               Tech4Edges
             </h1>
             <p className="text-xs mt-1 text-gray-400">Admin Terminal</p>
