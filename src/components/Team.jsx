@@ -4,17 +4,14 @@ import jalal from "../assets/team/jalal.png";
 import faras from "../assets/team/faras.jpeg";
 import komal from "../assets/team/komal.jpeg";
 import masood from "../assets/team/masood.jpeg";
-import shaheer from "../assets/team/shaheer.jpeg";
-import hadi from "../assets/team/hadi.jpeg";
 import asad from "../assets/team/asad.jpeg";
 import sadam from "../assets/team/sadam.jpeg";
 import tatheer from "../assets/team/tatheer.jpeg";
 import shaheen from "../assets/team/shaheen.jpeg";
-import haneef from "../assets/team/haneef.jpeg";
 import elhaj from "../assets/team/elhaj.jpeg";
 import hibba from "../assets/team/hibba.jpeg";
 import malika from "../assets/team/malika.jpeg";
-import marwa from "../assets/team/marwa.jpeg";
+import zaid from "../assets/team/zaid.jpeg"
 
 const Team = () => {
   const [hoveredMember, setHoveredMember] = useState(null);
@@ -40,9 +37,6 @@ const Team = () => {
       classes: " object-[25%_0%]",
       image: shaheen,
       social: {
-        // linkedin: "https://linkedin.com",
-        // github: "https://github.com",
-        // instagram: "https://instagram.com",
       },
     },
     {
@@ -66,16 +60,6 @@ const Team = () => {
           "https://www.linkedin.com/in/muhammadali-dev5?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
         github: "https://github.com/mali14655",
         instagram: "https://www.instagram.com/ur.ali6?igsh=Yzg3amNidHZqZHZh",
-      },
-    },
-    {
-      id: 5,
-      name: "Muhammad Haneef Iqbal",
-      position: "Lead Generation Specialist",
-      classes: " object-[25%_10%]",
-      image: haneef,
-      social: {
-        linkedin: "https://www.linkedin.com/in/muhammad-haneef-iqbal-smm",
       },
     },
     {
@@ -117,7 +101,7 @@ const Team = () => {
     {
       id: 9,
       name: "Sadam Hussain",
-      position: "Team Member",
+      position: "Business Developer",
       classes: " object-[25%_15%]",
 
       image: sadam,
@@ -132,7 +116,7 @@ const Team = () => {
     {
       id: 10,
       name: "Masood Haider",
-      position: "Team Member",
+      position: "Marketer",
       classes: " object-[25%_30%]",
       image: masood,
       social: {
@@ -141,31 +125,6 @@ const Team = () => {
         github: "https://github.com/Masood-Haider",
         instagram:
           "https://www.instagram.com/masoodhaiderr?igsh=bjlsMTlnd3h0Z3Bu",
-      },
-    },
-    {
-      id: 11,
-      name: "Shaheer Ali",
-      position: "Team Member",
-      classes: " object-[25%_30%] scale-120",
-      image: shaheer,
-      social: {
-        linkedin: "https://www.linkedin.com/in/shaheerali838",
-        github: "https://github.com/shaheerali838",
-        instagram: "https://www.instagram.com/shaheerali838",
-      },
-    },
-    {
-      id: 12,
-      name: "Abdul Hadi Shahid",
-      position: "Team Member",
-      classes: " object-top",
-
-      image: hadi,
-      social: {
-        linkedin: "http://www.linkedin.com/in/abdul-hadi-shahid",
-        github: "https://github.com/CH-Abdul-Hadi",
-        instagram: "https://www.instagram.com/abdul_hadi_502/",
       },
     },
     {
@@ -180,17 +139,6 @@ const Team = () => {
         github: "https://github.com/asadgull123",
         instagram:
           "https://www.instagram.com/aggraphics_1?igsh=bXY5ZTUxbm54OXl2&utm_source=qr",
-      },
-    },
-    {
-      id: 16,
-      name: "Marwa Nadeem",
-      position: "Team Member",
-      classes: " object-[0%_0%]",
-
-      image: marwa,
-      social: {
-        linkedin: "https://www.linkedin.com/in/marwa-nadeem-34685a323/",
       },
     },
     {
@@ -212,6 +160,14 @@ const Team = () => {
       image: malika,
       social: {},
     },
+    {
+      id:16,
+      name: "Zaid",
+      postion: "Marketer",
+      classes: "object-top",
+      image: zaid,
+      social: {},
+    }
   ];
 
   return (
@@ -242,11 +198,10 @@ const Team = () => {
             >
               {/* Social Share Icon - Appears on card hover */}
               <div
-                className={`absolute top-4 left-4 z-20 transition-all duration-300 ${
-                  hoveredMember === member.id
+                className={`absolute top-4 left-4 z-20 transition-all duration-300 ${hoveredMember === member.id
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 -translate-y-2"
-                }`}
+                  }`}
               >
                 <div
                   className="relative flex items-center gap-2"
@@ -272,11 +227,10 @@ const Team = () => {
 
                   {/* Social Icons Menu - Expands on share icon hover */}
                   <div
-                    className={`flex gap-2 transition-all duration-300 ${
-                      hoveredSocial === member.id
+                    className={`flex gap-2 transition-all duration-300 ${hoveredSocial === member.id
                         ? "opacity-100 translate-x-0"
                         : "opacity-0 -translate-x-4 pointer-events-none"
-                    }`}
+                      }`}
                   >
                     {/* LinkedIn */}
                     <a
