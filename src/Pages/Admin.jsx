@@ -14,12 +14,6 @@ const defaultField = {
   optionsText: "",
 };
 
-const defaultField = {
-  label: "",
-  fieldType: "text",
-  required: false,
-  optionsText: "",
-};
 
 const Admin = () => {
   const navigate = useNavigate();

@@ -14,6 +14,8 @@ const Careers = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoadingJobs, setIsLoadingJobs] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const JOBS_PER_PAGE = 10;
 
   useEffect(() => {
     const loadJobs = async () => {
@@ -51,6 +53,17 @@ const Careers = () => {
       );
     });
   }, [jobs, search, typeFilter, locationFilter]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, typeFilter, locationFilter]);
+
+  const paginatedJobs = useMemo(() => {
+    const startIndex = (currentPage - 1) * JOBS_PER_PAGE;
+    return filteredJobs.slice(startIndex, startIndex + JOBS_PER_PAGE);
+  }, [filteredJobs, currentPage]);
+
+  const totalPages = Math.ceil(filteredJobs.length / JOBS_PER_PAGE);
 
   const handleOpenModal = (job) => {
     setSelectedJob(job);
@@ -214,15 +227,39 @@ const Careers = () => {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-              {filteredJobs.map((job) => (
-                <JobCard 
-                  key={job._id} 
-                  job={job} 
-                  onClick={handleOpenModal} 
-                />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                {paginatedJobs.map((job) => (
+                  <JobCard 
+                    key={job._id} 
+                    job={job} 
+                    onClick={handleOpenModal} 
+                  />
+                ))}
+              </div>
+
+              {totalPages > 1 && (
+                <div className="mt-8 flex justify-center items-center space-x-2">
+                  <button
+                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                    className="px-4 py-2 border border-gray-300 rounded-md bg-white text-sm font-semibold text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+                  >
+                    Previous
+                  </button>
+                  <span className="text-sm font-medium text-gray-600 px-4">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <button
+                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                    disabled={currentPage === totalPages}
+                    className="px-4 py-2 border border-gray-300 rounded-md bg-white text-sm font-semibold text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
