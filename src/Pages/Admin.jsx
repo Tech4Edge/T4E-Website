@@ -534,7 +534,13 @@ const Admin = () => {
           <div className="space-y-8">
             <div className="flex justify-end">
               <button 
-                onClick={() => setIsJobFormOpen(!isJobFormOpen)}
+                onClick={() => {
+                  if (isJobFormOpen) {
+                    resetJobBuilder();
+                  } else {
+                    setIsJobFormOpen(true);
+                  }
+                }}
                 className="bg-[#1E90FF] hover:bg-[#1570d1] text-white px-4 py-2 text-sm font-semibold transition-colors duration-200 cabin-400"
               >
                 {isJobFormOpen ? "Cancel" : "+ Create Job"}
