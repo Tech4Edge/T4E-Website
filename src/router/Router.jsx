@@ -9,9 +9,6 @@ const Admin = lazy(() => import("../Pages/Admin"));
 const About = lazy(() => import("../Pages/About"));
 const PrivacyPolicy = lazy(() => import("../Pages/PrivacyPolicy"));
 const TermsAndConditions = lazy(() => import("../Pages/TermsAndConditions"));
-const SecurityCompliance = lazy(() => import("../Pages/SecurityCompliance"));
-const CookieSettings = lazy(() => import("../Pages/CookieSettings"));
-const LegalNotice = lazy(() => import("../Pages/LegalNotice"));
 const NotFound = lazy(() => import("../Pages/NotFound"));
 
 const Router = () => {
@@ -32,9 +29,6 @@ const Router = () => {
         <Route path="/about" element={<About />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsAndConditions />} />
-        <Route path="/security" element={<SecurityCompliance />} />
-        <Route path="/cookies" element={<CookieSettings />} />
-        <Route path="/legal" element={<LegalNotice />} />
         <Route
           path="*"
           element={<NotFound />}

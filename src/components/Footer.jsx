@@ -248,15 +248,6 @@ const Footer = () => {
             <Link to="/terms" className="hover:text-(--color-primary) transition-colors duration-300">
               Terms of Service
             </Link>
-            <Link to="/security" className="hover:text-(--color-primary) transition-colors duration-300">
-              Security Compliance
-            </Link>
-            <Link to="/cookies" className="hover:text-(--color-primary) transition-colors duration-300">
-              Cookie Settings
-            </Link>
-            <Link to="/legal" className="hover:text-(--color-primary) transition-colors duration-300">
-              Legal Notice
-            </Link>
           </div>
         </div>
       </div>
