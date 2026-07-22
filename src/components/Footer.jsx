@@ -236,11 +236,28 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Copyright */}
-        <div className="border-t border-gray-800 pt-8">
-          <p className="inter-font text-gray-500 text-sm text-center">
+        {/* Bottom Copyright & Legal Links */}
+        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="inter-font text-gray-500 text-sm text-center md:text-left">
             © {currentYear} Tech4Edges. All rights reserved.
           </p>
+          <div className="flex flex-wrap justify-center md:justify-end gap-3 md:gap-6 text-sm text-gray-500 cabin-400">
+            <Link to="/privacy-policy" className="hover:text-(--color-primary) transition-colors duration-300">
+              Privacy Policy
+            </Link>
+            <Link to="/terms" className="hover:text-(--color-primary) transition-colors duration-300">
+              Terms of Service
+            </Link>
+            <Link to="/security" className="hover:text-(--color-primary) transition-colors duration-300">
+              Security Compliance
+            </Link>
+            <Link to="/cookies" className="hover:text-(--color-primary) transition-colors duration-300">
+              Cookie Settings
+            </Link>
+            <Link to="/legal" className="hover:text-(--color-primary) transition-colors duration-300">
+              Legal Notice
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

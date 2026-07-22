@@ -5,7 +5,7 @@ import arrow from "../assets/topRightTitledArrow.svg";
 import heroImg from "../assets/contacthero.jpeg";
 import customer_service_image from "../assets/customer_service_image.jpg";
 import find_us_image from "../assets/find_us.jpg";
-
+import { Link } from "react-router";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
 const Contact = () => {
@@ -259,12 +259,12 @@ const Contact = () => {
                     className="text-xs text-(--color-gray-600) cabin-400"
                   >
                     You agree to our friendly{" "}
-                    <a
-                      href="#"
+                    <Link
+                      to="/privacy-policy"
                       className="text-(--color-primary) hover:underline"
                     >
                       privacy policy
-                    </a>
+                    </Link>
                     .
                   </label>
                 </div>
