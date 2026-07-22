@@ -1,9 +1,12 @@
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import shape01 from "../assets/shape01.png";
 
 const HowWeWork = () => {
+  const navigate = useNavigate();
+
   const steps = [
     {
       id: 1,
@@ -281,7 +284,10 @@ const HowWeWork = () => {
           <p className="cabin-400 text-gray-600 mb-6 text-md">
             Ready to start your journey with us?
           </p>
-          <button className="cabin-400 text-sm bg-(--color-primary) hover:bg-(--color-primary-dark) text-white font-semibold px-8 py-3.5 transition-all duration-300 inline-flex items-center gap-3 group shadow-lg hover:shadow-xl">
+          <button 
+            onClick={() => navigate("/contact")}
+            className="cabin-400 text-sm bg-(--color-primary) hover:bg-(--color-primary-dark) text-white font-semibold px-8 py-3.5 transition-all duration-300 inline-flex items-center gap-3 group shadow-lg hover:shadow-xl"
+          >
             Start Your Project
             <svg
               className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"

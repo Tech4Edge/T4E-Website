@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import cardHoverImg from "../assets/cardHoverImg.png";
@@ -6,6 +7,8 @@ import servicesTopLeft from "../assets/servicesTopLeft.png";
 import arrow from "../assets/topRightTitledArrow.svg";
 
 const OurServices = () => {
+  const navigate = useNavigate();
+
   const services = [
     {
       id: 1,
@@ -252,8 +255,8 @@ const OurServices = () => {
                 </p>
 
                 {/* Service Details Link */}
-                <a
-                  href="#"
+                <button
+                  onClick={() => navigate(`/services#${service.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "")}`)}
                   className={`cabin-400 font-medium inline-flex items-center gap-2 hover:gap-3 transition-all duration-300 group text-xs ${
                     isHovered ? "text-gray-900" : "text-white"
                   }`}
@@ -272,7 +275,7 @@ const OurServices = () => {
                       d="M17 8l4 4m0 0l-4 4m4-4H3"
                     />
                   </svg>
-                </a>
+                </button>
               </div>
             );
           })}
@@ -280,7 +283,10 @@ const OurServices = () => {
 
         {/* More Solutions Button */}
         <div className="flex justify-center mt-16">
-          <button className="cabin-400 text-xs flex items-center gap-4 border bg-white hover:text-(--color-primary) text-black font-medium px-6 py-2.5 transition-all duration-300 group">
+          <button 
+            onClick={() => navigate("/services")}
+            className="cabin-400 text-xs flex items-center gap-4 border bg-white hover:text-(--color-primary) text-black font-medium px-6 py-2.5 transition-all duration-300 group"
+          >
             More Solutions
             <img
               src={arrow}

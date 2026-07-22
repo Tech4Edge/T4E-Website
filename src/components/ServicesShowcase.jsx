@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useLocation } from "react-router";
 import shape01 from "../assets/shape01.png";
 import shape02 from "../assets/shape02.png";
 import cardHoverImg from "../assets/cardHoverImg.png";
@@ -33,6 +34,22 @@ const ServicesShowcase = () => {
     `https://placehold.co/${width}x${height}/0f123f/9bb4ff?text=${encodeURIComponent(
       text,
     )}`;
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      const element = document.getElementById(id);
+      if (element) {
+        // slight delay to ensure render is complete
+        setTimeout(() => {
+          const y = element.getBoundingClientRect().top + window.scrollY - 100; // offset for headers
+          window.scrollTo({ top: y, behavior: "smooth" });
+        }, 100);
+      }
+    }
+  }, [location.hash]);
 
   const services = [
     {
@@ -296,6 +313,7 @@ const ServicesShowcase = () => {
           {services.map((service, index) => (
             <article
               key={service.id}
+              id={service.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "")}
               className="group relative overflow-hidden rounded-3xl border border-[#3e4dba]/70 bg-[#090b30] p-6 md:p-8 hover:border-[#5d78ff]"
             >
               <img
