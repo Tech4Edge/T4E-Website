@@ -7,6 +7,7 @@ const Services = lazy(() => import("../Pages/Services"));
 const Careers = lazy(() => import("../Pages/Careers"));
 const Admin = lazy(() => import("../Pages/Admin"));
 const About = lazy(() => import("../Pages/About"));
+const NotFound = lazy(() => import("../Pages/NotFound"));
 
 const Router = () => {
   return (
@@ -26,12 +27,7 @@ const Router = () => {
         <Route path="/about" element={<About />} />
         <Route
           path="*"
-          element={
-            <div className="min-h-[60vh] w-full flex flex-col items-center justify-center bg-white px-4 text-center">
-              <h1 className="text-4xl font-bold text-gray-800 mb-2">404</h1>
-              <p className="text-gray-600">Page not found</p>
-            </div>
-          }
+          element={<NotFound />}
         />
       </Routes>
     </Suspense>
