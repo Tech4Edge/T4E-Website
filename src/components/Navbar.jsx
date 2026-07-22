@@ -58,12 +58,12 @@ const Navbar = () => {
         <div className="md:max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
           <div className="flex px-5 md:px-0 justify-between md:justify-around items-center py-3 sm:py-4">
             {/* Logo */}
-            <div
+            <Link
+              to="/"
               className="shrink-0 z-50 cursor-pointer"
-              onClick={() => navigate("/")}
             >
               <img src={logo} alt="Tech4Edges Logo" className="h-8 sm:h-10" />
-            </div>
+            </Link>
 
             {/* Navigation Links - Center (Desktop) */}
             <ul className="hidden lg:flex items-center gap-6 xl:gap-8 cabin-400">
@@ -189,7 +189,13 @@ const Navbar = () => {
               }`}
               style={{ transitionDelay: isMenuOpen ? "200ms" : "0ms" }}
             >
-              <button className="cabin-400 w-full text-sm flex items-center justify-center gap-4 bg-(--color-primary) hover:bg-(--color-primary-dark) text-white font-semibold px-6 py-3 transition-all duration-300 shadow-lg hover:shadow-xl group">
+              <button
+                onClick={() => {
+                  navigate("/contact");
+                  toggleMenu();
+                }}
+                className="cabin-400 w-full text-sm flex items-center justify-center gap-4 bg-(--color-primary) hover:bg-(--color-primary-dark) text-white font-semibold px-6 py-3 transition-all duration-300 shadow-lg hover:shadow-xl group"
+              >
                 Get in touch
                 <img
                   src={arrow}

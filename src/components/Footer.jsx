@@ -65,44 +65,44 @@ const Footer = () => {
             <h3 className="cabin-400 text-lg font-bold mb-4">Our Services</h3>
             <ul className="space-y-3">
               <li>
-                <a
-                  href="/#services"
+                <Link
+                  to="/services"
                   className="inter-font text-gray-400 hover:text-(--color-primary) transition-colors duration-300"
                 >
                   Web Development
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/#services"
+                <Link
+                  to="/services"
                   className="inter-font text-gray-400 hover:text-(--color-primary) transition-colors duration-300"
                 >
                   Mobile Apps
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/#services"
+                <Link
+                  to="/services"
                   className="inter-font text-gray-400 hover:text-(--color-primary) transition-colors duration-300"
                 >
                   UI/UX Design
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/#services"
+                <Link
+                  to="/services"
                   className="inter-font text-gray-400 hover:text-(--color-primary) transition-colors duration-300"
                 >
                   Cloud Solutions
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/#services"
+                <Link
+                  to="/services"
                   className="inter-font text-gray-400 hover:text-(--color-primary) transition-colors duration-300"
                 >
                   IT Consulting
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -147,7 +147,7 @@ const Footer = () => {
                   />
                 </svg>
                 <a
-                  href="tel:+92234567890"
+                  href="tel:+923275792600"
                   className="inter-font text-gray-400 hover:text-(--color-primary) transition-colors duration-300 text-sm"
                 >
                   +92 327 5792600
@@ -158,7 +158,7 @@ const Footer = () => {
             {/* Social Media Icons */}
             <div className="flex gap-4 mt-6">
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/company/tech4edges"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[#1E293B] hover:bg-(--color-primary) w-10 h-10 rounded-lg flex items-center justify-center transition-colors duration-300"
