@@ -92,9 +92,9 @@ const About = () => {
             </p>
           </div>
           <div className="relative h-[400px] w-full rounded-xl overflow-hidden border border-white/10 shadow-2xl">
-            <img 
-              alt="Team Collaboration" 
-              className="object-cover w-full h-full" 
+            <img
+              alt="Team Collaboration"
+              className="object-cover w-full h-full"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLZ2V8y2e_QPFG0OeuS0OphsjZDEOH3yTI_YiXWJPvFtgHYRA_-x_DwGEjbq4-Y5IO_zj1WLxEzeyOBkn7ZLNNyp2LEWHG9CRF4nik3IfWq-tSMqEX2GyPqbATj0_KACOHqEm8n6XzWLS8stAfbMQm-Rifcr29P6q6SRECAKlECJdcNQIOdbhhAi2K2ERg_BGHCBAA-CfsdQKmVkfbquGCbRVCG3UnBZ9YDvb2zIBQVCiXrYB0zZPy"
             />
           </div>
@@ -117,7 +117,7 @@ const About = () => {
             </p>
           </div>
           {/* Vision Card */}
-          <div className="bg-white border border-gray-200 p-10 rounded-xl shadow-sm hover:shadow-md transition-shadow animate-on-scroll opacity-0 translate-y-8" style={{transitionDelay: '100ms'}}>
+          <div className="bg-white border border-gray-200 p-10 rounded-xl shadow-sm hover:shadow-md transition-shadow animate-on-scroll opacity-0 translate-y-8" style={{ transitionDelay: '100ms' }}>
             <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-6 text-(--color-primary)">
               <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -136,23 +136,23 @@ const About = () => {
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white border-y border-gray-200">
         <div className="max-w-7xl mx-auto grid md:grid-cols-12 gap-12 items-center">
           <div className="md:col-span-5 relative h-[500px] rounded-xl overflow-hidden border border-gray-200 shadow-lg animate-on-scroll opacity-0 translate-y-8">
-            <img 
-              alt="Abstract Tech Concept" 
-              className="object-cover w-full h-full" 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHL0C36nT6NHhnAFWgYcKYqnb9a4sbhOLWUyrq4FNEkjstVGF7WaXi6l11NUIVgFFfwtcvoD3_Lhd8ZMZuOVEyDYHYkk_AEhs8fftofAPNyFOPsL0wL9HKLVUADPLEYzUCuPtL4CLIY_ur_ezomqFSnU0Y2OlQssvrlavZA-CRZd9uSeMQeL2iQVap-t4V7WC0PouF803YjkyG4kWJOz75TTVrb7SJVyrYVa6g7I5ZTEHo-asQ-Hr1"
+            <img
+              alt="Abstract Tech Concept"
+              className="object-contain w-full h-full"
+              src="/t4e_icon.png"
             />
             {/* Location Badge Overlay */}
             <div className="absolute bottom-6 left-6 glass-panel p-4 rounded-lg flex items-center gap-3">
               <svg className="w-6 h-6 text-(--color-primary)" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
               </svg>
               <div>
                 <p className="text-xs text-gray-800 uppercase tracking-wider font-semibold">Based In</p>
-                <p className="text-sm font-bold text-(--color-dark)">Peshawar, Pakistan</p>
+                <p className="text-sm font-bold text-(--color-dark)">Office 332, Sami Tower, Ring Road, Peshawar Kp, Pakistan</p>
               </div>
             </div>
           </div>
-          <div className="md:col-span-7 space-y-8 animate-on-scroll opacity-0 translate-y-8" style={{transitionDelay: '200ms'}}>
+          <div className="md:col-span-7 space-y-8 animate-on-scroll opacity-0 translate-y-8" style={{ transitionDelay: '200ms' }}>
             <div>
               <h2 className="text-4xl font-bold text-(--color-dark) mb-4">What Makes Us Different</h2>
               <div className="w-20 h-1 bg-(--color-primary) mb-6 rounded-full"></div>
@@ -192,7 +192,7 @@ const About = () => {
             </p>
           </div>
           {/* Value 2 */}
-          <div className="bg-white border border-gray-200 p-8 rounded-xl hover:bg-gray-50 transition-colors duration-300 animate-on-scroll opacity-0 translate-y-8" style={{transitionDelay: '100ms'}}>
+          <div className="bg-white border border-gray-200 p-8 rounded-xl hover:bg-gray-50 transition-colors duration-300 animate-on-scroll opacity-0 translate-y-8" style={{ transitionDelay: '100ms' }}>
             <svg className="w-8 h-8 text-(--color-primary) mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
@@ -202,7 +202,7 @@ const About = () => {
             </p>
           </div>
           {/* Value 3 */}
-          <div className="bg-white border border-gray-200 p-8 rounded-xl hover:bg-gray-50 transition-colors duration-300 animate-on-scroll opacity-0 translate-y-8" style={{transitionDelay: '200ms'}}>
+          <div className="bg-white border border-gray-200 p-8 rounded-xl hover:bg-gray-50 transition-colors duration-300 animate-on-scroll opacity-0 translate-y-8" style={{ transitionDelay: '200ms' }}>
             <svg className="w-8 h-8 text-(--color-primary) mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
             </svg>
@@ -212,7 +212,7 @@ const About = () => {
             </p>
           </div>
           {/* Value 4 */}
-          <div className="bg-white border border-gray-200 p-8 rounded-xl hover:bg-gray-50 transition-colors duration-300 animate-on-scroll opacity-0 translate-y-8" style={{transitionDelay: '300ms'}}>
+          <div className="bg-white border border-gray-200 p-8 rounded-xl hover:bg-gray-50 transition-colors duration-300 animate-on-scroll opacity-0 translate-y-8" style={{ transitionDelay: '300ms' }}>
             <svg className="w-8 h-8 text-(--color-primary) mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
             </svg>
@@ -222,7 +222,7 @@ const About = () => {
             </p>
           </div>
           {/* Value 5 */}
-          <div className="bg-white border border-gray-200 p-8 rounded-xl hover:bg-gray-50 transition-colors duration-300 lg:col-span-2 animate-on-scroll opacity-0 translate-y-8" style={{transitionDelay: '400ms'}}>
+          <div className="bg-white border border-gray-200 p-8 rounded-xl hover:bg-gray-50 transition-colors duration-300 lg:col-span-2 animate-on-scroll opacity-0 translate-y-8" style={{ transitionDelay: '400ms' }}>
             <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
               <svg className="w-12 h-12 text-(--color-primary)" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -247,13 +247,13 @@ const About = () => {
               Comprehensive digital solutions tailored to elevate your business operations and market presence.
             </p>
             <a className="inline-flex items-center gap-2 text-(--color-primary) font-semibold hover:underline" href="/services">
-              Explore All Services 
+              Explore All Services
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </a>
           </div>
-          <div className="lg:col-span-2 animate-on-scroll opacity-0 translate-y-8" style={{transitionDelay: '200ms'}}>
+          <div className="lg:col-span-2 animate-on-scroll opacity-0 translate-y-8" style={{ transitionDelay: '200ms' }}>
             <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-4">
               {services.map((service, idx) => (
                 <li key={idx} className={`flex items-center gap-3 py-3 border-b border-gray-200 ${service.span2 ? 'sm:col-span-2' : ''}`}>
