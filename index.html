@@ -19,15 +19,34 @@
       }
     </script>
 
-    <!-- Adding Cabin Font here -->
+    <!-- Adding Cabin Font here with non-blocking pattern -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
 
     <meta name="description" content="Tech4Edges - Build with a team that ships real tech impact. We combine product thinking, design quality, and engineering rigor." />
+    
+    <!-- Open Graph & Theme -->
+    <meta name="theme-color" content="#1E90FF" />
+    <meta property="og:title" content="Tech4Edges" />
+    <meta property="og:description" content="Build with a team that ships real tech impact. We combine product thinking, design quality, and engineering rigor." />
+    <meta property="og:image" content="https://tech4edges.com/t4e_icon.png" />
+    <meta property="og:url" content="https://tech4edges.com" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Tech4Edge_" />
+
     <title>Tech4Edges</title>
   </head>
   <body>

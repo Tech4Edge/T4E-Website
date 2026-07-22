@@ -83,6 +83,10 @@ const Hero = () => {
                 src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=500&fit=crop"
                 alt="Team collaboration"
                 className="w-full h-full object-cover shadow-xl"
+                loading="lazy"
+                decoding="async"
+                width="400"
+                height="500"
               />
             </div>
 
@@ -92,6 +96,10 @@ const Hero = () => {
                 src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=500&fit=crop"
                 alt="Business meeting"
                 className="w-full h-full object-cover shadow-xl"
+                loading="lazy"
+                decoding="async"
+                width="400"
+                height="500"
               />
             </div>
           </div>

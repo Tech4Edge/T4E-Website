@@ -295,6 +295,8 @@ const Team = () => {
                     "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" +
                     member.classes
                   }
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
 

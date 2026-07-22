@@ -114,6 +114,8 @@ const Contact = () => {
             src={heroImg}
             alt="Hero"
             className="w-full object-cover"
+            loading="lazy"
+            decoding="async"
           />
         </div>
         <div className="relative z-10 text-center px-4">
@@ -424,6 +426,8 @@ const Contact = () => {
                   src={customer_service_image}
                   alt="Customer Service Team"
                   className="w-full h-64 object-cover"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>
@@ -440,6 +444,8 @@ const Contact = () => {
             src={find_us_image}
             alt="Tech4Edges Office Location"
             className="w-full h-full object-cover object-center"
+            loading="lazy"
+            decoding="async"
           />
         </div>
 
