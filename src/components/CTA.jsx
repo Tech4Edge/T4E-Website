@@ -19,7 +19,7 @@ const CTA = () => {
 
         {/* CTA Button */}
         <button
-          onClick={() => {navigate("/contact"); window.scrollTo(0, 0);}}
+          onClick={() => navigate("/contact")}
           className="montserrat-font bg-white hover:bg-gray-100 text-[#1E90FF] font-bold py-4 px-10 rounded-lg transition-all duration-300 text-md shadow-lg hover:shadow-2xl transform hover:scale-105"
         >
           Get Started Today

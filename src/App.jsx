@@ -5,6 +5,7 @@ import Router from "./router/Router";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
+import ScrollToTop from "./components/ScrollToTop";
 
 function AppContent() {
   const location = useLocation();
@@ -12,6 +13,7 @@ function AppContent() {
 
   return (
     <>
+      <ScrollToTop />
       {!isAdmin && <Navbar />}
       <Router />
       {!isAdmin && <Footer />}
@@ -20,15 +22,20 @@ function AppContent() {
 }
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(() => {
+    return !sessionStorage.getItem("app_loaded");
+  });
 
   useEffect(() => {
-    const loaderTimer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1800);
+    if (isLoading) {
+      const loaderTimer = setTimeout(() => {
+        setIsLoading(false);
+        sessionStorage.setItem("app_loaded", "true");
+      }, 1800);
 
-    return () => clearTimeout(loaderTimer);
-  }, []);
+      return () => clearTimeout(loaderTimer);
+    }
+  }, [isLoading]);
 
   if (isLoading) {
     return <Loader />;
