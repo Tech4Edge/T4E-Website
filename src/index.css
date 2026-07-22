@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 /* importing the Cabin font from Google Fonts */
 
 /* Color Variables - Single Source of Truth */
