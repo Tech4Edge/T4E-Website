@@ -66,7 +66,7 @@ const Footer = () => {
             <ul className="space-y-3">
               <li>
                 <Link
-                  to="/services"
+                  to="/services#web-development"
                   className="inter-font text-gray-400 hover:text-(--color-primary) transition-colors duration-300"
                 >
                   Web Development
@@ -74,7 +74,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="/services"
+                  to="/services#mobile-development"
                   className="inter-font text-gray-400 hover:text-(--color-primary) transition-colors duration-300"
                 >
                   Mobile Apps
@@ -82,7 +82,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="/services"
+                  to="/services#ui-ux-design"
                   className="inter-font text-gray-400 hover:text-(--color-primary) transition-colors duration-300"
                 >
                   UI/UX Design
@@ -90,7 +90,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="/services"
+                  to="/services#saas-solutions"
                   className="inter-font text-gray-400 hover:text-(--color-primary) transition-colors duration-300"
                 >
                   Cloud Solutions
@@ -98,7 +98,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="/services"
+                  to="/services#consulting-support"
                   className="inter-font text-gray-400 hover:text-(--color-primary) transition-colors duration-300"
                 >
                   IT Consulting
