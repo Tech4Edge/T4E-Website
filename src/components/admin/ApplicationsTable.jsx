@@ -46,8 +46,8 @@ const ApplicationsTable = ({
         />
         <select
           value={statusFilter}
-          onChange={(event) => setStatusFilter(event.target.value)}
-          className="border border-(--color-gray-300) px-3 py-2 text-sm outline-none focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-primary)/20 cabin-400"
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className="border border-gray-300 rounded px-3 py-2 text-sm cabin-400 bg-white min-w-[140px] focus:outline-none focus:ring-1 focus:ring-[#1E90FF]"
         >
           <option value="All">All Statuses</option>
           <option value="New">New</option>
@@ -119,7 +119,7 @@ const ApplicationsTable = ({
                     <select
                       value={application.status}
                       onChange={(e) => updateApplicationStatus(application._id, e.target.value)}
-                      className={`text-xs font-semibold px-2 py-1 outline-none border-b-2 ${
+                      className={`text-xs font-semibold px-2 py-1 rounded border outline-none cursor-pointer appearance-none ${
                         application.status === "New" ? "text-gray-500 border-gray-300 bg-gray-50" :
                         application.status === "Under Review" ? "text-blue-600 border-blue-400 bg-blue-50" :
                         application.status === "Interview" ? "text-yellow-600 border-yellow-400 bg-yellow-50" :
