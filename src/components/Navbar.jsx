@@ -62,7 +62,7 @@ const Navbar = () => {
               to="/"
               className="shrink-0 z-50 cursor-pointer"
             >
-              <img src={logo} alt="Tech4Edges Logo" className="h-8 sm:h-10" />
+              <img src={logo} alt="Tech4Edges Logo" className="h-8! sm:h-10!" />
             </Link>
 
             {/* Navigation Links - Center (Desktop) */}
