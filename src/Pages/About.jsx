@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Team from "../components/Team";
 import CTA from "../components/CTA";
+import herotop from "../assets/aboutherotop.jpeg"
 
 const services = [
   {
@@ -43,13 +44,22 @@ const About = () => {
         if (entry.isIntersecting) {
           entry.target.classList.add('opacity-100', 'translate-y-0');
           entry.target.classList.remove('opacity-0', 'translate-y-8');
+          observerRef.current.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
 
     const elements = document.querySelectorAll('.animate-on-scroll');
     elements.forEach(el => {
-      observerRef.current.observe(el);
+      // Check if already in viewport on mount
+      if (el.getBoundingClientRect().top < window.innerHeight) {
+        el.classList.add('opacity-100', 'translate-y-0');
+        el.classList.remove('opacity-0', 'translate-y-8');
+        el.style.transitionDelay = '0ms';
+        el.style.transitionDuration = '0ms';
+      } else {
+        observerRef.current.observe(el);
+      }
     });
 
     return () => {
@@ -95,7 +105,7 @@ const About = () => {
             <img
               alt="Team Collaboration"
               className="object-cover w-full h-full"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLZ2V8y2e_QPFG0OeuS0OphsjZDEOH3yTI_YiXWJPvFtgHYRA_-x_DwGEjbq4-Y5IO_zj1WLxEzeyOBkn7ZLNNyp2LEWHG9CRF4nik3IfWq-tSMqEX2GyPqbATj0_KACOHqEm8n6XzWLS8stAfbMQm-Rifcr29P6q6SRECAKlECJdcNQIOdbhhAi2K2ERg_BGHCBAA-CfsdQKmVkfbquGCbRVCG3UnBZ9YDvb2zIBQVCiXrYB0zZPy"
+              src={herotop}
             />
           </div>
         </div>
